@@ -18,11 +18,19 @@
   },
   "missions": {
     "title": "Todas las misiones",
-    "search_placeholder": "Buscar misiones…",
+    "count_suffix": "misiones",
+    "search_placeholder": "Buscar por nombre o programa…",
     "filter_all": "Todas",
     "filter_active": "Activas",
     "filter_completed": "Completadas",
+    "filter_deep_space": "Espacio Profundo",
     "no_results": "No se encontraron misiones."
+  },
+  "mission_detail": {
+    "back": "Todas las misiones",
+    "about_title": "Sobre esta misión",
+    "stats_title": "Datos de la misión",
+    "gallery_title": "Multimedia"
   },
   "mission": {
     "launch_date": "Fecha",

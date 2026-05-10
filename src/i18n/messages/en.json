@@ -18,11 +18,19 @@
   },
   "missions": {
     "title": "All Missions",
-    "search_placeholder": "Search missions…",
+    "count_suffix": "missions",
+    "search_placeholder": "Search by name or program…",
     "filter_all": "All",
     "filter_active": "Active",
     "filter_completed": "Completed",
+    "filter_deep_space": "Deep Space",
     "no_results": "No missions found."
+  },
+  "mission_detail": {
+    "back": "All Missions",
+    "about_title": "About this mission",
+    "stats_title": "Mission facts",
+    "gallery_title": "Media"
   },
   "mission": {
     "launch_date": "Date",
