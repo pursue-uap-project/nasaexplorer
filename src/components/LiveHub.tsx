@@ -1,6 +1,9 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 
-export type ApodData = {
+type ApodData = {
   title: string;
   url: string;
   hdurl?: string;
@@ -10,10 +13,27 @@ export type ApodData = {
   copyright?: string;
 };
 
-type Props = { apod: ApodData | null };
-
-export default function LiveHub({ apod }: Props) {
+export default function LiveHub() {
   const t = useTranslations("live");
+  const [apod, setApod] = useState<ApodData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const key = process.env.NEXT_PUBLIC_NASA_API_KEY ?? "DEMO_KEY";
+    fetch(`https://api.nasa.gov/planetary/apod?api_key=${key}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => setApod(data))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="rounded-2xl bg-foreground/5 p-12 text-center text-foreground/40 animate-pulse">
+        Loading…
+      </div>
+    );
+  }
 
   if (!apod) {
     return (

@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   output: "export",
   basePath: "/nasaexplorer",
   trailingSlash: true,
+  env: {
+    // Available in client components via process.env.NEXT_PUBLIC_BASE_PATH
+    NEXT_PUBLIC_BASE_PATH: "/nasaexplorer",
+  },
   images: {
     unoptimized: true,
     remotePatterns: [

@@ -58,7 +58,8 @@ export default function ModelViewer() {
   }, []);
 
   const model = MODELS[selected];
-  const src = `/models/${encodeURIComponent(model.file)}`;
+  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const src = `${base}/models/${encodeURIComponent(model.file)}`;
 
   return (
     <div>
