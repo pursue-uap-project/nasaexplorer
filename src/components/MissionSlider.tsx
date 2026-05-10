@@ -18,7 +18,10 @@ type Props = {
 // iss:           "International Space Station orbiting Earth, blue oceans below, sunlight glare, photorealistic, 16:9"
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const LOCAL_HEROES: Record<string, string> = {
-  artemis: `${BASE}/assets/artemis-hero.png`,
+  artemis:      `${BASE}/assets/artemis-hero.png`,
+  jwst:         `${BASE}/assets/jwst-hero.png`,
+  perseverance: `${BASE}/assets/perseverance-hero.png`,
+  iss:          `${BASE}/assets/iss-hero.png`,
 };
 
 export default function MissionSlider({ missions, images }: Props) {
