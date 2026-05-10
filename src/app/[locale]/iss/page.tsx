@@ -9,7 +9,7 @@ export default async function IssPage({ params }: Props) {
   const t = await getTranslations("iss");
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-indigo-50/60">
+    <main className="min-h-screen">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-primary">{t("title")}</h1>

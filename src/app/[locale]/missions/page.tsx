@@ -11,10 +11,10 @@ export default async function MissionsPage({ params }: Props) {
   const missions = await getMissions();
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-indigo-50/60">
+    <main className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-2">
-        <h1 className="text-3xl font-bold text-primary">{t("title")}</h1>
-        <p className="text-foreground/50 mt-1 text-sm">{missions.length} {t("count_suffix")}</p>
+        <h1 className="text-3xl font-bold text-white tracking-[0.02em]">{t("title")}</h1>
+        <p className="text-white/45 mt-1 text-sm">{missions.length} {t("count_suffix")}</p>
       </div>
       <MissionsClient missions={missions} />
     </main>

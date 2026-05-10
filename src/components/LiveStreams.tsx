@@ -15,11 +15,11 @@ export default function LiveStreams() {
 
   return (
     <section className="mb-8">
-      <h2 className="text-2xl font-bold text-primary mb-2">{t("live_title")}</h2>
-      <p className="text-foreground/50 text-sm mb-6">NASA TV · 24/7</p>
+      <h2 className="text-2xl font-bold text-white tracking-[0.02em] mb-2">{t("live_title")}</h2>
+      <p className="text-white/50 text-sm mb-6">NASA TV · 24/7</p>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {streams.map(({ id, label, flag }) => (
-          <div key={id} className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+          <div key={id} className="rounded-2xl overflow-hidden border border-white/15 shadow-lg bg-white/90 backdrop-blur-xl">
             <iframe
               src={`https://www.youtube.com/embed/${id}?rel=0&modestbranding=1`}
               title={label}

@@ -122,12 +122,12 @@ export default function ApodView() {
   const isLong = (apod?.explanation.length ?? 0) > shortLen;
 
   const navBtn =
-    "p-2 rounded-xl border border-white/80 bg-white/65 backdrop-blur-sm text-foreground/60 hover:text-primary hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150";
+    "p-2 rounded-xl border border-white/15 bg-white/[0.07] text-white/55 hover:text-white hover:bg-white/[0.12] disabled:opacity-25 disabled:cursor-not-allowed transition-all duration-150";
 
   return (
     <div>
       {/* ── Sticky date navigation bar ─────────────────────────────────── */}
-      <div className="sticky top-16 z-40 bg-white/85 backdrop-blur-xl border-b border-slate-200/60 shadow-sm mb-8">
+      <div className="sticky top-16 z-40 bg-[#040D21]/90 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_1px_0_0_rgba(255,255,255,0.05)] mb-8">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-2 sm:gap-3">
 
           {/* ← Prev day */}
@@ -144,7 +144,7 @@ export default function ApodView() {
 
           {/* Date display — overlaid native date input */}
           <div className="relative flex-1 sm:flex-none sm:min-w-[260px]">
-            <div className="px-4 py-2 rounded-xl border border-white/80 bg-white/65 backdrop-blur-sm text-sm font-medium text-foreground/70 text-center select-none hover:bg-white hover:text-primary transition-all cursor-pointer">
+            <div className="px-4 py-2 rounded-xl border border-white/15 bg-white/[0.07] text-sm font-medium text-white/65 text-center select-none hover:bg-white/[0.12] hover:text-white transition-all cursor-pointer">
               <span className="flex items-center gap-2 justify-center">
                 <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-primary/50 shrink-0">
                   <path fillRule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z" clipRule="evenodd" />
@@ -181,7 +181,7 @@ export default function ApodView() {
           {!isToday && (
             <button
               onClick={() => setSelectedDate(today)}
-              className="px-3 py-2 rounded-xl text-xs font-medium border border-primary/20 bg-primary/5 text-primary hover:bg-primary hover:text-white transition-all duration-150"
+              className="px-3 py-2 rounded-xl text-xs font-medium border border-white/20 bg-white/10 text-white/75 hover:bg-white/[0.18] hover:text-white transition-all duration-150"
             >
               {t("today")}
             </button>
@@ -191,7 +191,7 @@ export default function ApodView() {
           <button
             onClick={() => setSelectedDate(randomApodDate())}
             title={t("random")}
-            className="px-3 py-2 rounded-xl text-xs font-medium border border-white/80 bg-white/65 text-foreground/55 hover:bg-white hover:text-primary transition-all duration-150 flex items-center gap-1.5 shrink-0"
+            className="px-3 py-2 rounded-xl text-xs font-medium border border-white/15 bg-white/[0.06] text-white/45 hover:bg-white/[0.12] hover:text-white transition-all duration-150 flex items-center gap-1.5 shrink-0"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
               <polyline points="16 3 21 3 21 8" />

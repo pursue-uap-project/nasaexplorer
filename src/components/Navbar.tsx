@@ -22,13 +22,13 @@ export default function Navbar() {
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 
   return (
-    <header className="bg-white/80 backdrop-blur-xl border-b border-slate-200/60 sticky top-0 z-50 shadow-sm">
+    <header className="bg-[#040D21]/85 backdrop-blur-xl border-b border-white/[0.08] sticky top-0 z-50 shadow-[0_1px_0_0_rgba(255,255,255,0.06)]">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-          <img src="/nasaexplorer/nasa-logo.png" alt="NASA" className="h-8 w-auto" />
-          <span className="hidden sm:inline font-bold text-primary tracking-tight text-lg leading-none">
+          <img src="/nasaexplorer/nasa-logo.png" alt="NASA" className="h-8 w-auto brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity" />
+          <span className="hidden sm:inline font-bold text-white/85 tracking-[0.04em] text-lg leading-none group-hover:text-white transition-colors">
             Explorer
           </span>
         </Link>
@@ -39,10 +39,10 @@ export default function Navbar() {
             <li key={href}>
               <Link
                 href={href}
-                className={`text-sm px-3 py-1.5 rounded-lg font-medium transition-all duration-150 ${
+                className={`text-sm px-3 py-1.5 rounded-lg font-medium tracking-[0.03em] transition-all duration-150 ${
                   isActive(href)
-                    ? "bg-primary text-white shadow-sm"
-                    : "text-foreground/55 hover:text-primary hover:bg-primary/5"
+                    ? "bg-white/[0.12] text-white ring-1 ring-inset ring-white/20"
+                    : "text-white/50 hover:text-white hover:bg-white/[0.07]"
                 }`}
               >
                 {label}
@@ -57,10 +57,10 @@ export default function Navbar() {
             <button
               key={l}
               onClick={() => router.replace(pathname, { locale: l })}
-              className={`text-xs px-2.5 py-1 rounded font-mono uppercase transition-all duration-150 ${
+              className={`text-xs px-2.5 py-1 rounded font-mono uppercase tracking-widest transition-all duration-150 ${
                 locale === l
-                  ? "bg-primary text-white shadow-sm"
-                  : "text-foreground/40 hover:text-primary hover:bg-primary/5"
+                  ? "bg-white/15 text-white ring-1 ring-inset ring-white/20"
+                  : "text-white/35 hover:text-white hover:bg-white/[0.07]"
               }`}
             >
               {l}
@@ -70,16 +70,16 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile scrollable links */}
-      <div className="md:hidden border-t border-slate-100">
+      <div className="md:hidden border-t border-white/[0.06]">
         <ul className="flex overflow-x-auto px-4 gap-1 py-2 scrollbar-none">
           {links.map(({ href, label }) => (
             <li key={href} className="shrink-0">
               <Link
                 href={href}
-                className={`text-xs px-3 py-1.5 rounded-full block font-medium transition-all duration-150 ${
+                className={`text-xs px-3 py-1.5 rounded-full block font-medium tracking-[0.03em] transition-all duration-150 ${
                   isActive(href)
-                    ? "bg-primary text-white shadow-sm"
-                    : "text-foreground/50 hover:text-primary hover:bg-primary/5"
+                    ? "bg-white/[0.12] text-white ring-1 ring-inset ring-white/15"
+                    : "text-white/45 hover:text-white hover:bg-white/[0.07]"
                 }`}
               >
                 {label}

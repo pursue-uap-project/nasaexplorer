@@ -5,13 +5,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#F8FAFC",
+        background: "#040D21",
         primary: "#0B3D91",
         accent: "#FC3D21",
         foreground: "#1E293B",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+      },
+      letterSpacing: {
+        nav: "0.04em",
       },
     },
   },

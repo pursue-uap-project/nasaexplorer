@@ -20,13 +20,16 @@ function HomeContent() {
   ];
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center px-4 text-center relative overflow-hidden bg-gradient-to-br from-blue-50 via-slate-50 to-indigo-50">
+    <main className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center px-4 text-center relative overflow-hidden">
 
-      {/* ── Decorative background blobs ──────────────────────────────── */}
+      {/* ── Cosmic nebula blobs ───────────────────────────────────────── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-5%]  w-[500px] h-[500px] bg-blue-100/70   rounded-full blur-3xl" />
-        <div className="absolute bottom-[-5%] right-[-8%] w-[420px] h-[420px] bg-indigo-100/60 rounded-full blur-3xl" />
-        <div className="absolute top-[40%] left-[55%]  w-[300px] h-[300px] bg-red-50/50      rounded-full blur-3xl" />
+        <div className="absolute top-[-15%] left-[-8%]  w-[600px] h-[600px] bg-blue-900/30   rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-indigo-900/25 rounded-full blur-[100px]" />
+        <div className="absolute top-[35%] left-[50%]  w-[350px] h-[350px] bg-accent/[0.06]   rounded-full blur-[80px]" />
+        {/* Star field */}
+        <div className="absolute inset-0 opacity-30"
+          style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
       </div>
 
       {/* ── Main content ─────────────────────────────────────────────── */}
@@ -36,18 +39,23 @@ function HomeContent() {
         <img
           src="/nasaexplorer/nasa-logo.png"
           alt="NASA"
-          className="h-28 sm:h-40 w-auto drop-shadow-sm"
+          className="h-28 sm:h-40 w-auto brightness-0 invert opacity-90 drop-shadow-2xl"
         />
 
+        {/* Title */}
+        <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-[0.02em] leading-tight">
+          {t("title")}
+        </h1>
+
         {/* Subtitle */}
-        <p className="text-foreground/60 text-lg sm:text-xl max-w-lg leading-relaxed">
+        <p className="text-white/55 text-lg sm:text-xl max-w-lg leading-relaxed">
           {t("subtitle")}
         </p>
 
         {/* CTA */}
         <Link
           href="/missions"
-          className="bg-accent text-white px-10 py-4 rounded-full font-semibold text-lg shadow-lg shadow-accent/25 hover:shadow-xl hover:shadow-accent/35 hover:-translate-y-0.5 transition-all duration-200"
+          className="bg-accent text-white px-10 py-4 rounded-full font-semibold text-lg shadow-lg shadow-accent/25 hover:shadow-xl hover:shadow-accent/35 hover:-translate-y-0.5 transition-all duration-200 tracking-[0.03em]"
         >
           {t("cta")}
         </Link>
@@ -57,10 +65,10 @@ function HomeContent() {
           {stats.map(({ val, label }) => (
             <div
               key={label}
-              className="bg-white/60 backdrop-blur-xl border border-white/80 rounded-2xl px-4 py-5 shadow-sm ring-1 ring-inset ring-white/50 text-center"
+              className="bg-white/90 backdrop-blur-xl border border-white/70 rounded-2xl px-4 py-5 shadow-lg ring-1 ring-inset ring-white/50 text-center"
             >
               <p className="text-2xl sm:text-3xl font-bold text-primary">{val}</p>
-              <p className="text-foreground/40 text-xs mt-1 leading-tight">{label}</p>
+              <p className="text-foreground/50 text-xs mt-1 leading-tight">{label}</p>
             </div>
           ))}
         </div>

@@ -40,14 +40,14 @@ export default function MissionsClient({ missions }: { missions: Mission[] }) {
   return (
     <div>
       {/* ── Sticky search + chips bar ──────────────────────────────────── */}
-      <div className="sticky top-16 z-40 bg-white/85 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
+      <div className="sticky top-16 z-40 bg-[#040D21]/90 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_1px_0_0_rgba(255,255,255,0.05)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-col sm:flex-row gap-3">
           <input
             type="search"
             placeholder={t("search_placeholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 rounded-xl border border-white/80 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 bg-white/60 backdrop-blur-sm shadow-sm placeholder:text-foreground/35"
+            className="flex-1 rounded-xl border border-white/15 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white/20 bg-white/[0.07] text-white backdrop-blur-sm shadow-sm placeholder:text-white/30"
           />
           <div className="flex gap-2 shrink-0 overflow-x-auto scrollbar-none">
             {chips.map(({ key, label }) => (
@@ -56,8 +56,8 @@ export default function MissionsClient({ missions }: { missions: Mission[] }) {
                 onClick={() => setFilter(key)}
                 className={`shrink-0 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-150 border ${
                   filter === key
-                    ? "bg-primary text-white shadow-sm border-primary"
-                    : "bg-white/65 backdrop-blur-sm border-white/80 text-foreground/55 hover:bg-white hover:text-primary"
+                    ? "bg-white/[0.15] text-white ring-1 ring-inset ring-white/25 border-transparent"
+                    : "bg-white/[0.05] border-white/15 text-white/50 hover:text-white hover:bg-white/[0.10]"
                 }`}
               >
                 {label}

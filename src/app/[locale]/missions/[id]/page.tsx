@@ -39,7 +39,7 @@ export default async function MissionDetailPage({ params }: Props) {
   ).catch(() => [] as string[]);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-indigo-50/60">
+    <main className="min-h-screen">
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <div
@@ -79,10 +79,10 @@ export default async function MissionDetailPage({ params }: Props) {
               {tMission(`status_${mission.launch_details.status}`)}
             </span>
             {year && (
-              <span className="text-xs font-mono text-foreground/40">{year}</span>
+              <span className="text-xs font-mono text-white/50">{year}</span>
             )}
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground leading-tight">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight tracking-[0.02em]">
             {mission.name}
           </h1>
         </div>
