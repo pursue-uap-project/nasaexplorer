@@ -70,7 +70,18 @@
   },
   "iss": {
     "title": "ISS Live Tracker",
-    "subtitle": "Real-time position of the International Space Station"
+    "subtitle": "Real-time position of the International Space Station",
+    "live": "Live",
+    "loading": "Connecting to ISS…",
+    "api_error": "Could not reach ISS data. Try again in a moment.",
+    "stat_lat": "Latitude",
+    "stat_lon": "Longitude",
+    "stat_alt": "Altitude",
+    "stat_speed": "Speed",
+    "stat_visibility": "Visibility",
+    "follow": "Follow ISS",
+    "following": "Following",
+    "data_source": "Data: wheretheiss.at · Map: CartoDB"
   },
   "apod": {
     "title": "Astronomy Picture of the Day",

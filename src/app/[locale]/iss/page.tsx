@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import IssTracker from "@/components/IssTracker";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -8,16 +9,13 @@ export default async function IssPage({ params }: Props) {
   const t = await getTranslations("iss");
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-indigo-50/60">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
-        <div className="mb-10">
-          <h1 className="text-3xl font-bold text-primary">{t("title")}</h1>
-          <p className="text-foreground/55 mt-2">{t("subtitle")}</p>
+    <main className="min-h-screen bg-gradient-to-br from-gray-950 via-slate-900 to-indigo-950">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-white">{t("title")}</h1>
+          <p className="text-white/45 mt-1.5 text-sm">{t("subtitle")}</p>
         </div>
-        {/* ISS tracker map — coming next */}
-        <div className="bg-white/65 backdrop-blur-xl border border-white/80 rounded-2xl shadow-sm ring-1 ring-inset ring-white/50 h-[500px] flex items-center justify-center">
-          <p className="text-foreground/30 font-mono text-sm">ISS live tracker — coming soon</p>
-        </div>
+        <IssTracker />
       </div>
     </main>
   );

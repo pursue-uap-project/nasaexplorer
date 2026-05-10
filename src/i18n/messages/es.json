@@ -70,7 +70,18 @@
   },
   "iss": {
     "title": "ISS en Tiempo Real",
-    "subtitle": "Posición en tiempo real de la Estación Espacial Internacional"
+    "subtitle": "Posición en tiempo real de la Estación Espacial Internacional",
+    "live": "En vivo",
+    "loading": "Conectando con la ISS…",
+    "api_error": "No se pudo obtener datos de la ISS. Intenta en un momento.",
+    "stat_lat": "Latitud",
+    "stat_lon": "Longitud",
+    "stat_alt": "Altitud",
+    "stat_speed": "Velocidad",
+    "stat_visibility": "Visibilidad",
+    "follow": "Seguir ISS",
+    "following": "Siguiendo",
+    "data_source": "Datos: wheretheiss.at · Mapa: CartoDB"
   },
   "apod": {
     "title": "Imagen Astronómica del Día",
