@@ -11,30 +11,38 @@ export default function Navbar() {
 
   const links = [
     { href: "/missions", label: t("missions") },
-    { href: "/active", label: t("active") },
+    { href: "/active",   label: t("active") },
     { href: "/timeline", label: t("timeline") },
-    { href: "/solar", label: t("solar") },
-    { href: "/live", label: t("live") },
-    { href: "/apod", label: t("apod") },
+    { href: "/solar",    label: t("solar") },
+    { href: "/iss",      label: t("iss") },
+    { href: "/live",     label: t("live") },
+    { href: "/apod",     label: t("apod") },
   ];
 
+  const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
+
   return (
-    <header className="bg-primary text-white sticky top-0 z-50 shadow-lg">
+    <header className="bg-white/80 backdrop-blur-xl border-b border-slate-200/60 sticky top-0 z-50 shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2 font-bold text-lg shrink-0">
+
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
           <img src="/nasaexplorer/nasa-logo.png" alt="NASA" className="h-8 w-auto" />
-          <span className="hidden sm:inline tracking-tight">Explorer</span>
+          <span className="hidden sm:inline font-bold text-primary tracking-tight text-lg leading-none">
+            Explorer
+          </span>
         </Link>
 
-        <ul className="hidden md:flex items-center gap-1">
+        {/* Desktop links */}
+        <ul className="hidden md:flex items-center gap-0.5">
           {links.map(({ href, label }) => (
             <li key={href}>
               <Link
                 href={href}
-                className={`text-sm px-3 py-2 rounded-lg font-medium transition-colors ${
-                  pathname.startsWith(href)
-                    ? "bg-white/15 text-white"
-                    : "text-white/65 hover:text-white hover:bg-white/10"
+                className={`text-sm px-3 py-1.5 rounded-lg font-medium transition-all duration-150 ${
+                  isActive(href)
+                    ? "bg-primary text-white shadow-sm"
+                    : "text-foreground/55 hover:text-primary hover:bg-primary/5"
                 }`}
               >
                 {label}
@@ -43,15 +51,16 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <div className="flex items-center gap-1">
+        {/* Language switcher */}
+        <div className="flex items-center gap-1 shrink-0">
           {(["en", "es"] as const).map((l) => (
             <button
               key={l}
               onClick={() => router.replace(pathname, { locale: l })}
-              className={`text-xs px-2.5 py-1 rounded font-mono uppercase transition-colors ${
+              className={`text-xs px-2.5 py-1 rounded font-mono uppercase transition-all duration-150 ${
                 locale === l
-                  ? "bg-accent text-white"
-                  : "text-white/50 hover:text-white hover:bg-white/10"
+                  ? "bg-primary text-white shadow-sm"
+                  : "text-foreground/40 hover:text-primary hover:bg-primary/5"
               }`}
             >
               {l}
@@ -60,16 +69,17 @@ export default function Navbar() {
         </div>
       </nav>
 
-      <div className="md:hidden border-t border-white/10">
+      {/* Mobile scrollable links */}
+      <div className="md:hidden border-t border-slate-100">
         <ul className="flex overflow-x-auto px-4 gap-1 py-2 scrollbar-none">
           {links.map(({ href, label }) => (
             <li key={href} className="shrink-0">
               <Link
                 href={href}
-                className={`text-xs px-3 py-1.5 rounded-full block font-medium transition-colors ${
-                  pathname.startsWith(href)
-                    ? "bg-white/15 text-white"
-                    : "text-white/55 hover:text-white"
+                className={`text-xs px-3 py-1.5 rounded-full block font-medium transition-all duration-150 ${
+                  isActive(href)
+                    ? "bg-primary text-white shadow-sm"
+                    : "text-foreground/50 hover:text-primary hover:bg-primary/5"
                 }`}
               >
                 {label}

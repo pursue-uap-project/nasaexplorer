@@ -4,11 +4,13 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import PageTransition from "@/components/PageTransition";
 import "@/app/globals.css";
 
 export const metadata: Metadata = {
-  title: "NASA Mission Explorer",
-  description: "Interactive explorer of all NASA missions history",
+  title: "NASA Explorer",
+  description: "Interactive explorer of NASA missions, the solar system, and the cosmos",
 };
 
 type Props = {
@@ -24,15 +26,17 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   setRequestLocale(locale);
-
   const messages = await getMessages();
 
   return (
     <html lang={locale}>
-      <body className="bg-background text-foreground antialiased">
+      <body className="bg-background text-foreground antialiased min-h-screen flex flex-col">
         <NextIntlClientProvider messages={messages}>
           <Navbar />
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>

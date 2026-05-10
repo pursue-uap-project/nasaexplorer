@@ -4,6 +4,7 @@
     "active": "Active",
     "timeline": "Timeline",
     "solar": "Solar System",
+    "iss": "ISS Tracker",
     "live": "Live",
     "apod": "Photo of the Day"
   },
@@ -58,6 +59,10 @@
     "live_title": "Live Streams",
     "nasa_channel": "NASA TV",
     "nasa_es_channel": "NASA en Español"
+  },
+  "iss": {
+    "title": "ISS Live Tracker",
+    "subtitle": "Real-time position of the International Space Station"
   },
   "apod": {
     "title": "Astronomy Picture of the Day",

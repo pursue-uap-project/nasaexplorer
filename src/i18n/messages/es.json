@@ -4,6 +4,7 @@
     "active": "En curso",
     "timeline": "Línea de tiempo",
     "solar": "Sistema Solar",
+    "iss": "ISS en Vivo",
     "live": "En vivo",
     "apod": "Imagen del Día"
   },
@@ -58,6 +59,10 @@
     "live_title": "En Directo",
     "nasa_channel": "NASA TV",
     "nasa_es_channel": "NASA en Español"
+  },
+  "iss": {
+    "title": "ISS en Tiempo Real",
+    "subtitle": "Posición en tiempo real de la Estación Espacial Internacional"
   },
   "apod": {
     "title": "Imagen Astronómica del Día",
