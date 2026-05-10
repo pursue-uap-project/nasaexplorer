@@ -26,30 +26,31 @@ export default function MissionsClient({ missions }: { missions: Mission[] }) {
   );
 
   const filters: { key: Filter; label: string }[] = [
-    { key: "all", label: t("filter_all") },
-    { key: "active", label: t("filter_active") },
+    { key: "all",       label: t("filter_all") },
+    { key: "active",    label: t("filter_active") },
     { key: "completed", label: t("filter_completed") },
   ];
 
   return (
     <div className="flex flex-col gap-8">
+      {/* Search + filter bar */}
       <div className="flex flex-col sm:flex-row gap-3">
         <input
           type="search"
           placeholder={t("search_placeholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 bg-white shadow-sm"
+          className="flex-1 rounded-xl border border-white/80 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 bg-white/65 backdrop-blur-xl shadow-sm placeholder:text-foreground/35"
         />
         <div className="flex gap-2 shrink-0">
           {filters.map(({ key, label }) => (
             <button
               key={key}
               onClick={() => setFilter(key)}
-              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 border ${
                 filter === key
-                  ? "bg-primary text-white shadow-sm"
-                  : "bg-white text-foreground/60 border border-gray-200 hover:border-primary/30 hover:text-primary"
+                  ? "bg-primary text-white shadow-sm border-primary"
+                  : "bg-white/65 backdrop-blur-xl border-white/80 text-foreground/55 hover:bg-white hover:text-primary"
               }`}
             >
               {label}
@@ -61,7 +62,7 @@ export default function MissionsClient({ missions }: { missions: Mission[] }) {
       {displayed.length === 0 ? (
         <p className="text-center text-foreground/40 py-20">{t("no_results")}</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {displayed.map((mission) => (
             <MissionCard key={mission.id} mission={mission} />
           ))}
