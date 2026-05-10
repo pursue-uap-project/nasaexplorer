@@ -7,6 +7,7 @@ const STARS: [number, number][] = [
 export default function TrajectoryMap({ locale = "en" }: { locale?: string }) {
   const labels = {
     earth: locale === "es" ? "Tierra" : "Earth",
+    moon: locale === "es" ? "Luna" : "Moon",
     tli: "TLI",
     loi: "LOI",
     tei: locale === "es" ? "TEI · Regreso" : "TEI · Return",
@@ -72,7 +73,7 @@ export default function TrajectoryMap({ locale = "en" }: { locale?: string }) {
         <circle cx="610" cy="110" r="38" fill="rgba(200,200,200,0.06)" />
         <circle cx="610" cy="110" r="22" fill="url(#traj-moon)" filter="url(#traj-glow)" />
         <text x="610" y="145" textAnchor="middle"
-          fill="rgba(255,255,255,0.45)" fontSize="9" fontFamily="monospace">Moon</text>
+          fill="rgba(255,255,255,0.45)" fontSize="9" fontFamily="monospace">{labels.moon}</text>
 
         {/* SLS at launch */}
         <circle cx="120" cy="118" r="4.5" fill="#FC3D21" filter="url(#traj-glow)" />
