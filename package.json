@@ -1,0 +1,33 @@
+{
+  "name": "nasaexplorer",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "cloudinary": "^2.5.1",
+    "next": "^16.2.6",
+    "next-intl": "^4.11.1",
+    "react": "^18",
+    "react-dom": "^18",
+    "zustand": "^4.5.5"
+  },
+  "overrides": {
+    "postcss": "^8.5.10"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10",
+    "eslint": "^9",
+    "eslint-config-next": "^16.2.6",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5"
+  }
+}

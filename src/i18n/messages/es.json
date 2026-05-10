@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "missions": "Misiones",
+    "active": "En curso",
+    "timeline": "Línea de tiempo",
+    "explorer": "Explorador 3D",
+    "live": "En vivo"
+  },
+  "home": {
+    "title": "Explorador de Misiones NASA",
+    "subtitle": "Explora la historia completa de misiones NASA — de Mercury a Artemis.",
+    "cta": "Explorar misiones",
+    "stats_missions": "misiones",
+    "stats_years": "años de exploración",
+    "stats_programs": "programas"
+  },
+  "missions": {
+    "title": "Todas las misiones",
+    "search_placeholder": "Buscar misiones…",
+    "filter_all": "Todas",
+    "filter_active": "Activas",
+    "filter_completed": "Completadas",
+    "no_results": "No se encontraron misiones."
+  },
+  "mission": {
+    "launch_date": "Fecha",
+    "status": "Estado",
+    "program": "Programa",
+    "learn_more": "Más información",
+    "status_active": "Activa",
+    "status_completed": "Completada",
+    "status_planned": "Planificada"
+  },
+  "active": {
+    "title": "Misiones en curso",
+    "subtitle": "Las misiones activas de la NASA que están dando forma al futuro de la exploración espacial",
+    "trajectory_title": "Perfil de misión",
+    "gallery_title": "Imágenes oficiales NASA",
+    "stats_title": "Datos clave",
+    "prev": "Anterior",
+    "next": "Siguiente"
+  },
+  "timeline": {
+    "title": "Línea de tiempo",
+    "subtitle": "Desde los primeros lanzamientos hasta las últimas fronteras de la exploración"
+  },
+  "explorer": {
+    "title": "Explorador 3D",
+    "subtitle": "Interactúa con naves de la NASA en tiempo real",
+    "hint": "Clic y arrastra para rotar · Rueda para hacer zoom",
+    "models_title": "Añade tus propios modelos 3D",
+    "models_hint": "Descarga archivos .glb de nasa3d.arc.nasa.gov y colócalos en public/models/"
+  },
+  "live": {
+    "title": "NASA en vivo",
+    "live_title": "En Directo",
+    "nasa_channel": "NASA TV",
+    "nasa_es_channel": "NASA en Español",
+    "apod_title": "Imagen astronómica del día",
+    "no_apod": "No se pudo cargar la imagen de hoy."
+  }
+}

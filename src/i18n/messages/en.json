@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "missions": "Missions",
+    "active": "Active",
+    "timeline": "Timeline",
+    "explorer": "3D Explorer",
+    "live": "Live"
+  },
+  "home": {
+    "title": "NASA Mission Explorer",
+    "subtitle": "Explore the full history of NASA missions — from Mercury to Artemis.",
+    "cta": "Explore missions",
+    "stats_missions": "missions",
+    "stats_years": "years of exploration",
+    "stats_programs": "programs"
+  },
+  "missions": {
+    "title": "All Missions",
+    "search_placeholder": "Search missions…",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_completed": "Completed",
+    "no_results": "No missions found."
+  },
+  "mission": {
+    "launch_date": "Date",
+    "status": "Status",
+    "program": "Program",
+    "learn_more": "Learn more",
+    "status_active": "Active",
+    "status_completed": "Completed",
+    "status_planned": "Planned"
+  },
+  "active": {
+    "title": "Active Missions",
+    "subtitle": "Ongoing NASA missions shaping the future of space exploration",
+    "trajectory_title": "Mission Profile",
+    "gallery_title": "Official NASA Images",
+    "stats_title": "Key Facts",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "timeline": {
+    "title": "Mission Timeline",
+    "subtitle": "From the first launches to the latest frontiers of exploration"
+  },
+  "explorer": {
+    "title": "3D Explorer",
+    "subtitle": "Interact with NASA spacecraft in real time",
+    "hint": "Click & drag to rotate · Scroll to zoom",
+    "models_title": "Add your own 3D models",
+    "models_hint": "Download .glb files from nasa3d.arc.nasa.gov and place them in public/models/"
+  },
+  "live": {
+    "title": "NASA Live",
+    "live_title": "En Directo",
+    "nasa_channel": "NASA TV",
+    "nasa_es_channel": "NASA en Español",
+    "apod_title": "Astronomy Picture of the Day",
+    "no_apod": "Could not load today's image."
+  }
+}
