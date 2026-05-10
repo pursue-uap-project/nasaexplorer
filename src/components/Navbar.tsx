@@ -22,8 +22,8 @@ export default function Navbar() {
     <header className="bg-primary text-white sticky top-0 z-50 shadow-lg">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg shrink-0">
-          <span className="text-accent text-xl">✦</span>
-          <span className="hidden sm:inline tracking-tight">NASA Explorer</span>
+          <img src="/nasaexplorer/nasa-logo.png" alt="NASA" className="h-8 w-auto" />
+          <span className="hidden sm:inline tracking-tight">Explorer</span>
         </Link>
 
         <ul className="hidden md:flex items-center gap-1">

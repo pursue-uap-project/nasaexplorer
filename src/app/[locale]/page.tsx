@@ -28,12 +28,7 @@ function HomeContent() {
       }}
     >
       <div className="flex flex-col items-center gap-8 py-20 max-w-4xl">
-        <p className="text-accent font-mono text-xs tracking-[0.4em] uppercase">
-          NASA · {new Date().getFullYear()}
-        </p>
-        <h1 className="text-4xl sm:text-6xl font-bold text-white leading-tight">
-          {t("title")}
-        </h1>
+        <img src="/nasaexplorer/nasa-logo.png" alt="NASA" className="h-28 sm:h-36 w-auto" />
         <p className="text-white/60 text-lg max-w-xl leading-relaxed">
           {t("subtitle")}
         </p>
