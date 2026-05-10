@@ -87,6 +87,9 @@
     "title": "Imagen Astronómica del Día",
     "subtitle": "Navega el archivo NASA — una imagen diferente para cada día desde 1995",
     "error": "No hay imagen disponible para esta fecha. Prueba otro día.",
+    "error_title": "No pudimos recuperar la imagen de hoy",
+    "error_body": "Puede haber un problema de conexión o la API de la NASA no está disponible temporalmente. Puedes verla directamente en el archivo oficial de la NASA.",
+    "error_cta": "Abrir archivo de la NASA",
     "show_more": "Leer más",
     "show_less": "Mostrar menos",
     "prev_day": "Día anterior",
@@ -94,6 +97,8 @@
     "pick_date": "Elegir fecha",
     "today": "Hoy",
     "random": "Aleatoria",
-    "view_hd": "HD"
+    "view_hd": "HD",
+    "cached": "En caché",
+    "official_archive": "Archivo oficial"
   }
 }

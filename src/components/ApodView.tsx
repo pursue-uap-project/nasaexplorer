@@ -13,7 +13,10 @@ type ApodData = {
   copyright?: string;
 };
 
+type LoadState = "idle" | "loading" | "ok" | "error";
+
 const MIN_DATE = "1995-06-16";
+const CACHE_KEY = "nasaexplorer_apod_today";
 
 function todayStr(): string {
   const d = new Date();
@@ -45,31 +48,66 @@ function randomApodDate(): string {
   ].join("-");
 }
 
+function readCache(): ApodData | null {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const parsed: { date: string; data: ApodData } = JSON.parse(raw);
+    if (parsed.date === todayStr()) return parsed.data;
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+function writeCache(data: ApodData) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ date: todayStr(), data }));
+  } catch {
+    // storage full or unavailable — silently ignore
+  }
+}
+
 export default function ApodView() {
   const t = useTranslations("apod");
   const locale = useLocale();
 
   const [selectedDate, setSelectedDate] = useState(todayStr);
   const [apod, setApod] = useState<ApodData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [loadState, setLoadState] = useState<LoadState>("loading");
   const [expanded, setExpanded] = useState(false);
 
   const today = todayStr();
   const isPrevDisabled = selectedDate <= MIN_DATE;
   const isNextDisabled = selectedDate >= today;
+  const isToday = selectedDate === today;
 
   useEffect(() => {
-    setLoading(true);
-    setError(false);
+    setLoadState("loading");
     setApod(null);
     setExpanded(false);
+
+    // For today: try localStorage first to save API quota
+    if (isToday) {
+      const cached = readCache();
+      if (cached) {
+        setApod(cached);
+        setLoadState("ok");
+        return;
+      }
+    }
+
+    // Fetch from NASA API
     const key = process.env.NEXT_PUBLIC_NASA_API_KEY ?? "DEMO_KEY";
     fetch(`https://api.nasa.gov/planetary/apod?api_key=${key}&date=${selectedDate}`)
       .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then(setApod)
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
+      .then((data: ApodData) => {
+        if (isToday) writeCache(data);
+        setApod(data);
+        setLoadState("ok");
+      })
+      .catch(() => setLoadState("error"));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDate]);
 
   const formattedDate = (() => {
@@ -140,7 +178,7 @@ export default function ApodView() {
           <div className="flex-1 hidden sm:block" />
 
           {/* Today */}
-          {selectedDate !== today && (
+          {!isToday && (
             <button
               onClick={() => setSelectedDate(today)}
               className="px-3 py-2 rounded-xl text-xs font-medium border border-primary/20 bg-primary/5 text-primary hover:bg-primary hover:text-white transition-all duration-150"
@@ -168,38 +206,66 @@ export default function ApodView() {
 
       {/* ── Content ────────────────────────────────────────────────────── */}
 
-      {/* Loading skeleton */}
-      {loading && (
+      {/* Skeleton screen */}
+      {loadState === "loading" && (
         <div className="animate-pulse bg-white/65 backdrop-blur-2xl border border-white/80 rounded-3xl shadow-2xl overflow-hidden">
-          <div className="bg-gray-200/80 w-full h-[55vh]" />
-          <div className="px-6 sm:px-8 py-6 space-y-4">
-            <div className="flex justify-between">
-              <div className="h-3 bg-gray-200 rounded w-28" />
-              <div className="h-3 bg-gray-200 rounded w-24" />
+          {/* Image placeholder */}
+          <div className="bg-gradient-to-br from-slate-200/80 to-slate-300/60 w-full" style={{ height: "52vh" }}>
+            {/* Shimmer overlay */}
+            <div className="w-full h-full relative overflow-hidden">
+              <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_infinite] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
             </div>
-            <div className="h-8 bg-gray-200 rounded w-3/4" />
-            <div className="space-y-2 pt-2">
-              <div className="h-3 bg-gray-100 rounded" />
-              <div className="h-3 bg-gray-100 rounded w-[95%]" />
-              <div className="h-3 bg-gray-100 rounded w-5/6" />
-              <div className="h-3 bg-gray-100 rounded w-4/6" />
+          </div>
+          {/* Text placeholders */}
+          <div className="px-6 sm:px-8 py-7 space-y-4 bg-white/30">
+            <div className="flex justify-between items-center">
+              <div className="h-2.5 bg-slate-200 rounded-full w-24" />
+              <div className="h-2.5 bg-slate-200 rounded-full w-20" />
+            </div>
+            <div className="h-7 bg-slate-200/80 rounded-lg w-3/4" />
+            <div className="space-y-2.5 pt-1">
+              <div className="h-2.5 bg-slate-100 rounded-full" />
+              <div className="h-2.5 bg-slate-100 rounded-full w-[97%]" />
+              <div className="h-2.5 bg-slate-100 rounded-full w-11/12" />
+              <div className="h-2.5 bg-slate-100 rounded-full w-4/5" />
+              <div className="h-2.5 bg-slate-100 rounded-full w-3/5" />
             </div>
           </div>
         </div>
       )}
 
-      {/* Error state */}
-      {!loading && error && (
-        <div className="bg-white/65 backdrop-blur-2xl border border-white/80 rounded-3xl shadow-sm p-16 text-center">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-12 h-12 text-foreground/20 mx-auto mb-4">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+      {/* Error / fallback */}
+      {loadState === "error" && (
+        <div className="bg-white/65 backdrop-blur-2xl border border-white/80 rounded-3xl shadow-sm p-12 sm:p-16 text-center">
+          {/* Star / telescope icon */}
+          <svg viewBox="0 0 48 48" fill="none" className="w-14 h-14 mx-auto mb-5 text-primary/20">
+            <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="2" />
+            <path d="M24 14v10l6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="24" cy="24" r="2" fill="currentColor" />
           </svg>
-          <p className="text-foreground/50 text-sm">{t("error")}</p>
+          <p className="text-foreground/60 text-base font-medium mb-2">
+            {t("error_title")}
+          </p>
+          <p className="text-foreground/40 text-sm max-w-sm mx-auto mb-8 leading-relaxed">
+            {t("error_body")}
+          </p>
+          <a
+            href="https://apod.nasa.gov/apod/astropix.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-xl shadow-md hover:bg-primary/90 transition-colors"
+          >
+            <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+              <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+              <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+            </svg>
+            {t("error_cta")}
+          </a>
         </div>
       )}
 
       {/* APOD card */}
-      {!loading && !error && apod && (
+      {loadState === "ok" && apod && (
         <div className="bg-white/65 backdrop-blur-2xl border border-white/80 rounded-3xl shadow-2xl ring-1 ring-inset ring-white/50 overflow-hidden">
 
           {/* Media */}
@@ -228,7 +294,14 @@ export default function ApodView() {
 
             {/* Meta row */}
             <div className="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs font-mono text-foreground/35">
-              <time dateTime={apod.date}>{apod.date}</time>
+              <div className="flex items-center gap-3">
+                <time dateTime={apod.date}>{apod.date}</time>
+                {isToday && (
+                  <span className="px-2 py-0.5 rounded-full bg-primary/8 text-primary/60 text-[10px] font-sans font-medium uppercase tracking-wide border border-primary/15">
+                    {t("cached")}
+                  </span>
+                )}
+              </div>
               <div className="flex items-center gap-4">
                 {apod.copyright && (
                   <span>© {apod.copyright.trim().replace(/\n/g, " ")}</span>
@@ -270,6 +343,23 @@ export default function ApodView() {
                 {expanded ? t("show_less") : t("show_more")}
               </button>
             )}
+
+            {/* Official link — always shown at the bottom */}
+            <div className="mt-6 pt-5 border-t border-white/60 flex items-center justify-between flex-wrap gap-3">
+              <span className="text-xs text-foreground/30 font-mono">NASA · APOD</span>
+              <a
+                href="https://apod.nasa.gov/apod/astropix.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs text-foreground/45 hover:text-primary transition-colors border border-white/70 bg-white/50 hover:bg-white px-3 py-1.5 rounded-lg"
+              >
+                <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+                  <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                  <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+                </svg>
+                {t("official_archive")}
+              </a>
+            </div>
           </div>
         </div>
       )}
