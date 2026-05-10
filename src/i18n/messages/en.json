@@ -3,8 +3,9 @@
     "missions": "Missions",
     "active": "Active",
     "timeline": "Timeline",
-    "explorer": "3D Explorer",
-    "live": "Live"
+    "solar": "Solar System",
+    "live": "Live",
+    "apod": "Photo of the Day"
   },
   "home": {
     "title": "NASA Mission Explorer",
@@ -44,19 +45,25 @@
     "title": "Mission Timeline",
     "subtitle": "From the first launches to the latest frontiers of exploration"
   },
-  "explorer": {
-    "title": "3D Explorer",
-    "subtitle": "Interact with NASA spacecraft in real time",
-    "hint": "Click & drag to rotate · Scroll to zoom",
-    "models_title": "Add your own 3D models",
-    "models_hint": "Download .glb files from nasa3d.arc.nasa.gov and place them in public/models/"
+  "solar": {
+    "title": "Solar System",
+    "subtitle": "All 8 planets and active NASA missions in their orbits — hover to explore",
+    "legend_planets": "Planets",
+    "legend_missions": "NASA missions",
+    "hint": "Hover over any body to see details · ⏸ to pause"
   },
   "live": {
     "title": "NASA Live",
-    "live_title": "En Directo",
+    "subtitle": "24/7 live streams from NASA and NASA en Español",
+    "live_title": "Live Streams",
     "nasa_channel": "NASA TV",
-    "nasa_es_channel": "NASA en Español",
-    "apod_title": "Astronomy Picture of the Day",
-    "no_apod": "Could not load today's image."
+    "nasa_es_channel": "NASA en Español"
+  },
+  "apod": {
+    "title": "Astronomy Picture of the Day",
+    "subtitle": "NASA · Every day a different image of our universe",
+    "error": "Could not load today's image. Try again later.",
+    "show_more": "Read more",
+    "show_less": "Show less"
   }
 }

@@ -13,8 +13,9 @@ export default function Navbar() {
     { href: "/missions", label: t("missions") },
     { href: "/active", label: t("active") },
     { href: "/timeline", label: t("timeline") },
-    { href: "/explorer", label: t("explorer") },
+    { href: "/solar", label: t("solar") },
     { href: "/live", label: t("live") },
+    { href: "/apod", label: t("apod") },
   ];
 
   return (

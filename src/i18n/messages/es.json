@@ -3,8 +3,9 @@
     "missions": "Misiones",
     "active": "En curso",
     "timeline": "Línea de tiempo",
-    "explorer": "Explorador 3D",
-    "live": "En vivo"
+    "solar": "Sistema Solar",
+    "live": "En vivo",
+    "apod": "Imagen del Día"
   },
   "home": {
     "title": "Explorador de Misiones NASA",
@@ -26,7 +27,7 @@
     "launch_date": "Fecha",
     "status": "Estado",
     "program": "Programa",
-    "learn_more": "Más información",
+    "learn_more": "Saber más",
     "status_active": "Activa",
     "status_completed": "Completada",
     "status_planned": "Planificada"
@@ -44,19 +45,25 @@
     "title": "Línea de tiempo",
     "subtitle": "Desde los primeros lanzamientos hasta las últimas fronteras de la exploración"
   },
-  "explorer": {
-    "title": "Explorador 3D",
-    "subtitle": "Interactúa con naves de la NASA en tiempo real",
-    "hint": "Clic y arrastra para rotar · Rueda para hacer zoom",
-    "models_title": "Añade tus propios modelos 3D",
-    "models_hint": "Descarga archivos .glb de nasa3d.arc.nasa.gov y colócalos en public/models/"
+  "solar": {
+    "title": "Sistema Solar",
+    "subtitle": "Los 8 planetas y misiones activas de la NASA en sus órbitas — pasa el cursor para explorar",
+    "legend_planets": "Planetas",
+    "legend_missions": "Misiones NASA",
+    "hint": "Pasa el cursor por cualquier cuerpo para ver detalles · ⏸ para pausar"
   },
   "live": {
-    "title": "NASA en vivo",
+    "title": "NASA en Vivo",
+    "subtitle": "Transmisiones en directo 24/7 de NASA y NASA en Español",
     "live_title": "En Directo",
     "nasa_channel": "NASA TV",
-    "nasa_es_channel": "NASA en Español",
-    "apod_title": "Imagen astronómica del día",
-    "no_apod": "No se pudo cargar la imagen de hoy."
+    "nasa_es_channel": "NASA en Español"
+  },
+  "apod": {
+    "title": "Imagen Astronómica del Día",
+    "subtitle": "NASA · Cada día una imagen diferente de nuestro universo",
+    "error": "No se pudo cargar la imagen de hoy. Inténtalo más tarde.",
+    "show_more": "Leer más",
+    "show_less": "Mostrar menos"
   }
 }

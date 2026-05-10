@@ -14,11 +14,9 @@ export default function LiveStreams() {
   ];
 
   return (
-    <section className="mb-16">
+    <section className="mb-8">
       <h2 className="text-2xl font-bold text-primary mb-2">{t("live_title")}</h2>
-      <p className="text-foreground/50 text-sm mb-6">
-        NASA TV · 24/7
-      </p>
+      <p className="text-foreground/50 text-sm mb-6">NASA TV · 24/7</p>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {streams.map(({ id, label, flag }) => (
           <div key={id} className="rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
