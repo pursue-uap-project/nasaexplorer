@@ -145,7 +145,15 @@
     "stat_countries": "PAÍSES",
     "map_label": "— Filtrar por región",
     "timeline_label": "— Navegar por años",
-    "filter_label": "— Filtrar por agencia / época",
+    "filter_label": "— Filtrar por agencia",
+    "filter_agency": "Filtrar por agencia",
+    "filter_region": "Filtrar por región",
+    "filter_year": "Filtrar por año",
+    "filter_release": "Filtrar por release / lanzamiento",
+    "all_agencies": "Todas las agencias",
+    "all_years": "Todos los años",
+    "all_releases": "Todos los releases",
+    "control_console": "CONSOLA DE CONTROL DE FILTRADO // DECLASSIFIED CONTROL CONSOLE",
     "close": "CERRAR",
     "all_regions": "Todas las regiones",
     "uap_portal": "Portal UAP",
@@ -182,7 +190,9 @@
       "cia": "CIA",
       "doe": "DOE",
       "odni": "ODNI",
-      "release-2": "RELEASE 2"
+      "release-1": "RELEASE 1",
+      "release-2": "RELEASE 2",
+      "release-3": "RELEASE 3"
     }
   },
   "search": {

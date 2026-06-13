@@ -39,23 +39,24 @@ const REGIONS = [
   { key: "classified", label_es: "Clasificado", label_en: "Classified" },
 ];
 
-const FILTER_CATEGORIES = [
+const AGENCIES = [
   { key: "all", label_key: "all" },
-  { key: "1940s", label_key: "1940s" },
-  { key: "1950s", label_key: "1950s" },
-  { key: "1960s", label_key: "1960s" },
-  { key: "1970s", label_key: "1970s" },
-  { key: "2020s", label_key: "2020s" },
   { key: "fbi", label_key: "fbi" },
+  { key: "cia", label_key: "cia" },
   { key: "nasa", label_key: "nasa" },
   { key: "dow", label_key: "dow" },
   { key: "aaro", label_key: "aaro" },
   { key: "dos", label_key: "dos" },
-  { key: "classified", label_key: "classified" },
-  { key: "cia", label_key: "cia" },
   { key: "doe", label_key: "doe" },
   { key: "odni", label_key: "odni" },
+  { key: "classified", label_key: "classified" }
+];
+
+const RELEASES = [
+  { key: "all", label_key: "all" },
+  { key: "release-1", label_key: "release-1" },
   { key: "release-2", label_key: "release-2" },
+  { key: "release-3", label_key: "release-3" }
 ];
 
 function getYearLabel(year: string): string {
@@ -90,9 +91,10 @@ export default function UapArchivePage() {
 
   // Filter states
   const [search, setSearch] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [agencyFilter, setAgencyFilter] = useState("all");
   const [regionFilter, setRegionFilter] = useState("all");
   const [yearFilter, setYearFilter] = useState("all");
+  const [releaseFilter, setReleaseFilter] = useState("all");
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   // Cast JSON data safely
@@ -136,17 +138,16 @@ export default function UapArchivePage() {
       const matchesSearch =
         !q || q.split(" ").every((word) => haystack.includes(word));
 
-      // Category filter
-      let matchesCat = true;
-      if (categoryFilter !== "all") {
+      // Agency filter
+      let matchesAgency = true;
+      if (agencyFilter !== "all") {
         const tags = story.tags || [];
         const agency = story.agency.toLowerCase();
         const meta = story.meta.toLowerCase();
-        matchesCat =
-          tags.some((tag) => tag.toLowerCase() === categoryFilter) ||
-          tags.some((tag) => tag.toLowerCase().includes(categoryFilter)) ||
-          agency === categoryFilter ||
-          meta.includes(categoryFilter);
+        matchesAgency =
+          agency === agencyFilter ||
+          tags.some((tag) => tag.toLowerCase() === agencyFilter) ||
+          meta.includes(agencyFilter);
       }
 
       // Region filter
@@ -156,9 +157,23 @@ export default function UapArchivePage() {
       // Year filter
       const matchesYear = yearFilter === "all" || story.year === yearFilter;
 
-      return matchesSearch && matchesCat && matchesRegion && matchesYear;
+      // Release filter
+      let matchesRelease = true;
+      if (releaseFilter !== "all") {
+        const urlLower = story.url.toLowerCase();
+        const tags = story.tags || [];
+        if (releaseFilter === "release-1") {
+          matchesRelease = urlLower.includes("/release_1/") || tags.includes("release-1");
+        } else if (releaseFilter === "release-2") {
+          matchesRelease = urlLower.includes("/release_2/") || tags.includes("release-2");
+        } else if (releaseFilter === "release-3") {
+          matchesRelease = urlLower.includes("/release_3/") || tags.includes("release-3");
+        }
+      }
+
+      return matchesSearch && matchesAgency && matchesRegion && matchesYear && matchesRelease;
     });
-  }, [stories, search, categoryFilter, regionFilter, yearFilter]);
+  }, [stories, search, agencyFilter, regionFilter, yearFilter, releaseFilter]);
 
   // Search Autocomplete suggestions
   const suggestions = useMemo(() => {
@@ -200,21 +215,7 @@ export default function UapArchivePage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const handleYearClick = (year: string) => {
-    if (yearFilter === year) {
-      setYearFilter("all");
-    } else {
-      setYearFilter(year);
-    }
-  };
-
-  const handleCategoryClick = (category: string) => {
-    if (categoryFilter === category) {
-      setCategoryFilter("all");
-    } else {
-      setCategoryFilter(category);
-    }
-  };
+  // Removed old click handlers as we now use direct select dropdown state set
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-emerald-500 selection:text-slate-950 relative overflow-hidden">
@@ -326,182 +327,241 @@ export default function UapArchivePage() {
           </AnimatePresence>
         </div>
 
-        {/* REGION PINS */}
-        <div className="mb-8">
-          <span className="text-slate-500 text-[10px] uppercase font-mono block mb-2 tracking-wider">{t("map_label")}</span>
-          <div className="flex flex-wrap gap-1.5" id="regionPins">
-            {REGIONS.map((r) => {
-              const label = locale === "es" ? r.label_es : r.label_en;
-              const isActive = regionFilter === r.key;
-              return (
-                <button
-                  key={r.key}
-                  onClick={() => setRegionFilter(r.key)}
-                  className={`text-[10px] px-3 py-1 font-mono rounded border transition-all ${
-                    isActive
-                      ? "bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.25)]"
-                      : "bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-300 hover:border-slate-700"
-                  }`}
-                >
-                  {label.toUpperCase()}
-                </button>
-              );
-            })}
+        {/* CONSOLA DE FILTRADO UNIFICADA */}
+        <div className="mb-8 bg-slate-900/40 border border-emerald-500/20 rounded-xl p-5 font-mono">
+          <div className="flex items-center gap-2 mb-4 text-emerald-400 text-xs tracking-wider border-b border-emerald-500/15 pb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>{t("control_console")}</span>
           </div>
-        </div>
 
-        {/* TIMELINE BAR */}
-        <div className="mb-10">
-          <span className="text-slate-500 text-[10px] uppercase font-mono block mb-3 tracking-wider">{t("timeline_label")}</span>
-          <div className="flex overflow-x-auto gap-2 py-3 scrollbar-thin scrollbar-thumb-emerald-500/20 border-t border-b border-emerald-500/10">
-            {uniqueYears.map((year) => {
-              const isActive = yearFilter === year;
-              const label = getYearLabel(year);
-              return (
-                <button
-                  key={year}
-                  onClick={() => handleYearClick(year)}
-                  className={`flex flex-col items-center min-w-[70px] py-1.5 rounded transition-all ${
-                    isActive
-                      ? "bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.15)]"
-                      : "hover:bg-slate-900 border border-transparent text-slate-500 hover:text-slate-300"
-                  }`}
-                >
-                  <div className={`w-1.5 h-1.5 rounded-full mb-1 ${isActive ? "bg-emerald-400 shadow-[0_0_6px_#10b981]" : "bg-slate-700"}`} />
-                  <span className="text-xs font-bold font-mono">{year}</span>
-                  <span className="text-[8px] text-slate-500 font-mono tracking-tighter truncate w-full text-center max-w-[65px]">
-                    {label}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* 1. FILTRO POR AGENCIA */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] text-slate-500 uppercase tracking-wider">
+                {t("filter_label")}
+              </label>
+              <select
+                value={agencyFilter}
+                onChange={(e) => setAgencyFilter(e.target.value)}
+                className="w-full bg-slate-950 border border-emerald-500/20 focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 text-slate-200 rounded-lg px-3 py-2 text-xs outline-none cursor-pointer font-mono"
+              >
+                <option value="all" className="bg-slate-950">{t("all_agencies").toUpperCase()}</option>
+                {AGENCIES.filter(a => a.key !== "all").map((cat) => (
+                  <option key={cat.key} value={cat.key} className="bg-slate-950">
+                    {t(`filters.${cat.label_key}`).toUpperCase()}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* 2. FILTRO POR REGION */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] text-slate-500 uppercase tracking-wider">
+                {t("map_label")}
+              </label>
+              <select
+                value={regionFilter}
+                onChange={(e) => setRegionFilter(e.target.value)}
+                className="w-full bg-slate-950 border border-emerald-500/20 focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 text-slate-200 rounded-lg px-3 py-2 text-xs outline-none cursor-pointer font-mono"
+              >
+                {REGIONS.map((r) => {
+                  const label = locale === "es" ? r.label_es : r.label_en;
+                  return (
+                    <option key={r.key} value={r.key} className="bg-slate-950">
+                      {label.toUpperCase()}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+
+            {/* 3. FILTRO POR AÑO */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] text-slate-500 uppercase tracking-wider">
+                {t("timeline_label")}
+              </label>
+              <select
+                value={yearFilter}
+                onChange={(e) => setYearFilter(e.target.value)}
+                className="w-full bg-slate-950 border border-emerald-500/20 focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 text-slate-200 rounded-lg px-3 py-2 text-xs outline-none cursor-pointer font-mono"
+              >
+                <option value="all" className="bg-slate-950">{t("all_years").toUpperCase()}</option>
+                {uniqueYears.map((year) => {
+                  const label = getYearLabel(year);
+                  return (
+                    <option key={year} value={year} className="bg-slate-950">
+                      {year} {label ? `(${label})` : ""}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+
+            {/* 4. FILTRO POR RELEASE */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] text-slate-500 uppercase tracking-wider">
+                {t("filter_release")}
+              </label>
+              <select
+                value={releaseFilter}
+                onChange={(e) => setReleaseFilter(e.target.value)}
+                className="w-full bg-slate-950 border border-emerald-500/20 focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 text-slate-200 rounded-lg px-3 py-2 text-xs outline-none cursor-pointer font-mono"
+              >
+                <option value="all" className="bg-slate-950">{t("all_releases").toUpperCase()}</option>
+                {RELEASES.filter(r => r.key !== "all").map((rel) => (
+                  <option key={rel.key} value={rel.key} className="bg-slate-950">
+                    {t(`filters.${rel.label_key}`).toUpperCase()}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Quick Active Filters Summary / Reset */}
+          {(agencyFilter !== "all" || regionFilter !== "all" || yearFilter !== "all" || releaseFilter !== "all" || search !== "") && (
+            <div className="mt-4 pt-3 border-t border-emerald-500/10 flex items-center justify-between text-[10px]">
+              <div className="flex flex-wrap gap-1.5 items-center">
+                <span className="text-slate-500">{locale === "es" ? "Filtros activos:" : "Active filters:"}</span>
+                {search && (
+                  <span className="bg-emerald-500/15 border border-emerald-500/20 px-2 py-0.5 rounded text-emerald-300 font-bold">
+                    🔍 {search}
                   </span>
-                </button>
-              );
-            })}
-          </div>
+                )}
+                {agencyFilter !== "all" && (
+                  <span className="bg-emerald-500/15 border border-emerald-500/20 px-2 py-0.5 rounded text-emerald-300 font-bold">
+                    🏢 {t(`filters.${agencyFilter}`).toUpperCase()}
+                  </span>
+                )}
+                {regionFilter !== "all" && (
+                  <span className="bg-emerald-500/15 border border-emerald-500/20 px-2 py-0.5 rounded text-emerald-300 font-bold">
+                    📍 {REGIONS.find(r => r.key === regionFilter)?.[locale === "es" ? "label_es" : "label_en"].toUpperCase()}
+                  </span>
+                )}
+                {yearFilter !== "all" && (
+                  <span className="bg-emerald-500/15 border border-emerald-500/20 px-2 py-0.5 rounded text-emerald-300 font-bold">
+                    📅 {yearFilter}
+                  </span>
+                )}
+                {releaseFilter !== "all" && (
+                  <span className="bg-emerald-500/15 border border-emerald-500/20 px-2 py-0.5 rounded text-emerald-300 font-bold">
+                    📂 {t(`filters.${releaseFilter}`).toUpperCase()}
+                  </span>
+                )}
+              </div>
+              <button
+                onClick={() => {
+                  setSearch("");
+                  setAgencyFilter("all");
+                  setRegionFilter("all");
+                  setYearFilter("all");
+                  setReleaseFilter("all");
+                }}
+                className="text-emerald-400 hover:text-emerald-300 hover:underline cursor-pointer"
+              >
+                [ {locale === "es" ? "RESETEAR FILTROS" : "RESET FILTERS"} ]
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* FILTER CATEGORIES & COUNT */}
-        <div className="flex flex-col lg:flex-row gap-8 items-start">
-          
-          {/* LEFT: Category Filters */}
-          <div className="w-full lg:w-64 shrink-0 bg-slate-900/30 border border-emerald-500/10 rounded-lg p-4">
-            <span className="text-slate-500 text-[10px] uppercase font-mono block mb-3 tracking-wider">{t("filter_label")}</span>
-            <div className="flex flex-wrap lg:flex-col gap-1.5">
-              {FILTER_CATEGORIES.map((cat) => {
-                const isActive = categoryFilter === cat.key;
+        {/* Article list */}
+        <div className="w-full">
+          <div className="flex items-center justify-between border-b border-emerald-500/10 pb-2 mb-6 font-mono text-xs text-slate-500">
+            <span>LISTING STATE // OK</span>
+            <span>
+              {filteredStories.length === 1 
+                ? t("results_count_one", { count: 1 })
+                : t("results_count_other", { count: filteredStories.length })}
+            </span>
+          </div>
+
+          {filteredStories.length === 0 ? (
+            <div className="border border-dashed border-emerald-500/20 rounded-lg py-16 text-center text-slate-500 font-mono text-sm">
+              [ {t("no_results")} ]
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {filteredStories.map((story) => {
+                const title = locale === "es" ? story.title_es : story.title_en;
+                const body = locale === "es" ? story.body_es : story.body_en;
+                
                 return (
-                  <button
-                    key={cat.key}
-                    onClick={() => handleCategoryClick(cat.key)}
-                    className={`w-auto lg:w-full text-left text-[10px] px-3 py-2 font-mono rounded border transition-all ${
-                      isActive
-                        ? "bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.25)]"
-                        : "bg-slate-900/50 border-slate-800 text-slate-400 hover:text-slate-300 hover:border-slate-700"
-                    }`}
+                  <article
+                    key={story.id}
+                    className="border border-emerald-500/10 bg-slate-950 hover:bg-slate-900/20 rounded-lg p-5 transition-all hover:border-emerald-500/25 flex flex-col md:flex-row gap-5"
                   >
-                    &gt; {t(`filters.${cat.label_key}`).toUpperCase()}
-                  </button>
+                    {/* Left: preview image/video if any */}
+                    {(story.image || (story.images && story.images.length > 0)) && (
+                      <div className="w-full md:w-48 shrink-0 h-32 relative rounded bg-slate-900 overflow-hidden border border-emerald-500/10">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={`/nasaexplorer/assets/uap/${story.images ? story.images[0].split("/").pop() : story.image.split("/").pop()}`}
+                          alt={title}
+                          className="w-full h-full object-cover brightness-75 hover:brightness-100 transition-all cursor-pointer"
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
+
+                    {/* Right: info */}
+                    <div className="flex-1 flex flex-col justify-between">
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2 mb-2 font-mono">
+                          <span className="text-[10px] text-emerald-500/80 bg-emerald-500/5 px-2 py-0.5 rounded border border-emerald-500/10">
+                            {story.agency.toUpperCase()}
+                          </span>
+                          <span className="text-[9px] text-slate-500">
+                            {story.meta}
+                          </span>
+                        </div>
+                        
+                        <h2 className="text-lg font-bold text-slate-100 font-mono hover:text-emerald-400 transition-colors uppercase">
+                          <Link href={`/uap/sighting/${story.id}`}>
+                            {title}
+                          </Link>
+                        </h2>
+                        
+                        <p className="text-xs text-slate-400 mt-2 line-clamp-3 leading-relaxed">
+                          {body}
+                        </p>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex flex-wrap items-center justify-between gap-4 mt-4 pt-3 border-t border-emerald-500/5">
+                        <div className="flex gap-2">
+                          {(story.tags || []).slice(0, 3).map((tag) => (
+                            <span
+                              key={tag}
+                              className="text-[8px] font-mono text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded"
+                            >
+                              {tag.toUpperCase()}
+                            </span>
+                          ))}
+                        </div>
+
+                        <div className="flex items-center gap-2 font-mono text-[10px]">
+                          <a
+                            href={story.url}
+                            target="_blank"
+                            rel="noopener"
+                            className="px-3 py-1 bg-slate-900 border border-emerald-500/20 hover:border-emerald-400 text-slate-400 hover:text-emerald-300 rounded transition-all"
+                          >
+                            {t("access_file")}
+                          </a>
+                          <Link
+                            href={`/uap/sighting/${story.id}`}
+                            className="px-3 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 rounded transition-all"
+                          >
+                            {t("view_details")}
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
                 );
               })}
             </div>
-          </div>
-
-          {/* RIGHT: Article list */}
-          <div className="flex-1 w-full">
-            <div className="flex items-center justify-between border-b border-emerald-500/10 pb-2 mb-6 font-mono text-xs text-slate-500">
-              <span>LISTING STATE // OK</span>
-              <span>
-                {filteredStories.length === 1 
-                  ? t("results_count_one", { count: 1 })
-                  : t("results_count_other", { count: filteredStories.length })}
-              </span>
-            </div>
-
-            {filteredStories.length === 0 ? (
-              <div className="border border-dashed border-emerald-500/20 rounded-lg py-16 text-center text-slate-500 font-mono text-sm">
-                [ {t("no_results")} ]
-              </div>
-            ) : (
-              <div className="space-y-6">
-                {filteredStories.map((story) => {
-                  const title = locale === "es" ? story.title_es : story.title_en;
-                  const body = locale === "es" ? story.body_es : story.body_en;
-                  
-                  return (
-                    <article
-                      key={story.id}
-                      className="border border-emerald-500/10 bg-slate-950 hover:bg-slate-900/20 rounded-lg p-5 transition-all hover:border-emerald-500/25 flex flex-col md:flex-row gap-5"
-                    >
-                      {/* Left: preview image/video if any */}
-                      {(story.image || (story.images && story.images.length > 0)) && (
-                        <div className="w-full md:w-48 shrink-0 h-32 relative rounded bg-slate-900 overflow-hidden border border-emerald-500/10">
-                          <img
-                            src={`/nasaexplorer/assets/uap/${story.images ? story.images[0].split("/").pop() : story.image.split("/").pop()}`}
-                            alt={title}
-                            className="w-full h-full object-cover brightness-75 hover:brightness-100 transition-all cursor-pointer"
-                            loading="lazy"
-                          />
-                        </div>
-                      )}
-
-                      {/* Right: info */}
-                      <div className="flex-1 flex flex-col justify-between">
-                        <div>
-                          <div className="flex flex-wrap items-center gap-2 mb-2 font-mono">
-                            <span className="text-[10px] text-emerald-500/80 bg-emerald-500/5 px-2 py-0.5 rounded border border-emerald-500/10">
-                              {story.agency.toUpperCase()}
-                            </span>
-                            <span className="text-[9px] text-slate-500">
-                              {story.meta}
-                            </span>
-                          </div>
-                          
-                          <h2 className="text-lg font-bold text-slate-100 font-mono hover:text-emerald-400 transition-colors uppercase">
-                            <Link href={`/uap/sighting/${story.id}`}>
-                              {title}
-                            </Link>
-                          </h2>
-                          
-                          <p className="text-xs text-slate-400 mt-2 line-clamp-3 leading-relaxed">
-                            {body}
-                          </p>
-                        </div>
-
-                        {/* Actions */}
-                        <div className="flex flex-wrap items-center justify-between gap-4 mt-4 pt-3 border-t border-emerald-500/5">
-                          <div className="flex gap-2">
-                            {(story.tags || []).slice(0, 3).map((tag) => (
-                              <span
-                                key={tag}
-                                className="text-[8px] font-mono text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded"
-                              >
-                                {tag.toUpperCase()}
-                              </span>
-                            ))}
-                          </div>
-
-                          <div className="flex items-center gap-2 font-mono text-[10px]">
-                            <a
-                              href={story.url}
-                              target="_blank"
-                              rel="noopener"
-                              className="px-3 py-1 bg-slate-900 border border-emerald-500/20 hover:border-emerald-400 text-slate-400 hover:text-emerald-300 rounded transition-all"
-                            >
-                              {t("access_file")}
-                            </a>
-                            <Link
-                              href={`/uap/sighting/${story.id}`}
-                              className="px-3 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 rounded transition-all"
-                            >
-                              {t("view_details")}
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+          )}
         </div>
 
       </div>
