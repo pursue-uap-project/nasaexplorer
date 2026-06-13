@@ -75,8 +75,21 @@
     "title": "NASA en Vivo",
     "subtitle": "Transmisiones en directo 24/7 de NASA y NASA en Español",
     "live_title": "En Directo",
+    "channels_title": "Canales",
     "nasa_channel": "NASA TV",
-    "nasa_es_channel": "NASA en Español"
+    "nasa_es_channel": "NASA en Español",
+    "nasa_yt": "NASA · YouTube",
+    "esa_channel": "ESA Web TV",
+    "on_air": "ON AIR",
+    "connecting": "Conectando…",
+    "offline": "Señal no disponible",
+    "retry": "Reintentar",
+    "watch_youtube": "Ver en YouTube",
+    "unmute": "Toca para activar sonido",
+    "theater": "Modo teatro",
+    "exit_theater": "Salir",
+    "pip": "Mini reproductor",
+    "fullscreen": "Pantalla completa"
   },
   "iss": {
     "title": "ISS en Tiempo Real",

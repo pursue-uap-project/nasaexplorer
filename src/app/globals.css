@@ -23,3 +23,31 @@ body {
 @keyframes shimmer {
   to { transform: translateX(200%); }
 }
+
+/* ── LIVE section ambience (starfield + ON AIR) ── */
+@keyframes star-drift { from { background-position: 0 0, 0 0; } to { background-position: 0 -2000px, 0 -1400px; } }
+@keyframes onair-pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(239,68,68,.65); }
+  50%      { box-shadow: 0 0 18px 5px rgba(239,68,68,.9); }
+}
+.live-starfield { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.live-starfield::before {
+  content: ""; position: absolute; inset: -50%;
+  background-image:
+    radial-gradient(1px 1px at 25px 35px, rgba(255,255,255,.9), transparent),
+    radial-gradient(1.4px 1.4px at 200px 150px, rgba(160,200,255,.7), transparent);
+  background-repeat: repeat; background-size: 250px 250px, 250px 250px;
+  animation: star-drift 90s linear infinite; opacity: .5;
+}
+.live-starfield::after {
+  content: ""; position: absolute; inset: -50%;
+  background-image:
+    radial-gradient(1px 1px at 60px 60px, rgba(255,255,255,.55), transparent),
+    radial-gradient(1px 1px at 180px 120px, rgba(255,255,255,.4), transparent);
+  background-repeat: repeat; background-size: 350px 350px, 350px 350px;
+  animation: star-drift 150s linear infinite; opacity: .35;
+}
+.onair-dot { animation: onair-pulse 1.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .live-starfield::before, .live-starfield::after, .onair-dot { animation: none; }
+}

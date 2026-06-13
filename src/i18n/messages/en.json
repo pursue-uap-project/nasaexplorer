@@ -75,8 +75,21 @@
     "title": "NASA Live",
     "subtitle": "24/7 live streams from NASA and NASA en Español",
     "live_title": "Live Streams",
+    "channels_title": "Channels",
     "nasa_channel": "NASA TV",
-    "nasa_es_channel": "NASA en Español"
+    "nasa_es_channel": "NASA en Español",
+    "nasa_yt": "NASA · YouTube",
+    "esa_channel": "ESA Web TV",
+    "on_air": "ON AIR",
+    "connecting": "Connecting…",
+    "offline": "Signal unavailable",
+    "retry": "Retry",
+    "watch_youtube": "Watch via YouTube",
+    "unmute": "Tap for sound",
+    "theater": "Theater mode",
+    "exit_theater": "Exit theater",
+    "pip": "Picture-in-picture",
+    "fullscreen": "Fullscreen"
   },
   "iss": {
     "title": "ISS Live Tracker",
