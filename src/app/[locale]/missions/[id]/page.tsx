@@ -74,24 +74,26 @@ export default async function MissionDetailPage({ params }: Props) {
         </div>
 
         {/* Title area */}
-        <div className="absolute bottom-0 left-0 right-0 px-5 sm:px-8 pb-7">
-          <div className="flex items-center gap-2 mb-3">
-            <span
-              className="text-xs font-bold px-3 py-1 rounded-full text-white shadow-sm"
-              style={{ background: `${color}dd` }}
-            >
-              {mission.program}
-            </span>
-            <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${STATUS_STYLES[mission.launch_details.status] ?? ""}`}>
-              {tMission(`status_${mission.launch_details.status}`)}
-            </span>
-            {year && (
-              <span className="text-xs font-mono text-white/50">{year}</span>
-            )}
+        <div className="absolute bottom-0 left-0 right-0 pb-7">
+          <div className="mx-auto max-w-5xl px-6 sm:px-8">
+            <div className="flex items-center gap-2 mb-3">
+              <span
+                className="text-xs font-bold px-3 py-1 rounded-full text-white shadow-sm"
+                style={{ background: `${color}dd` }}
+              >
+                {mission.program}
+              </span>
+              <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${STATUS_STYLES[mission.launch_details.status] ?? ""}`}>
+                {tMission(`status_${mission.launch_details.status}`)}
+              </span>
+              {year && (
+                <span className="text-xs font-mono text-white/50">{year}</span>
+              )}
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight tracking-[0.02em]">
+              {mission.name}
+            </h1>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight tracking-[0.02em]">
-            {mission.name}
-          </h1>
         </div>
       </div>
 
