@@ -25,7 +25,20 @@
     "filter_active": "Activas",
     "filter_completed": "Completadas",
     "filter_deep_space": "Espacio Profundo",
-    "no_results": "No se encontraron misiones."
+    "no_results": "No se encontraron misiones.",
+    "type_all": "Todos los tipos",
+    "type_crewed": "Tripuladas",
+    "type_robotic": "Robóticas / Científicas",
+    "status_all": "Todos los estados",
+    "status_active": "En curso",
+    "status_completed": "Completadas",
+    "status_planned": "Planificadas",
+    "sort_launch_desc": "Fecha: Más reciente",
+    "sort_launch_asc": "Fecha: Más antigua",
+    "sort_name_asc": "Nombre: A-Z",
+    "sort_name_desc": "Nombre: Z-A",
+    "view_roadmap": "Línea de tiempo",
+    "view_grid": "Vista cuadrícula"
   },
   "mission_detail": {
     "back": "Todas las misiones",
@@ -165,5 +178,93 @@
     "input_hint": "Escribe al menos 2 caracteres para buscar en la base de datos desclasificada",
     "results_count_one": "Se encontró 1 resultado",
     "results_count_other": "Se encontraron {count} resultados"
+  },
+  "analytics": {
+    "show_dashboard": "Ver Estadísticas y Gráficos",
+    "hide_dashboard": "Ocultar panel",
+    "dashboard_title": "Panel de Análisis de Misiones",
+    "dashboard_subtitle": "Métricas agregadas e historial del programa espacial de la NASA",
+    "stat_total": "Total de misiones",
+    "stat_crewed": "Tripuladas",
+    "stat_robotic": "Robóticas / Sondas",
+    "stat_active": "En curso",
+    "chart_timeline_title": "Actividad de Lanzamiento por Década",
+    "chart_programs_title": "Misiones por Programa (Top 5)",
+    "count_suffix": "misiones"
+  },
+  "roadmap": {
+    "no_missions": "No hay misiones seleccionadas",
+    "view_details": "Ver detalles de misión"
+  },
+  "quiz": {
+    "quiz_title": "Desafío de Trivia de la NASA",
+    "quiz_subtitle": "Demuestra tus conocimientos sobre la exploración espacial",
+    "explanation_title": "Explicación",
+    "submit": "Enviar respuesta",
+    "finish": "Ver resultados",
+    "next": "Siguiente pregunta",
+    "results_title": "¡Cuestionario Completado!",
+    "results_score": "Tu puntuación: {score} de {total}",
+    "badge_unlocked": "Rango espacial desbloqueado",
+    "badge_director": "Director de Vuelo de la NASA",
+    "badge_director_desc": "¡Impresionante! Tienes un conocimiento absoluto de la historia espacial. Las misiones están a salvo en tus manos.",
+    "badge_specialist": "Especialista de Misión",
+    "badge_specialist_desc": "¡Gran trabajo! Tienes bases sólidas sobre la exploración espacial y los hitos aeroespaciales.",
+    "badge_cadet": "Candidato a Astronauta",
+    "badge_cadet_desc": "¡Sigue entrenando! El espacio es inmenso y hay mucho más por aprender.",
+    "retry": "Reintentar",
+    "locale": "es"
+  },
+  "simulator": {
+    "title": "Simulador Orbital: Inserción de la {name}",
+    "subtitle": "Acelera el propulsor para contrarrestar la atracción gravitatoria de la Tierra y establecer una órbita circular estable. ¡Cuidado con no reentrar en la atmósfera o salir volando al espacio profundo!",
+    "telemetry_title": "Telemetría de la nave",
+    "telemetry_alt": "Altitud",
+    "telemetry_speed": "Velocidad orbital",
+    "telemetry_status": "Estado de la órbita",
+    "status_idle": "Listo en rampa",
+    "status_orbit": "Órbita estable",
+    "status_suborbital": "Trayectoria suborbital",
+    "status_escape": "Trayectoria de escape",
+    "status_crashed": "Impacto / Reentrada",
+    "crashed_title": "Misión Fallida: Reentrada Atmosférica",
+    "crashed_desc": "La nave descendió por debajo de la atmósfera o impactó contra la superficie debido a la gravedad de la Tierra.",
+    "escape_title": "Misión Fallida: Deriva en Espacio Profundo",
+    "escape_desc": "La velocidad superó la velocidad de escape terrestre y la nave navega a la deriva en el vacío.",
+    "control_heading": "Dirección de Empuje",
+    "control_thrust": "Potencia del Motor",
+    "launch": "Iniciar simulación de vuelo",
+    "pause": "Pausar",
+    "retry": "Reiniciar simulación"
+  },
+  "audio_player": {
+    "title": "Audio Histórico Remasterizado: Transcripción de la {name}",
+    "subtitle": "Haz clic en cualquier frase del texto de abajo para saltar directamente a ese segundo del archivo de audio original.",
+    "audio_status": "Señal de audio del archivo de la NASA"
+  },
+  "rocket_scale": {
+    "title": "Comparador de Cohete Lanzador a Escala",
+    "subtitle": "Comparativa de tamaño y potencia a escala del cohete {name} al lado de Saturno V y Redstone.",
+    "spec_name": "Nombre",
+    "spec_height": "Altura",
+    "spec_thrust": "Empuje Máximo",
+    "spec_mass": "Masa en Despegue",
+    "spec_payload": "Carga útil (LEO)"
+  },
+  "astronaut": {
+    "profile_title": "Expediente del Astronauta",
+    "born": "Nacimiento / Fallecimiento",
+    "active_years": "Años en activo",
+    "biography": "Biografía desclasificada",
+    "other_missions": "Misiones documentadas en el portal"
+  },
+  "countdown": {
+    "countdown_title": "Cuenta atrás para el lanzamiento de la {name}",
+    "completed_title": "¡Misión {name} Lanzada con Éxito!",
+    "completed_desc": "La nave espacial se encuentra actualmente en curso operando en órbita lunar.",
+    "days": "Días",
+    "hours": "Horas",
+    "minutes": "Minutos",
+    "seconds": "Segundos"
   }
 }

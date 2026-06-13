@@ -25,7 +25,20 @@
     "filter_active": "Active",
     "filter_completed": "Completed",
     "filter_deep_space": "Deep Space",
-    "no_results": "No missions found."
+    "no_results": "No missions found.",
+    "type_all": "All types",
+    "type_crewed": "Crewed",
+    "type_robotic": "Robotic / Scientific",
+    "status_all": "All statuses",
+    "status_active": "Active",
+    "status_completed": "Completed",
+    "status_planned": "Planned",
+    "sort_launch_desc": "Date: Newest",
+    "sort_launch_asc": "Date: Oldest",
+    "sort_name_asc": "Name: A-Z",
+    "sort_name_desc": "Name: Z-A",
+    "view_roadmap": "Roadmap Timeline",
+    "view_grid": "Grid View"
   },
   "mission_detail": {
     "back": "All Missions",
@@ -165,5 +178,93 @@
     "input_hint": "Type at least 2 characters to search the declassified database",
     "results_count_one": "Found 1 result",
     "results_count_other": "Found {count} results"
+  },
+  "analytics": {
+    "show_dashboard": "Show Dashboard & Analytics",
+    "hide_dashboard": "Hide dashboard",
+    "dashboard_title": "Missions Analysis Dashboard",
+    "dashboard_subtitle": "Aggregated metrics and NASA space program history",
+    "stat_total": "Total Missions",
+    "stat_crewed": "Crewed",
+    "stat_robotic": "Robotic / Probes",
+    "stat_active": "Active",
+    "chart_timeline_title": "Launch Activity by Decade",
+    "chart_programs_title": "Missions by Program (Top 5)",
+    "count_suffix": "missions"
+  },
+  "roadmap": {
+    "no_missions": "No missions selected",
+    "view_details": "View mission details"
+  },
+  "quiz": {
+    "quiz_title": "NASA Trivia Challenge",
+    "quiz_subtitle": "Prove your knowledge about space exploration",
+    "explanation_title": "Explanation",
+    "submit": "Submit Answer",
+    "finish": "Finish Quiz",
+    "next": "Next Question",
+    "results_title": "Quiz Completed!",
+    "results_score": "Your score: {score} out of {total}",
+    "badge_unlocked": "Space Rank Unlocked",
+    "badge_director": "NASA Flight Director",
+    "badge_director_desc": "Impressive! You have total knowledge of space history. Missions are safe in your hands.",
+    "badge_specialist": "Mission Specialist",
+    "badge_specialist_desc": "Great job! You have solid foundations about space exploration and aerospace milestones.",
+    "badge_cadet": "Astronaut Candidate",
+    "badge_cadet_desc": "Keep training! Space is vast and there is much more to learn.",
+    "retry": "Retry",
+    "locale": "en"
+  },
+  "simulator": {
+    "title": "Orbital Simulator: {name} Insertion",
+    "subtitle": "Boost the thruster to counteract Earth's gravitational pull and set a stable circular orbit. Watch out for atmospheric re-entry or escaping into deep space!",
+    "telemetry_title": "Spacecraft Telemetry",
+    "telemetry_alt": "Altitude",
+    "telemetry_speed": "Orbital Speed",
+    "telemetry_status": "Orbital State",
+    "status_idle": "Ready on Pad",
+    "status_orbit": "Stable Orbit",
+    "status_suborbital": "Suborbital Trajectory",
+    "status_escape": "Escape Trajectory",
+    "status_crashed": "Impact / Re-entry",
+    "crashed_title": "Mission Failed: Atmospheric Re-entry",
+    "crashed_desc": "The spacecraft dropped below the atmosphere or impacted the surface due to Earth's gravity.",
+    "escape_title": "Mission Failed: Deep Space Drift",
+    "escape_desc": "The speed exceeded Earth's escape velocity and the spacecraft is drifting in the void.",
+    "control_heading": "Thrust Heading",
+    "control_thrust": "Engine Thrust",
+    "launch": "Launch Flight Simulation",
+    "pause": "Pause",
+    "retry": "Restart Simulation"
+  },
+  "audio_player": {
+    "title": "Remastered Historical Audio: {name} Transcript",
+    "subtitle": "Click on any phrase in the text below to jump directly to that second of the original audio file.",
+    "audio_status": "Audio signal from NASA archives"
+  },
+  "rocket_scale": {
+    "title": "Rocket Launch Vehicle Scale Comparison",
+    "subtitle": "Scaled size and power comparison of the {name} rocket next to Saturn V and Redstone.",
+    "spec_name": "Name",
+    "spec_height": "Height",
+    "spec_thrust": "Maximum Thrust",
+    "spec_mass": "Liftoff Mass",
+    "spec_payload": "Payload Capacity (LEO)"
+  },
+  "astronaut": {
+    "profile_title": "Astronaut Profile File",
+    "born": "Born / Died",
+    "active_years": "Active Years",
+    "biography": "Declassified Biography",
+    "other_missions": "Missions documented in portal"
+  },
+  "countdown": {
+    "countdown_title": "Countdown to the launch of {name}",
+    "completed_title": "Mission {name} Successfully Launched!",
+    "completed_desc": "The spacecraft is currently on course operating in lunar orbit.",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds"
   }
 }

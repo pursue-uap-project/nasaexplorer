@@ -3,6 +3,11 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { getMissions, getMissionById, getMissionImages, PROGRAM_COLORS } from "@/lib/nasa";
 import MissionDetailGallery from "@/components/MissionDetailGallery";
+import MissionStats from "@/components/MissionStats";
+import HistoricalAudio from "@/components/HistoricalAudio";
+import OrbitalSimulator from "@/components/OrbitalSimulator";
+import RocketScale from "@/components/RocketScale";
+import MissionCountdown from "@/components/MissionCountdown";
 
 type Props = { params: Promise<{ locale: string; id: string }> };
 
@@ -25,6 +30,8 @@ export default async function MissionDetailPage({ params }: Props) {
 
   const mission = getMissionById(id);
   if (!mission) notFound();
+
+  const allMissions = await getMissions();
 
   const t = await getTranslations("mission_detail");
   const tMission = await getTranslations("mission");
@@ -127,32 +134,41 @@ export default async function MissionDetailPage({ params }: Props) {
             </div>
           </div>
 
-          {/* Stats */}
+          {/* Clickable Crew Stats */}
           {mission.stats && mission.stats.length > 0 && (
-            <div className="lg:col-span-2 px-6 sm:px-8 py-8 bg-white/40">
-              <h2 className="text-foreground/35 text-xs font-mono uppercase tracking-widest mb-5">
-                {t("stats_title")}
-              </h2>
-              <dl className="space-y-0">
-                {mission.stats.map(({ label, value }) => (
-                  <div
-                    key={label}
-                    className="flex items-start justify-between gap-4 py-2.5 border-b border-white/50 last:border-0"
-                  >
-                    <dt className="text-foreground/45 text-xs uppercase tracking-wide shrink-0">
-                      {label}
-                    </dt>
-                    <dd
-                      className="font-semibold text-sm text-right leading-tight"
-                      style={{ color }}
-                    >
-                      {value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
+            <MissionStats
+              stats={mission.stats}
+              color={color}
+              allMissions={allMissions}
+              statsTitle={t("stats_title")}
+            />
           )}
+        </div>
+
+        {/* Additional Interactive Section Containers */}
+        <div className="px-6 sm:px-8 pb-8 space-y-6">
+          {/* Mission Countdown */}
+          {mission.countdownTarget && (
+            <MissionCountdown targetDate={mission.countdownTarget} missionName={mission.name} />
+          )}
+
+          {/* Historical Audio transcript */}
+          {mission.audioClip && (
+            <HistoricalAudio
+              audioUrl={mission.audioClip.url}
+              transcripts={mission.audioClip.transcripts}
+              missionName={mission.name}
+              color={color}
+            />
+          )}
+
+          {/* Rocket Scale silhouette */}
+          {mission.rocketId && (
+            <RocketScale rocketId={mission.rocketId} />
+          )}
+
+          {/* Orbital Insertion Simulator */}
+          <OrbitalSimulator missionName={mission.name} color={color} />
         </div>
 
         {/* Gallery */}

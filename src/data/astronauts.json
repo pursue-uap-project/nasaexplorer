@@ -1,0 +1,122 @@
+{
+  "armstrong": {
+    "name": "Neil Armstrong",
+    "agency": "NASA",
+    "born": "1930",
+    "died": "2012",
+    "active": "1962–1971",
+    "bio_en": "First human to walk on the Moon during Apollo 11. He was a research test pilot, astronaut, and university professor.",
+    "bio_es": "Primer ser humano en pisar la Luna durante la misión Apolo 11. Fue piloto de pruebas, astronauta y profesor universitario.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/neil_armstrong.jpg"
+  },
+  "aldrin": {
+    "name": "Buzz Aldrin",
+    "agency": "NASA",
+    "born": "1930",
+    "died": null,
+    "active": "1963–1971",
+    "bio_en": "Lunar Module Pilot on Apollo 11 and the second person to walk on the Moon. He also served on Gemini XII.",
+    "bio_es": "Piloto del Módulo Lunar en Apolo 11 y segunda persona en pisar la Luna. También participó en Gemini XII.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/buzz_aldrin.jpg"
+  },
+  "collins": {
+    "name": "Michael Collins",
+    "agency": "NASA",
+    "born": "1930",
+    "died": "2021",
+    "active": "1963–1970",
+    "bio_en": "Command Module Pilot on Apollo 11. He remained in lunar orbit while Armstrong and Aldrin landed on the surface.",
+    "bio_es": "Piloto del Módulo de Mando en Apolo 11. Permaneció en órbita lunar mientras Armstrong y Aldrin descendían a la superficie.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/michael_collins.jpg"
+  },
+  "lovell": {
+    "name": "Jim Lovell",
+    "agency": "NASA",
+    "born": "1928",
+    "died": null,
+    "active": "1962–1973",
+    "bio_en": "Commander of Apollo 13, famous for bringing his crew back safely after an explosion. He also flew on Gemini VII, Gemini XII, and Apollo 8.",
+    "bio_es": "Comandante de la misión Apolo 13, famoso por traer a su tripulación a salvo tras una explosión. Voló en Gemini VII, XII y Apolo 8.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/jim_lovell.jpg"
+  },
+  "shepard": {
+    "name": "Alan Shepard",
+    "agency": "NASA",
+    "born": "1923",
+    "died": "1998",
+    "active": "1959–1974",
+    "bio_en": "First American in space during Freedom 7 (1961) and fifth human on the Moon as Commander of Apollo 14 (1971).",
+    "bio_es": "Primer estadounidense en el espacio en Freedom 7 (1961) y quinta persona en pisar la Luna como comandante del Apolo 14 (1971).",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/alan_shepard.jpg"
+  },
+  "glenn": {
+    "name": "John Glenn",
+    "agency": "NASA",
+    "born": "1921",
+    "died": "2016",
+    "active": "1959–1964, 1998",
+    "bio_en": "First American to orbit Earth during Friendship 7 in 1962. In 1998, he became the oldest person to fly in space at age 77.",
+    "bio_es": "Primer estadounidense en orbitar la Tierra en Friendship 7 en 1962. En 1998, se convirtió en la persona de más edad en volar al espacio con 77 años.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/john_glenn.jpg"
+  },
+  "cernan": {
+    "name": "Gene Cernan",
+    "agency": "NASA",
+    "born": "1934",
+    "died": "2017",
+    "active": "1963–1976",
+    "bio_en": "Commander of Apollo 17 and the last person to walk on the Moon's surface. He also flew on Gemini IX-A and Apollo 10.",
+    "bio_es": "Comandante de Apolo 17 y la última persona en caminar sobre la superficie de la Luna. También voló en Gemini IX-A y Apolo 10.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/gene_cernan.jpg"
+  },
+  "schmitt": {
+    "name": "Harrison Schmitt",
+    "agency": "NASA",
+    "born": "1935",
+    "died": null,
+    "active": "1965–1975",
+    "bio_en": "Lunar Module Pilot on Apollo 17 and the only professional scientist (geologist) to walk on the Moon.",
+    "bio_es": "Piloto del Módulo Lunar en Apolo 17 y el único científico profesional (geólogo) en caminar sobre la Luna.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/harrison_schmitt.jpg"
+  },
+  "wiseman": {
+    "name": "Reid Wiseman",
+    "agency": "NASA",
+    "born": "1975",
+    "died": null,
+    "active": "2009–present",
+    "bio_en": "Selected as Commander of the Artemis II mission. He previously served as Flight Engineer on Expedition 41 to the ISS.",
+    "bio_es": "Seleccionado como comandante de la misión Artemis II. Anteriormente sirvió como ingeniero de vuelo en la Expedición 41 a la ISS.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/reid_wiseman.jpg"
+  },
+  "glover": {
+    "name": "Victor Glover",
+    "agency": "NASA",
+    "born": "1976",
+    "died": null,
+    "active": "2013–present",
+    "bio_en": "Pilot for the Artemis II mission. He previously piloted SpaceX Crew-1 and served as Flight Engineer on ISS Expedition 64.",
+    "bio_es": "Piloto designado para la misión Artemis II. Anteriormente pilotó la misión SpaceX Crew-1 y sirvió en la Expedición 64 a la ISS.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/victor_glover.jpg"
+  },
+  "koch": {
+    "name": "Christina Koch",
+    "agency": "NASA",
+    "born": "1979",
+    "died": null,
+    "active": "2013–present",
+    "bio_en": "Mission Specialist for Artemis II. She holds the record for the longest single spaceflight by a woman (328 days on the ISS).",
+    "bio_es": "Especialista de misión para Artemis II. Posee el récord del vuelo espacial individual más largo realizado por una mujer (328 días en la ISS).",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/christina_koch.jpg"
+  },
+  "hansen": {
+    "name": "Jeremy Hansen",
+    "agency": "CSA / ASC",
+    "born": "1976",
+    "died": null,
+    "active": "2009–present",
+    "bio_en": "Mission Specialist for Artemis II, representing the Canadian Space Agency. He is a colonel in the Royal Canadian Air Force.",
+    "bio_es": "Especialista de misión para Artemis II, en representación de la Agencia Espacial Canadiense. Es coronel de las Fuerzas Aéreas Canadienses.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/jeremy_hansen.jpg"
+  }
+}

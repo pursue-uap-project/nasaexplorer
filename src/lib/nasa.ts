@@ -10,6 +10,13 @@ export type Mission = {
   stats?: { label: string; value: string }[];
   youtubeId?: string;
   imageQuery?: string;
+  crewed?: boolean;
+  rocketId?: string;
+  audioClip?: {
+    url: string;
+    transcripts: { time: number; es: string; en: string }[];
+  };
+  countdownTarget?: string;
 };
 
 export type ActiveMission = {
@@ -59,6 +66,16 @@ const MISSIONS: Mission[] = [
       { label: "Altitude",   value: "187 km" },
       { label: "Vehicle",    value: "Mercury-Redstone 3" },
     ],
+    crewed: true,
+    rocketId: "redstone",
+    audioClip: {
+      url: "https://www.nasa.gov/wp-content/uploads/2015/01/590327main_ringtone_shepard_candle.mp3",
+      transcripts: [
+        { time: 0, es: "Alan Shepard: Entendido, recibido.", en: "Alan Shepard: Roger, liftoff." },
+        { time: 2, es: "El temporizador ha comenzado.", en: "The spacecraft timer is started." },
+        { time: 4, es: "¡De acuerdo, encended esta vela!", en: "All right, light this candle!" }
+      ]
+    }
   },
   {
     id: "friendship-7",
@@ -76,6 +93,8 @@ const MISSIONS: Mission[] = [
       { label: "Duration",   value: "4h 55m" },
       { label: "Vehicle",    value: "Mercury-Atlas 6" },
     ],
+    crewed: true,
+    rocketId: "atlas"
   },
   // ── Gemini ──────────────────────────────────────────────────────────────
   {
@@ -94,6 +113,8 @@ const MISSIONS: Mission[] = [
       { label: "EVA time",   value: "5h 30m" },
       { label: "Orbits",     value: "59" },
     ],
+    crewed: true,
+    rocketId: "titan"
   },
   // ── Apollo ──────────────────────────────────────────────────────────────
   {
@@ -113,6 +134,19 @@ const MISSIONS: Mission[] = [
       { label: "Moonwalk",   value: "2h 31m" },
       { label: "Samples",    value: "21.5 kg" },
     ],
+    crewed: true,
+    rocketId: "saturn-v",
+    audioClip: {
+      url: "https://www.nasa.gov/wp-content/uploads/2015/01/590331main_ringtone_smallStep.mp3",
+      transcripts: [
+        { time: 0, es: "[Estática de radio y pitido Quindar]", en: "[Radio static and Quindar beep]" },
+        { time: 2, es: "Neil Armstrong: Estoy al pie de la escalera.", en: "Neil Armstrong: I'm at the foot of the ladder." },
+        { time: 5, es: "Los soportes del módulo lunar se hunden en la superficie unas 1 o 2 pulgadas...", en: "The LM footpads are only depressed in the surface about 1 or 2 inches..." },
+        { time: 10, es: "Voy a descender de la plataforma del módulo ahora.", en: "I'm going to step off the LM now." },
+        { time: 13, es: "Este es un pequeño paso para el hombre...", en: "That's one small step for man..." },
+        { time: 18, es: "...un gran salto para la humanidad.", en: "...one giant leap for mankind." }
+      ]
+    }
   },
   {
     id: "apollo-13",
@@ -130,6 +164,17 @@ const MISSIONS: Mission[] = [
       { label: "Duration",   value: "5d 22h 54m" },
       { label: "Result",     value: "Crew returned safely" },
     ],
+    crewed: true,
+    rocketId: "saturn-v",
+    audioClip: {
+      url: "https://www.nasa.gov/wp-content/uploads/2015/01/617935main_apollo13_problem.mp3",
+      transcripts: [
+        { time: 0, es: "Jack Swigert: Bien, Houston, hemos tenido un problema aquí.", en: "Jack Swigert: Okay, Houston, we've had a problem here." },
+        { time: 3, es: "CAPCOM (Jack Lousma): Aquí Houston. Repita, por favor.", en: "CAPCOM (Jack Lousma): This is Houston. Say again, please." },
+        { time: 6, es: "Jim Lovell: Houston, hemos tenido un problema.", en: "Jim Lovell: Houston, we've had a problem." },
+        { time: 9, es: "Hemos tenido una bajada de tensión en el Bus Principal B.", en: "We've had a Main B Bus undervolt." }
+      ]
+    }
   },
   {
     id: "apollo-17",
@@ -147,6 +192,8 @@ const MISSIONS: Mission[] = [
       { label: "Surface time", value: "74h 59m" },
       { label: "Samples",      value: "110.5 kg" },
     ],
+    crewed: true,
+    rocketId: "saturn-v"
   },
   // ── Skylab ───────────────────────────────────────────────────────────────
   {
@@ -165,6 +212,8 @@ const MISSIONS: Mission[] = [
       { label: "Altitude",     value: "~435 km" },
       { label: "Re-entry",     value: "Jul 11, 1979" },
     ],
+    crewed: true,
+    rocketId: "saturn-v"
   },
   // ── Space Shuttle ────────────────────────────────────────────────────────
   {
@@ -183,6 +232,8 @@ const MISSIONS: Mission[] = [
       { label: "Orbits",     value: "36" },
       { label: "Vehicle",    value: "OV-102 Columbia" },
     ],
+    crewed: true,
+    rocketId: "shuttle"
   },
   // ── Hubble ───────────────────────────────────────────────────────────────
   {
@@ -201,6 +252,8 @@ const MISSIONS: Mission[] = [
       { label: "Observations",   value: "1.5M+" },
       { label: "Science papers", value: "21,000+" },
     ],
+    crewed: false,
+    rocketId: "shuttle"
   },
   // ── ISS ──────────────────────────────────────────────────────────────────
   {
@@ -220,6 +273,8 @@ const MISSIONS: Mission[] = [
       { label: "Crew",          value: "7 members" },
       { label: "Inhabited since", value: "Nov 2, 2000" },
     ],
+    crewed: true,
+    rocketId: "proton"
   },
   // ── Deep Space ───────────────────────────────────────────────────────────
   {
@@ -238,6 +293,8 @@ const MISSIONS: Mission[] = [
       { label: "Signal delay",       value: "~23 hours" },
       { label: "Crossed heliosphere", value: "Aug 2012" },
     ],
+    crewed: false,
+    rocketId: "titan-iii"
   },
   {
     id: "voyager-2",
@@ -255,6 +312,8 @@ const MISSIONS: Mission[] = [
       { label: "Signal delay",       value: "~19 hours" },
       { label: "Crossed heliosphere", value: "Nov 2018" },
     ],
+    crewed: false,
+    rocketId: "titan-iii"
   },
   {
     id: "new-horizons",
@@ -272,6 +331,8 @@ const MISSIONS: Mission[] = [
       { label: "Speed",       value: "14.5 km/s" },
       { label: "Current zone", value: "Kuiper Belt" },
     ],
+    crewed: false,
+    rocketId: "atlas-v"
   },
   {
     id: "juno",
@@ -289,6 +350,8 @@ const MISSIONS: Mission[] = [
       { label: "Jupiter arrival", value: "Jul 4, 2016" },
       { label: "Mission end",     value: "Sep 2025 (est.)" },
     ],
+    crewed: false,
+    rocketId: "atlas-v"
   },
   // ── Mars ─────────────────────────────────────────────────────────────────
   {
@@ -307,6 +370,8 @@ const MISSIONS: Mission[] = [
       { label: "Distance",    value: "32+ km driven" },
       { label: "Key find",    value: "Ancient habitable env." },
     ],
+    crewed: false,
+    rocketId: "atlas-v"
   },
   {
     id: "perseverance",
@@ -325,6 +390,8 @@ const MISSIONS: Mission[] = [
       { label: "Samples",     value: "23+ collected" },
       { label: "Ingenuity flights", value: "72+" },
     ],
+    crewed: false,
+    rocketId: "atlas-v"
   },
   // ── JWST ─────────────────────────────────────────────────────────────────
   {
@@ -344,6 +411,8 @@ const MISSIONS: Mission[] = [
       { label: "Launched",      value: "Dec 25, 2021" },
       { label: "First images",  value: "Jul 12, 2022" },
     ],
+    crewed: false,
+    rocketId: "ariane-5"
   },
   // ── Artemis ──────────────────────────────────────────────────────────────
   {
@@ -363,12 +432,14 @@ const MISSIONS: Mission[] = [
       { label: "Max distance",  value: "432,210 km from Earth" },
       { label: "Splashdown",    value: "Dec 11, 2022" },
     ],
+    crewed: false,
+    rocketId: "sls"
   },
   {
     id: "artemis-ii",
     name: "Artemis II",
     program: "Artemis",
-    launch_details: { date: "2026-04-01", status: "planned" },
+    launch_details: { date: "2026-09-30", status: "planned" }, // Updated to September 2026 for a long countdown
     description: {
       en: "The first crewed Artemis mission will carry Reid Wiseman, Victor Glover, Christina Hammock Koch, and Canadian Jeremy Hansen on a 10-day free-return trajectory around the Moon — the first humans to reach lunar distance since Apollo 17 in 1972.",
       es: "La primera misión Artemis tripulada llevará a Reid Wiseman, Victor Glover, Christina Koch y el canadiense Jeremy Hansen en una trayectoria libre de 10 días alrededor de la Luna, los primeros humanos en alcanzar distancia lunar desde el Apolo 17.",
@@ -380,6 +451,9 @@ const MISSIONS: Mission[] = [
       { label: "Target",   value: "Lunar free-return" },
       { label: "Status",   value: "Planned 2026" },
     ],
+    crewed: true,
+    rocketId: "sls",
+    countdownTarget: "2026-09-30T12:00:00Z"
   },
 ];
 
