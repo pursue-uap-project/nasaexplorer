@@ -12,7 +12,6 @@ export default function Navbar() {
   const links = [
     { href: "/missions", label: t("missions") },
     { href: "/active",   label: t("active") },
-    { href: "/timeline", label: t("timeline") },
     { href: "/solar",    label: t("solar") },
     { href: "/iss",      label: t("iss") },
     { href: "/live",     label: t("live") },

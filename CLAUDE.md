@@ -2,7 +2,7 @@
 
 ## Project: nasaexplorer
 Educational, bilingual (ES/EN) interactive explorer of all NASA missions history.
-Interactive dashboard with timeline, 3D models, live hub and multimedia archive.
+Interactive dashboard with 3D models, live hub and multimedia archive.
 
 ## Stack
 - **Frontend**: Next.js 14 (App Router) + TypeScript + Tailwind CSS
@@ -22,7 +22,7 @@ Interactive dashboard with timeline, 3D models, live hub and multimedia archive.
 
 ## Architecture
 src/app/         → Next.js App Router pages
-src/components/  → UI components (MissionCard, Timeline, Viewer3D, LiveHub)
+src/components/  → UI components (MissionCard, Viewer3D, LiveHub)
 src/lib/         → API clients (nasa.ts, youtube.ts, cloudinary.ts)
 src/i18n/        → Translation files (en.json, es.json)
 src/store/       → Zustand stores

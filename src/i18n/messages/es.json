@@ -2,7 +2,6 @@
   "nav": {
     "missions": "Misiones",
     "active": "En curso",
-    "timeline": "Línea de tiempo",
     "solar": "Sistema Solar",
     "iss": "ISS en Vivo",
     "live": "En vivo",
@@ -51,10 +50,6 @@
     "stats_title": "Datos clave",
     "prev": "Anterior",
     "next": "Siguiente"
-  },
-  "timeline": {
-    "title": "Línea de tiempo",
-    "subtitle": "Desde los primeros lanzamientos hasta las últimas fronteras de la exploración"
   },
   "solar": {
     "title": "Sistema Solar",

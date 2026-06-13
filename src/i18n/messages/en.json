@@ -2,7 +2,6 @@
   "nav": {
     "missions": "Missions",
     "active": "Active",
-    "timeline": "Timeline",
     "solar": "Solar System",
     "iss": "ISS Tracker",
     "live": "Live",
@@ -51,10 +50,6 @@
     "stats_title": "Key Facts",
     "prev": "Previous",
     "next": "Next"
-  },
-  "timeline": {
-    "title": "Mission Timeline",
-    "subtitle": "From the first launches to the latest frontiers of exploration"
   },
   "solar": {
     "title": "Solar System",
