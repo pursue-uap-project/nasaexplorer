@@ -6,7 +6,8 @@
     "solar": "Sistema Solar",
     "iss": "ISS en Vivo",
     "live": "En vivo",
-    "apod": "Imagen del Día"
+    "apod": "Imagen del Día",
+    "uap": "Archivo UAP"
   },
   "home": {
     "title": "Explorador de Misiones NASA",
@@ -100,5 +101,62 @@
     "view_hd": "HD",
     "cached": "En caché",
     "official_archive": "Archivo oficial"
+  },
+  "uap": {
+    "title": "Archivo UAP Desclasificado",
+    "subtitle": "Registros Oficiales de Fenómenos Anómalos No Identificados",
+    "subtitle2": "Análisis Histórico y Operativo",
+    "search_placeholder": "Buscar documentos, agencias, regiones...",
+    "results_count_one": "{count} archivo encontrado",
+    "results_count_other": "{count} archivos encontrados",
+    "no_results": "No se encontraron archivos en esta categoría.",
+    "access_file": "ACCEDER AL ARCHIVO",
+    "view_details": "VER DETALLES",
+    "source_label": "Fuente oficial",
+    "stat_docs": "DOCUMENTOS",
+    "stat_years": "AÑOS DE HISTORIA",
+    "stat_agencies": "AGENCIAS",
+    "stat_countries": "PAÍSES",
+    "map_label": "— Filtrar por región",
+    "timeline_label": "— Navegar por años",
+    "filter_label": "— Filtrar por agencia / época",
+    "close": "CERRAR",
+    "all_regions": "Todas las regiones",
+    "uap_portal": "Portal UAP",
+    "nasa_portal": "Portal NASA",
+    "back_to_archive": "Volver al Archivo",
+    "regions": {
+      "all": "Todas las regiones",
+      "usa": "Estados Unidos",
+      "space": "Espacio exterior",
+      "middle-east": "Oriente Medio",
+      "iraq": "Irak",
+      "syria": "Siria",
+      "europe": "Europa",
+      "pacific": "Pacífico",
+      "japan": "Japón",
+      "germany": "Alemania",
+      "africa": "África",
+      "central-asia": "Asia Central",
+      "classified": "Clasificado"
+    },
+    "filters": {
+      "all": "TODOS",
+      "1940s": "AÑOS 40",
+      "1950s": "AÑOS 50",
+      "1960s": "AÑOS 60",
+      "1970s": "AÑOS 70",
+      "2020s": "AÑOS 2020+",
+      "fbi": "ARCHIVOS FBI",
+      "nasa": "NASA",
+      "dow": "MISIONES DOW",
+      "aaro": "AARO",
+      "dos": "ESTADO",
+      "classified": "CLASIFICADO",
+      "cia": "CIA",
+      "doe": "DOE",
+      "odni": "ODNI",
+      "release-2": "RELEASE 2"
+    }
   }
 }

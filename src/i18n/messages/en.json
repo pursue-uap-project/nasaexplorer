@@ -6,7 +6,8 @@
     "solar": "Solar System",
     "iss": "ISS Tracker",
     "live": "Live",
-    "apod": "Photo of the Day"
+    "apod": "Photo of the Day",
+    "uap": "UAP Archive"
   },
   "home": {
     "title": "NASA Mission Explorer",
@@ -100,5 +101,62 @@
     "view_hd": "HD",
     "cached": "Cached",
     "official_archive": "Official Archive"
+  },
+  "uap": {
+    "title": "Declassified UAP Archive",
+    "subtitle": "Official Records of Unidentified Anomalous Phenomena",
+    "subtitle2": "Historical and Operational Analysis",
+    "search_placeholder": "Search documents, agencies, regions...",
+    "results_count_one": "{count} file found",
+    "results_count_other": "{count} files found",
+    "no_results": "No files found in this category.",
+    "access_file": "ACCESS FILE",
+    "view_details": "VIEW DETAILS",
+    "source_label": "Official source",
+    "stat_docs": "DOCUMENTS",
+    "stat_years": "YEARS OF HISTORY",
+    "stat_agencies": "AGENCIES",
+    "stat_countries": "COUNTRIES",
+    "map_label": "— Filter by region",
+    "timeline_label": "— Navigate by year",
+    "filter_label": "— Filter by agency / era",
+    "close": "CLOSE",
+    "all_regions": "All regions",
+    "uap_portal": "UAP Portal",
+    "nasa_portal": "NASA Portal",
+    "back_to_archive": "Back to Archive",
+    "regions": {
+      "all": "All regions",
+      "usa": "United States",
+      "space": "Outer Space",
+      "middle-east": "Middle East",
+      "iraq": "Iraq",
+      "syria": "Syria",
+      "europe": "Europe",
+      "pacific": "Pacific",
+      "japan": "Japan",
+      "germany": "Germany",
+      "africa": "Africa",
+      "central-asia": "Central Asia",
+      "classified": "Classified"
+    },
+    "filters": {
+      "all": "ALL",
+      "1940s": "1940s",
+      "1950s": "1950s",
+      "1960s": "1960s",
+      "1970s": "1970s",
+      "2020s": "2020s+",
+      "fbi": "FBI FILES",
+      "nasa": "NASA",
+      "dow": "DOW MISSIONS",
+      "aaro": "AARO",
+      "dos": "STATE DEPT",
+      "classified": "CLASSIFIED",
+      "cia": "CIA",
+      "doe": "DOE",
+      "odni": "ODNI",
+      "release-2": "RELEASE 2"
+    }
   }
 }
