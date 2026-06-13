@@ -111,14 +111,12 @@ export default function MissionMediaAndCrew({
               </p>
             </div>
             
-            <div className="relative rounded-2xl overflow-hidden aspect-video bg-[#040D21]/40 border border-white/50 shadow-md group">
-              <Image
+            <div className="relative rounded-2xl overflow-hidden bg-[#040D21]/40 border border-white/50 shadow-md group flex items-center justify-center p-2 max-h-[450px]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={`${BASE}/${missionImage}`}
                 alt={missionName}
-                fill
-                unoptimized
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 1024px) 100vw, 60vw"
+                className="w-full h-auto max-h-[430px] object-contain transition-transform duration-700 group-hover:scale-[1.01] rounded-xl"
               />
               <div 
                 className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"
@@ -166,7 +164,13 @@ export default function MissionMediaAndCrew({
                     <div className="w-12 h-12 rounded-full overflow-hidden border border-white/80 bg-white/20 shrink-0 shadow-inner">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={member.details?.image || `${BASE}/assets/astronaut-placeholder.png`}
+                        src={
+                          member.details?.image
+                            ? (member.details.image.startsWith("http")
+                                ? member.details.image
+                                : `${BASE}/${member.details.image}`)
+                            : "https://www.nasa.gov/wp-content/uploads/2015/01/nasa-logo.png"
+                        }
                         alt={member.displayName}
                         className="w-full h-full object-cover"
                         onError={(e) => {

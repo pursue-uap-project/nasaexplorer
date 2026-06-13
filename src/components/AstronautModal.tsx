@@ -79,7 +79,7 @@ export default function AstronautModal({ astronautId, isOpen, onClose, allMissio
               <div className="w-16 h-16 rounded-full overflow-hidden border border-white/20 bg-white/5 shrink-0">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={astronaut.image}
+                  src={astronaut.image.startsWith("http") ? astronaut.image : `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/${astronaut.image}`}
                   alt={astronaut.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {
