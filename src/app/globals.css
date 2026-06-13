@@ -51,3 +51,11 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .live-starfield::before, .live-starfield::after, .onair-dot { animation: none; }
 }
+
+/* ── Active Missions: Ken Burns hero ── */
+@keyframes kenburns {
+  0%   { transform: scale(1.08) translate(0, 0); }
+  100% { transform: scale(1.18) translate(-1.5%, -1.5%); }
+}
+.kenburns { animation: kenburns 24s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .kenburns { animation: none; } }
