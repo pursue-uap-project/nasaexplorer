@@ -18,6 +18,59 @@ type LoadState = "idle" | "loading" | "ok" | "error";
 const MIN_DATE = "1995-06-16";
 const CACHE_KEY = "nasaexplorer_apod_today";
 
+const FALLBACK_APODS = [
+  {
+    title: "Pillars of Creation (Hubble Space Telescope)",
+    title_es: "Pilares de la Creación (Telescopio Espacial Hubble)",
+    url: "https://images-assets.nasa.gov/image/PIA14421/PIA14421~medium.jpg",
+    media_type: "image",
+    explanation: "This Hubble Space Telescope image reveals the Pillars of Creation, three giant columns of cold gas bathed in the scorching ultraviolet light of a cluster of young stars. They represent a stellar nursery where new stars are forming inside dense pockets of dust.",
+    explanation_es: "Esta imagen del telescopio espacial Hubble revela los Pilares de la Creación, tres columnas gigantes de gas frío bañadas en la abrasadora luz ultravioleta de un cúmulo de estrellas jóvenes. Representan una guardería estelar donde se forman nuevas estrellas.",
+    date: "1995-11-02",
+    copyright: "NASA, ESA, STScI"
+  },
+  {
+    title: "The Blue Marble (Apollo 17)",
+    title_es: "La Canica Azul (Apolo 17)",
+    url: "https://images-assets.nasa.gov/image/as17-148-22727/as17-148-22727~medium.jpg",
+    media_type: "image",
+    explanation: "The famous 'Blue Marble' photograph of Earth was taken on December 7, 1972, by the crew of the Apollo 17 spacecraft at a distance of about 29,000 kilometers from the surface. It shows the Mediterranean Sea area to the Antarctica, highlighting the atmospheric cycles.",
+    explanation_es: "La famosa fotografía de la Tierra 'Canica Azul' fue tomada el 7 de diciembre de 1972 por la tripulación del Apolo 17 a una distancia de unos 29.000 kilómetros. Muestra desde el Mar Mediterráneo hasta la Antártida, destacando los ciclos atmosféricos.",
+    date: "1972-12-07",
+    copyright: "NASA"
+  },
+  {
+    title: "Hubble Extreme Deep Field (XDF)",
+    title_es: "Campo Ultra Profundo del Hubble (XDF)",
+    url: "https://images-assets.nasa.gov/image/hubble-extreme-deep-field-xdf-full-resolution/hubble-extreme-deep-field-xdf-full-resolution~medium.jpg",
+    media_type: "image",
+    explanation: "The Hubble Extreme Deep Field (XDF) is an image of a small part of space in the constellation Fornax. It combines 10 years of Hubble photographs, revealing thousands of extremely distant galaxies dating back 13.2 billion years, shortly after the Big Bang.",
+    explanation_es: "El Campo Ultra Profundo del Hubble (XDF) es una imagen de una pequeña parte del espacio en la constelación de Fornax. Combina 10 años de fotografías del Hubble, revelando miles de galaxias distantes que se remontan a hace 13.200 millones de años.",
+    date: "2012-09-25",
+    copyright: "NASA, ESA, GDST"
+  },
+  {
+    title: "Perseverance Selfie with Ingenuity on Mars",
+    title_es: "Selfie de Perseverance con Ingenuity en Marte",
+    url: "https://images-assets.nasa.gov/image/PIA24542/PIA PIA24542~medium.jpg",
+    media_type: "image",
+    explanation: "NASA's Perseverance Mars rover took a selfie with the Ingenuity helicopter on April 6, 2021. The rover's robotic arm holds the WATSON camera to capture this historic shot in the Jezero Crater, highlighting humanity's first powered flight on another planet.",
+    explanation_es: "El rover Perseverance de la NASA se tomó un selfie con el helicóptero Ingenuity el 6 de abril de 2021. El brazo robótico del rover sostiene la cámara WATSON para capturar esta foto histórica en el Cráter Jezero, marcando el primer vuelo motorizado en otro planeta.",
+    date: "2021-04-06",
+    copyright: "NASA/JPL-Caltech"
+  },
+  {
+    title: "James Webb Space Telescope First Deep Field",
+    title_es: "Primer Campo Profundo del Telescopio James Webb",
+    url: "https://images-assets.nasa.gov/image/NASA%20Webb%20First%20Deep%20Field/NASA%20Webb%20First%20Deep%20Field~medium.jpg",
+    media_type: "image",
+    explanation: "James Webb Space Telescope's first deep field image, SMACS 0723, is the deepest and sharpest infrared image of the distant universe to date. It shows a cluster of galaxies acting as a gravitational lens, magnifying the light of extremely distant background galaxies.",
+    explanation_es: "La primera imagen de campo profundo del Telescopio James Webb, SMACS 0723, es la imagen infrarroja más profunda y nítida del universo distante hasta la fecha. Muestra un cúmulo de galaxias actuando como lente gravitacional magnificando galaxias lejanas.",
+    date: "2022-07-12",
+    copyright: "NASA, ESA, CSA, STScI"
+  }
+];
+
 function todayStr(): string {
   const d = new Date();
   return [
@@ -76,6 +129,7 @@ export default function ApodView() {
   const [apod, setApod] = useState<ApodData | null>(null);
   const [loadState, setLoadState] = useState<LoadState>("loading");
   const [expanded, setExpanded] = useState(false);
+  const [isFallback, setIsFallback] = useState(false);
 
   const today = todayStr();
   const isPrevDisabled = selectedDate <= MIN_DATE;
@@ -86,6 +140,7 @@ export default function ApodView() {
     setLoadState("loading");
     setApod(null);
     setExpanded(false);
+    setIsFallback(false);
 
     // For today: try localStorage first to save API quota
     if (isToday) {
@@ -106,7 +161,24 @@ export default function ApodView() {
         setApod(data);
         setLoadState("ok");
       })
-      .catch(() => setLoadState("error"));
+      .catch(() => {
+        // Find if we have a static fallback for the selected date, or select a random one from our list!
+        const matchingFallback = FALLBACK_APODS.find(f => f.date === selectedDate);
+        const fallback = matchingFallback || FALLBACK_APODS[Math.abs(selectedDate.split("-").map(Number).reduce((a,b)=>a+b, 0)) % FALLBACK_APODS.length];
+        
+        const localizedFallback: ApodData = {
+          title: locale === "es" ? fallback.title_es : fallback.title,
+          url: fallback.url,
+          hdurl: fallback.url,
+          media_type: fallback.media_type,
+          explanation: locale === "es" ? fallback.explanation_es : fallback.explanation,
+          date: selectedDate, // keep selected date for UI consistency
+          copyright: fallback.copyright
+        };
+        setApod(localizedFallback);
+        setIsFallback(true);
+        setLoadState("ok");
+      });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDate]);
 
@@ -296,11 +368,15 @@ export default function ApodView() {
             <div className="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs font-mono text-foreground/35">
               <div className="flex items-center gap-3">
                 <time dateTime={apod.date}>{apod.date}</time>
-                {isToday && (
+                {isFallback ? (
+                  <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 text-[10px] font-sans font-medium uppercase tracking-wide border border-amber-500/20 shadow-[0_0_6px_rgba(245,158,11,0.1)]">
+                    {locale === "es" ? "Respaldo Local" : "Local Backup"}
+                  </span>
+                ) : isToday ? (
                   <span className="px-2 py-0.5 rounded-full bg-primary/8 text-primary/60 text-[10px] font-sans font-medium uppercase tracking-wide border border-primary/15">
                     {t("cached")}
                   </span>
-                )}
+                ) : null}
               </div>
               <div className="flex items-center gap-4">
                 {apod.copyright && (

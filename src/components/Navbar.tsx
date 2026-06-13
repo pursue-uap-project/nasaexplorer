@@ -18,6 +18,7 @@ export default function Navbar() {
     { href: "/live",     label: t("live") },
     { href: "/apod",     label: t("apod") },
     { href: "/uap",      label: "🛸 " + t("uap") },
+    { href: "/search",   label: "🔍 " + t("search") },
   ];
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");

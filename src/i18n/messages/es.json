@@ -7,7 +7,8 @@
     "iss": "ISS en Vivo",
     "live": "En vivo",
     "apod": "Imagen del Día",
-    "uap": "Archivo UAP"
+    "uap": "Archivo UAP",
+    "search": "Buscar"
   },
   "home": {
     "title": "Explorador de Misiones NASA",
@@ -158,5 +159,16 @@
       "odni": "ODNI",
       "release-2": "RELEASE 2"
     }
+  },
+  "search": {
+    "title": "Buscador Unificado",
+    "placeholder": "Buscar misiones de la NASA y archivos UAP...",
+    "all": "Todos",
+    "nasa_only": "Sólo NASA",
+    "uap_only": "Sólo UAP",
+    "no_results": "No se encontraron resultados para tu búsqueda.",
+    "input_hint": "Escribe al menos 2 caracteres para buscar en la base de datos desclasificada",
+    "results_count_one": "Se encontró 1 resultado",
+    "results_count_other": "Se encontraron {count} resultados"
   }
 }

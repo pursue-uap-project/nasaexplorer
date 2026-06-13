@@ -20,6 +20,38 @@ function fmt(n: number, decimals = 4) {
   return n.toFixed(decimals);
 }
 
+function getTerminatorPoints(): [number, number][] {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = now.getTime() - start.getTime();
+  const oneDay = 1000 * 60 * 60 * 24;
+  const dayOfYear = Math.floor(diff / oneDay);
+  
+  // Declination (in radians) with small epsilon to prevent division by zero
+  let declination = 23.44 * Math.sin((2 * Math.PI / 365) * (dayOfYear - 80)) * Math.PI / 180;
+  if (declination === 0) declination = 0.0001;
+  
+  // Sun's longitude (in radians)
+  const utcHours = now.getUTCHours() + now.getUTCMinutes() / 60 + now.getUTCSeconds() / 3600;
+  const sunLng = (12 - utcHours) * 15 * Math.PI / 180;
+  
+  const points: [number, number][] = [];
+  for (let lng = -180; lng <= 180; lng += 4) {
+    const lngRad = lng * Math.PI / 180;
+    const latRad = Math.atan(-Math.cos(lngRad - sunLng) / Math.tan(declination));
+    points.push([latRad * 180 / Math.PI, lng]);
+  }
+  
+  const pole = declination > 0 ? -90 : 90;
+  
+  return [
+    [pole, -180],
+    ...points,
+    [pole, 180],
+    [pole, -180]
+  ] as [number, number][];
+}
+
 export default function IssTracker() {
   const t = useTranslations("iss");
 
@@ -35,6 +67,19 @@ export default function IssTracker() {
   const [error, setError] = useState(false);
   const [following, setFollowing] = useState(true);
   const [initialized, setInitialized] = useState(false);
+  const [active, setActive] = useState(true);
+
+  const terminatorRef = useRef<ReturnType<typeof import("leaflet")["polygon"]> | null>(null);
+
+  // Monitor tab visibility to stop polling when page is inactive
+  useEffect(() => {
+    function handleVisibility() {
+      const isVisible = !document.hidden;
+      setActive(isVisible);
+    }
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, []);
 
   // Init map
   useEffect(() => {
@@ -69,6 +114,42 @@ export default function IssTracker() {
         iconAnchor: [11, 11],
       });
 
+      // Major NASA Deep Space Network Antennas
+      const dsnIcon = L.divIcon({
+        className: "",
+        html: `<div class="relative flex items-center justify-center">
+          <div class="absolute w-3.5 h-3.5 rounded-full bg-amber-500/35 animate-ping"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-amber-400 border border-white shadow-[0_0_6px_#f59e0b]"></div>
+        </div>`,
+        iconSize: [14, 14],
+        iconAnchor: [7, 7]
+      });
+
+      const DSN_STATIONS = [
+        { name: "Goldstone Deep Space Communications Complex", coords: [35.4266, -116.8900], location: "California, USA" },
+        { name: "Madrid Deep Space Communications Complex", coords: [40.4272, -4.2496], location: "Madrid, Spain" },
+        { name: "Canberra Deep Space Communication Complex", coords: [-35.4014, 148.9814], location: "Canberra, Australia" }
+      ];
+
+      DSN_STATIONS.forEach(st => {
+        L.marker(st.coords as [number, number], { icon: dsnIcon })
+          .bindPopup(`<div class="p-2 font-mono text-[10px] bg-slate-950 text-white rounded border border-amber-500/20 max-w-[200px]">
+            <span class="font-bold text-amber-400 block mb-0.5 uppercase">${st.name}</span>
+            <span class="text-white/40 block text-[8px] tracking-wider font-bold">DSN STATION // ${st.location.toUpperCase()}</span>
+          </div>`)
+          .addTo(map);
+      });
+
+      // Day/Night Solar Terminator Shadow overlay
+      const terminatorCoords = getTerminatorPoints();
+      const terminator = L.polygon(terminatorCoords, {
+        color: "transparent",
+        fillColor: "#020617",
+        fillOpacity: 0.52,
+        interactive: false
+      }).addTo(map);
+      terminatorRef.current = terminator;
+
       const marker = L.marker([0, 0], { icon: issIcon }).addTo(map);
       const trail = L.polyline([], {
         color: "#22d3ee",
@@ -90,11 +171,12 @@ export default function IssTracker() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Polling loop — starts after map is initialized
+  // Polling loop — starts after map is initialized and tab is active
   useEffect(() => {
-    if (!initialized) return;
+    if (!initialized || !active) return;
 
     let cancelled = false;
+    let timerId: ReturnType<typeof setTimeout> | null = null;
 
     async function poll() {
       try {
@@ -124,6 +206,11 @@ export default function IssTracker() {
         markerRef.current?.setLatLng([lat, lon]);
         trailRef.current?.setLatLngs(positionsRef.current);
 
+        // Dynamically drift Day/Night Terminator shadow overlay
+        if (terminatorRef.current) {
+          terminatorRef.current.setLatLngs(getTerminatorPoints());
+        }
+
         if (followingRef.current && mapRef.current) {
           mapRef.current.panTo([lat, lon], { animate: true, duration: 1 });
         }
@@ -132,7 +219,8 @@ export default function IssTracker() {
       }
 
       if (!cancelled) {
-        timerRef.current = setTimeout(poll, POLL_MS);
+        timerId = setTimeout(poll, POLL_MS);
+        timerRef.current = timerId;
       }
     }
 
@@ -140,9 +228,9 @@ export default function IssTracker() {
 
     return () => {
       cancelled = true;
-      if (timerRef.current) clearTimeout(timerRef.current);
+      if (timerId) clearTimeout(timerId);
     };
-  }, [initialized]);
+  }, [initialized, active]);
 
   function toggleFollow() {
     const next = !followingRef.current;
@@ -208,8 +296,16 @@ export default function IssTracker() {
           {statRow(t("stat_alt"), `${fmt(position.altitude, 1)} km`)}
           {statRow(t("stat_speed"), `${fmt(position.velocity, 0)} km/h`)}
           {statRow(t("stat_visibility"), position.visibility)}
-          <div className="pt-1 border-t border-white/10">
-            <p className="text-white/20 text-[10px]">{t("data_source")}</p>
+          <div className="pt-2 border-t border-white/10 space-y-1">
+            <div className="flex items-center gap-1.5 text-[8px] font-mono text-amber-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+              <span>NASA DSN STATIONS ACTIVE</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-[8px] font-mono text-slate-500">
+              <span className="w-1.5 h-1.5 bg-slate-800 border border-slate-700" />
+              <span>NIGHT OVERLAY ACTIVE</span>
+            </div>
+            <p className="text-white/20 text-[9px] pt-1">{t("data_source")}</p>
           </div>
         </div>
       )}

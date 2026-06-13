@@ -7,6 +7,7 @@ import { routing } from "@/i18n/routing";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
+import PWARegistration from "@/components/PWARegistration";
 import "@/app/globals.css";
 
 const montserrat = Montserrat({
@@ -14,11 +15,12 @@ const montserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-sans",
   display: "swap",
-});
+ });
 
 export const metadata: Metadata = {
   title: "NASA Explorer",
   description: "Interactive explorer of NASA missions, the solar system, and the cosmos",
+  manifest: "/manifest.json",
 };
 
 type Props = {
@@ -40,6 +42,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale} className={montserrat.variable}>
       <body className="font-sans antialiased min-h-screen flex flex-col">
         <NextIntlClientProvider messages={messages}>
+          <PWARegistration />
           <Navbar />
           <PageTransition>
             {children}

@@ -401,6 +401,7 @@ export async function getMissionImages(query: string, count = 6): Promise<string
     const data = await res.json();
     return (data.collection?.items ?? [])
       .flatMap((item: any) => item.links?.map((l: any) => l.href).filter(Boolean) ?? [])
+      .map((url: string) => url.replace(/~orig/g, "~medium").replace(/~large/g, "~medium"))
       .slice(0, count);
   } catch {
     return [];

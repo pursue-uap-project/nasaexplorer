@@ -7,7 +7,8 @@
     "iss": "ISS Tracker",
     "live": "Live",
     "apod": "Photo of the Day",
-    "uap": "UAP Archive"
+    "uap": "UAP Archive",
+    "search": "Search"
   },
   "home": {
     "title": "NASA Mission Explorer",
@@ -158,5 +159,16 @@
       "odni": "ODNI",
       "release-2": "RELEASE 2"
     }
+  },
+  "search": {
+    "title": "Unified Search",
+    "placeholder": "Search NASA missions and UAP archives...",
+    "all": "All",
+    "nasa_only": "NASA Only",
+    "uap_only": "UAP Only",
+    "no_results": "No results found for your query.",
+    "input_hint": "Type at least 2 characters to search the declassified database",
+    "results_count_one": "Found 1 result",
+    "results_count_other": "Found {count} results"
   }
 }

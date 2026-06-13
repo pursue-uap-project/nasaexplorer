@@ -233,11 +233,24 @@ const STARS: [number, number, number][] = [
   [27,30,1.1],[34,95,0.8],[40,22,0.9],[47,50,1],[53,73,1.2],[60,11,0.8],[66,66,0.9],
 ];
 
-function getPos(body: Body, days: number, cx: number, cy: number, scale: number) {
+function getPos(body: Body, days: number, cx: number, cy: number, scale: number, zoom: number, angleOffset: number, pers: number) {
   if (body.orbitR === 0) return { x: cx, y: cy };
   const angle = body.period > 0 ? body.a0 + (TWO_PI * days / body.period) : body.a0;
-  const r = body.orbitR * scale;
-  return { x: cx + Math.cos(angle) * r, y: cy + Math.sin(angle) * r * PERS };
+  const r = body.orbitR * scale * zoom;
+  
+  // Flat position on the orbit plane
+  const xp = r * Math.cos(angle);
+  const yp = r * Math.sin(angle);
+  
+  // Rotate around Z axis (yaw)
+  const xRot = xp * Math.cos(angleOffset) - yp * Math.sin(angleOffset);
+  const yRot = xp * Math.sin(angleOffset) + yp * Math.cos(angleOffset);
+  
+  // Project with 3D tilt (pitch)
+  return {
+    x: cx + xRot,
+    y: cy + yRot * pers
+  };
 }
 
 function rgb(hex: string): [number, number, number] {
@@ -264,7 +277,42 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
   const [tip,      setTip]      = useState<Tip>(null);
   const [selected, setSelected] = useState<HitResult>(null);
 
+  // 3D camera controls state (using refs for high-performance updates in RAF)
+  const zoomRef = useRef(1.0);
+  const angleOffsetRef = useRef(0.0);
+  const persRef = useRef(0.38);
+
+  const isDraggingRef = useRef(false);
+  const dragStartRef = useRef({ x: 0, y: 0 });
+  const startAngleOffsetRef = useRef(0.0);
+  const startPersRef = useRef(0.38);
+
   useEffect(() => { localeRef.current = locale; }, [locale]);
+
+  // Global mouse move and mouse up listeners for smooth dragging
+  useEffect(() => {
+    function handleMouseMoveGlobal(e: MouseEvent) {
+      if (!isDraggingRef.current) return;
+      const dx = e.clientX - dragStartRef.current.x;
+      const dy = e.clientY - dragStartRef.current.y;
+      
+      // dx rotates Z-axis (yaw)
+      angleOffsetRef.current = startAngleOffsetRef.current + dx * 0.007;
+      // dy tilts X-axis (pitch) - clamp to keep a nice perspective angle
+      persRef.current = Math.max(0.1, Math.min(0.85, startPersRef.current - dy * 0.004));
+    }
+
+    function handleMouseUpGlobal() {
+      isDraggingRef.current = false;
+    }
+
+    window.addEventListener("mousemove", handleMouseMoveGlobal);
+    window.addEventListener("mouseup", handleMouseUpGlobal);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMoveGlobal);
+      window.removeEventListener("mouseup", handleMouseUpGlobal);
+    };
+  }, []);
 
   // ── Canvas animation loop ─────────────────────────────────────────────
   useEffect(() => {
@@ -283,6 +331,14 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
     const ro = new ResizeObserver(resize);
     ro.observe(container);
 
+    // Active wheel zoom listener (non-passive to allow e.preventDefault())
+    function handleCanvasWheel(e: WheelEvent) {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
+      zoomRef.current = Math.max(0.35, Math.min(4.5, zoomRef.current * zoomFactor));
+    }
+    canvas.addEventListener("wheel", handleCanvasWheel, { passive: false });
+
     function frame(ts: number) {
       if (!pausedRef.current && lastTsRef.current > 0) {
         elapsedRef.current += ((ts - lastTsRef.current) / 1000) * SPEED;
@@ -297,6 +353,10 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
       const days = elapsedRef.current;
       const loc  = localeRef.current;
 
+      const z  = zoomRef.current;
+      const ao = angleOffsetRef.current;
+      const p  = persRef.current;
+
       ctx.clearRect(0, 0, W, H);
       ctx.fillStyle = "#040814";
       ctx.fillRect(0, 0, W, H);
@@ -309,42 +369,42 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
         ctx.fill();
       }
 
-      // Orbit rings
+      // Orbit rings (tilted and rotated in 3D)
       for (const b of BODIES) {
         if (b.orbitR === 0) continue;
         ctx.beginPath();
-        ctx.ellipse(cx, cy, b.orbitR * s, b.orbitR * PERS * s, 0, 0, TWO_PI);
+        ctx.ellipse(cx, cy, b.orbitR * s * z, b.orbitR * p * s * z, ao, 0, TWO_PI);
         ctx.strokeStyle = b.isMission ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.09)";
         ctx.lineWidth   = 0.7;
         ctx.stroke();
       }
 
-      // Sun corona + body
-      const corona = ctx.createRadialGradient(cx, cy, 0, cx, cy, 65 * s);
+      // Sun corona + body (scales with zoom)
+      const corona = ctx.createRadialGradient(cx, cy, 0, cx, cy, 65 * s * z);
       corona.addColorStop(0, "rgba(255,200,50,0.18)");
       corona.addColorStop(1, "transparent");
       ctx.beginPath();
-      ctx.arc(cx, cy, 65 * s, 0, TWO_PI);
+      ctx.arc(cx, cy, 65 * s * z, 0, TWO_PI);
       ctx.fillStyle = corona;
       ctx.fill();
 
-      const sunG = ctx.createRadialGradient(cx, cy, 0, cx, cy, 26 * s);
+      const sunG = ctx.createRadialGradient(cx, cy, 0, cx, cy, 26 * s * z);
       sunG.addColorStop(0,    "#fffde7");
       sunG.addColorStop(0.35, "#FFD700");
       sunG.addColorStop(0.8,  "#FF8C00");
       sunG.addColorStop(1,    "transparent");
       ctx.beginPath();
-      ctx.arc(cx, cy, 26 * s, 0, TWO_PI);
+      ctx.arc(cx, cy, 26 * s * z, 0, TWO_PI);
       ctx.fillStyle = sunG;
       ctx.fill();
 
-      // Bodies — depth sorted
+      // Bodies — depth sorted with 3D projection params
       const placed = BODIES
-        .map(b => ({ b, ...getPos(b, days, cx, cy, s) }))
+        .map(b => ({ b, ...getPos(b, days, cx, cy, s, z, ao, p) }))
         .sort((a, z) => a.y - z.y);
 
       for (const { b, x, y } of placed) {
-        const r = b.r * s;
+        const r = b.r * s * z;
         const [rr, gg, bb] = rgb(b.color);
 
         // Glow
@@ -356,10 +416,10 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
         ctx.fillStyle = halo;
         ctx.fill();
 
-        // Saturn rings
+        // Saturn rings (projected matching Z-rotation and X-pitch)
         if (b.isRinged) {
           ctx.beginPath();
-          ctx.ellipse(x, y, r * 2.2, r * 0.52, 0, 0, TWO_PI);
+          ctx.ellipse(x, y, r * 2.2, r * 0.52 * (p / 0.38), ao, 0, TWO_PI);
           ctx.strokeStyle = `rgba(${rr},${gg},${bb},0.55)`;
           ctx.lineWidth   = r * 0.9;
           ctx.stroke();
@@ -377,20 +437,20 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
         // Mission ring
         if (b.isMission) {
           ctx.beginPath();
-          ctx.arc(x, y, r + 2 * s, 0, TWO_PI);
+          ctx.arc(x, y, r + 2 * s * z, 0, TWO_PI);
           ctx.strokeStyle = `rgba(${rr},${gg},${bb},0.55)`;
-          ctx.lineWidth   = 0.8 * s;
+          ctx.lineWidth   = 0.8 * s * z;
           ctx.stroke();
         }
 
-        // Label
+        // Label (slighly scaled with zoom)
         const name = loc === "es" ? b.nameEs : b.nameEn;
-        const fs = Math.round((b.r >= 9 ? 10 : b.r >= 5 ? 9 : 8) * s);
+        const fs = Math.round((b.r >= 9 ? 10 : b.r >= 5 ? 9 : 8) * s * Math.max(0.75, Math.min(1.4, z)));
         if (fs >= 6) {
           ctx.fillStyle = b.isMission ? "rgba(255,255,255,0.42)" : "rgba(255,255,255,0.68)";
           ctx.font = `${b.r >= 9 ? "600 " : ""}${fs}px system-ui,sans-serif`;
           ctx.textAlign = "left";
-          ctx.fillText(name, x + r + 3 * s, y + 3 * s);
+          ctx.fillText(name, x + r + 3 * s * z, y + 3 * s * z);
         }
       }
 
@@ -398,7 +458,11 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
     }
 
     raf = requestAnimationFrame(frame);
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => { 
+      cancelAnimationFrame(raf); 
+      ro.disconnect(); 
+      canvas.removeEventListener("wheel", handleCanvasWheel);
+    };
   }, []);
 
   // ── Hit detection helpers ─────────────────────────────────────────────
@@ -414,14 +478,18 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
     const cy   = canvas.height * 0.52;
     const days = elapsedRef.current;
 
-    if (Math.hypot(mx - cx, my - cy) < 32 * s) return { kind: "sun" };
+    const z = zoomRef.current;
+    const ao = angleOffsetRef.current;
+    const p = persRef.current;
+
+    if (Math.hypot(mx - cx, my - cy) < 32 * s * z) return { kind: "sun" };
 
     let best: Body | null = null;
     let minD = Infinity;
     for (const b of BODIES) {
-      const { x, y } = getPos(b, days, cx, cy, s);
+      const { x, y } = getPos(b, days, cx, cy, s, z, ao, p);
       const d = Math.hypot(mx - x, my - y);
-      const hitR = Math.max(b.r * s + 6, 12);
+      const hitR = Math.max(b.r * s * z + 6, 12);
       if (d < hitR && d < minD) { minD = d; best = b; }
     }
     return best ? { kind: "body", body: best } : null;
@@ -479,10 +547,29 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
       <canvas
         ref={canvasRef}
         onMouseMove={handleMouseMove}
-        onMouseLeave={() => setTip(null)}
-        onClick={handleClick}
-        className="w-full"
+        onMouseLeave={() => {
+          setTip(null);
+          isDraggingRef.current = false;
+        }}
+        onMouseDown={(e) => {
+          const hit = hitTest(e);
+          if (hit) {
+            setSelected(hit);
+            return;
+          }
+          isDraggingRef.current = true;
+          dragStartRef.current = { x: e.clientX, y: e.clientY };
+          startAngleOffsetRef.current = angleOffsetRef.current;
+          startPersRef.current = persRef.current;
+        }}
+        className="w-full cursor-grab active:cursor-grabbing touch-none"
       />
+
+      {/* Camera Instructions Overlay */}
+      <div className="absolute top-3 left-3 bg-black/45 backdrop-blur-sm border border-white/5 rounded-lg px-2.5 py-1.5 text-[9px] font-mono text-white/50 pointer-events-none uppercase tracking-wider space-y-0.5 z-10">
+        <div>🔍 Zoom: [Scroll Wheel]</div>
+        <div>🔄 Rotate: [Click & Drag Map]</div>
+      </div>
 
       {/* Hover tooltip */}
       {tip && !selected && (
