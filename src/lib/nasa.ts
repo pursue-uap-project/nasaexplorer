@@ -1,3 +1,5 @@
+import { searchNASAVideos } from "./youtube";
+
 export type MissionStatus = "active" | "completed" | "planned";
 
 export type Mission = {
@@ -20,6 +22,17 @@ export type Mission = {
   countdownTarget?: string;
 };
 
+export type Bilingual = { en: string; es: string };
+
+export type MissionImage = {
+  url: string;
+  hd: string;
+  title: string;
+  date: string | null;
+  center: string | null;
+  description: string | null;
+};
+
 export type ActiveMission = {
   id: string;
   name: string;
@@ -31,6 +44,16 @@ export type ActiveMission = {
   hasTrajectory: boolean;
   youtubeId: string;
   stats: { label: string; value: string }[];
+  // ── Enriched detail (optional) ──
+  agency?: string;
+  since?: string; // operational since / launch date label
+  status?: Bilingual;
+  objectives?: Bilingual[];
+  timeline?: { date: string; en: string; es: string }[];
+  instruments?: { name: string; en: string; es: string }[];
+  links?: { label: string; url: string }[];
+  live?: "iss" | "mars-rover";
+  rover?: "perseverance" | "curiosity";
 };
 
 const IMAGES_API = "https://images-api.nasa.gov";
@@ -501,6 +524,87 @@ export async function getMissionImages(query: string, count = 6): Promise<string
   }
 }
 
+// Rich image search: returns metadata (title/date/center/description), HD url,
+// de-duplicated by nasa_id. Used by the Active Missions gallery + lightbox.
+export async function getMissionImagesRich(query: string, count = 14): Promise<MissionImage[]> {
+  try {
+    const res = await fetch(
+      `${IMAGES_API}/search?q=${encodeURIComponent(query)}&media_type=image&page_size=${count * 2}`,
+      { next: { revalidate: 86400 } }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    const seen = new Set<string>();
+    const out: MissionImage[] = [];
+    for (const item of data.collection?.items ?? []) {
+      const meta = item.data?.[0] ?? {};
+      const id: string = meta.nasa_id ?? "";
+      const link: string | undefined = item.links?.[0]?.href;
+      if (!link || (id && seen.has(id))) continue;
+      if (id) seen.add(id);
+      out.push({
+        url: link.replace(/~orig|~large/g, "~medium"),
+        hd: link.replace(/~thumb|~small|~medium/g, "~large"),
+        title: meta.title ?? "NASA",
+        date: meta.date_created ?? null,
+        center: meta.center ?? meta.photographer ?? null,
+        description: meta.description ?? null,
+      });
+      if (out.length >= count) break;
+    }
+    return out;
+  } catch {
+    return [];
+  }
+}
+
+// Resolve a working, embeddable official video id for a mission. Searches the
+// NASA YouTube channel first (fresh + valid), falling back to a known id.
+export async function findMissionVideoId(query: string, fallback: string): Promise<string> {
+  const key = process.env.YOUTUBE_API_KEY;
+  if (!key) return fallback;
+  try {
+    const vids = await searchNASAVideos(query, key, 1);
+    return vids[0]?.id ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+export type MarsLatest = {
+  sol: number;
+  earthDate: string;
+  total: number;
+  photo: string | null;
+  camera: string | null;
+} | null;
+
+// Latest photos from a Mars rover (drives the "live" Mars widget).
+export async function getMarsLatest(rover: string): Promise<MarsLatest> {
+  const key = process.env.NASA_API_KEY;
+  if (!key) return null;
+  try {
+    const res = await fetch(
+      `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/latest_photos?api_key=${key}`,
+      { next: { revalidate: 21600 } }
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    const photos = data.latest_photos ?? [];
+    if (photos.length === 0) return null;
+    const p = photos[0];
+    return {
+      sol: p.sol,
+      earthDate: p.earth_date,
+      total: photos.length,
+      photo: p.img_src ?? null,
+      camera: p.camera?.full_name ?? p.camera?.name ?? null,
+    };
+  } catch {
+    return null;
+  }
+}
+
 export const ACTIVE_MISSIONS: ActiveMission[] = [
   {
     id: "artemis",
@@ -522,6 +626,27 @@ export const ACTIVE_MISSIONS: ActiveMission[] = [
       { label: "Artemis II", value: "2026 · crewed flyby" },
       { label: "Artemis III", value: "2027 · landing" },
     ],
+    agency: "NASA",
+    since: "Program · since 2017",
+    status: { en: "In progress", es: "En curso" },
+    objectives: [
+      { en: "Return humans to the Moon for the first time since Apollo 17 (1972).", es: "Devolver humanos a la Luna por primera vez desde el Apolo 17 (1972)." },
+      { en: "Land the first woman and first person of color near the lunar South Pole.", es: "Posar a la primera mujer y a la primera persona de color cerca del polo sur lunar." },
+      { en: "Build a sustainable presence with the Gateway station and a base camp.", es: "Construir una presencia sostenible con la estación Gateway y un campamento base." },
+      { en: "Prove the deep-space systems needed for the first crewed mission to Mars.", es: "Probar los sistemas de espacio profundo necesarios para la primera misión tripulada a Marte." },
+    ],
+    timeline: [
+      { date: "2022-11", en: "Artemis I — uncrewed SLS + Orion test flight around the Moon.", es: "Artemis I — vuelo de prueba no tripulado de SLS + Orion alrededor de la Luna." },
+      { date: "2026-04", en: "Artemis II — first crew on a lunar free-return flyby.", es: "Artemis II — primera tripulación en un sobrevuelo lunar de retorno libre." },
+      { date: "2027", en: "Artemis III — first crewed lunar landing of the program.", es: "Artemis III — primer alunizaje tripulado del programa." },
+    ],
+    instruments: [
+      { name: "SLS", en: "Space Launch System — the most powerful NASA rocket.", es: "Space Launch System — el cohete más potente de la NASA." },
+      { name: "Orion", en: "Crew spacecraft built for deep-space travel.", es: "Nave de tripulación para viajes al espacio profundo." },
+      { name: "HLS", en: "Human Landing System (Starship) for the surface.", es: "Sistema de aterrizaje humano (Starship) para la superficie." },
+      { name: "Gateway", en: "Lunar-orbit station for staging missions.", es: "Estación en órbita lunar para escalonar misiones." },
+    ],
+    links: [{ label: "NASA · Artemis", url: "https://www.nasa.gov/humans-in-space/artemis/" }],
   },
   {
     id: "jwst",
@@ -542,6 +667,27 @@ export const ACTIVE_MISSIONS: ActiveMission[] = [
       { label: "Launched",      value: "Dec 25, 2021" },
       { label: "First images",  value: "Jul 12, 2022" },
     ],
+    agency: "NASA · ESA · CSA",
+    since: "Operational since 2022",
+    status: { en: "Operational", es: "Operativo" },
+    objectives: [
+      { en: "Observe the first galaxies that formed after the Big Bang.", es: "Observar las primeras galaxias que se formaron tras el Big Bang." },
+      { en: "Study the atmospheres of exoplanets for signs of habitability.", es: "Estudiar las atmósferas de exoplanetas en busca de habitabilidad." },
+      { en: "Watch stars and planetary systems being born inside dust clouds.", es: "Observar el nacimiento de estrellas y sistemas planetarios dentro de nubes de polvo." },
+      { en: "See through cosmic dust in infrared, where Hubble cannot.", es: "Ver a través del polvo cósmico en infrarrojo, donde el Hubble no llega." },
+    ],
+    timeline: [
+      { date: "2021-12-25", en: "Launched aboard an Ariane 5 from French Guiana.", es: "Lanzado en un Ariane 5 desde la Guayana Francesa." },
+      { date: "2022-01", en: "Arrived and inserted into orbit around the L2 point.", es: "Llegó e ingresó en órbita alrededor del punto L2." },
+      { date: "2022-07-12", en: "Released its first full-color science images.", es: "Publicó sus primeras imágenes científicas a todo color." },
+    ],
+    instruments: [
+      { name: "NIRCam", en: "Near-infrared camera — the main imager.", es: "Cámara de infrarrojo cercano — el generador de imágenes principal." },
+      { name: "NIRSpec", en: "Near-infrared spectrograph.", es: "Espectrógrafo de infrarrojo cercano." },
+      { name: "MIRI", en: "Mid-infrared camera and spectrograph.", es: "Cámara y espectrógrafo de infrarrojo medio." },
+      { name: "FGS/NIRISS", en: "Fine guidance + near-infrared imaging.", es: "Guiado fino + imagen en infrarrojo cercano." },
+    ],
+    links: [{ label: "NASA · Webb", url: "https://science.nasa.gov/mission/webb/" }],
   },
   {
     id: "perseverance",
@@ -562,6 +708,29 @@ export const ACTIVE_MISSIONS: ActiveMission[] = [
       { label: "Samples",   value: "23+ collected" },
       { label: "Ingenuity flights", value: "72+ flights" },
     ],
+    agency: "NASA · JPL",
+    since: "On Mars since 2021",
+    status: { en: "Roving Jezero Crater", es: "Explorando el Cráter Jezero" },
+    live: "mars-rover",
+    rover: "perseverance",
+    objectives: [
+      { en: "Seek signs of ancient microbial life in an ancient lake bed.", es: "Buscar señales de vida microbiana antigua en un antiguo lecho lacustre." },
+      { en: "Collect and seal rock cores for a future Mars Sample Return.", es: "Recoger y sellar muestras de roca para un futuro retorno de muestras de Marte." },
+      { en: "Characterize Jezero's geology and past climate.", es: "Caracterizar la geología y el clima pasado de Jezero." },
+      { en: "Demonstrate new tech: MOXIE oxygen and the Ingenuity helicopter.", es: "Demostrar nueva tecnología: oxígeno MOXIE y el helicóptero Ingenuity." },
+    ],
+    timeline: [
+      { date: "2020-07-30", en: "Launched from Cape Canaveral.", es: "Lanzado desde Cabo Cañaveral." },
+      { date: "2021-02-18", en: "Landed in Jezero Crater after 'seven minutes of terror'.", es: "Aterrizó en el Cráter Jezero tras los 'siete minutos de terror'." },
+      { date: "2021-04-19", en: "Ingenuity made the first powered flight on another world.", es: "Ingenuity realizó el primer vuelo propulsado en otro mundo." },
+    ],
+    instruments: [
+      { name: "Mastcam-Z", en: "Zoomable stereo panoramic cameras.", es: "Cámaras panorámicas estéreo con zoom." },
+      { name: "SuperCam", en: "Laser spectroscopy of rocks at a distance.", es: "Espectroscopía láser de rocas a distancia." },
+      { name: "PIXL", en: "X-ray chemistry mapping of surfaces.", es: "Mapeo químico de superficies por rayos X." },
+      { name: "MOXIE", en: "Produces oxygen from the CO₂ atmosphere.", es: "Produce oxígeno a partir de la atmósfera de CO₂." },
+    ],
+    links: [{ label: "NASA · Mars 2020", url: "https://science.nasa.gov/mission/mars-2020-perseverance/" }],
   },
   {
     id: "iss",
@@ -582,6 +751,28 @@ export const ACTIVE_MISSIONS: ActiveMission[] = [
       { label: "Crew",      value: "7 members" },
       { label: "Orbits/day", value: "~15.5" },
     ],
+    agency: "NASA · Roscosmos · ESA · JAXA · CSA",
+    since: "Crewed since Nov 2000",
+    status: { en: "Continuously inhabited", es: "Habitada de forma continua" },
+    live: "iss",
+    objectives: [
+      { en: "Run microgravity science that is impossible to do on Earth.", es: "Realizar ciencia en microgravedad imposible de hacer en la Tierra." },
+      { en: "Test life-support and systems for future deep-space missions.", es: "Probar soporte vital y sistemas para futuras misiones de espacio profundo." },
+      { en: "Observe Earth's climate, oceans and natural disasters from orbit.", es: "Observar el clima, los océanos y los desastres naturales de la Tierra desde la órbita." },
+      { en: "Sustain international cooperation in human spaceflight.", es: "Sostener la cooperación internacional en los vuelos espaciales tripulados." },
+    ],
+    timeline: [
+      { date: "1998-11-20", en: "First module, Zarya, launched to orbit.", es: "Se lanzó a órbita el primer módulo, Zarya." },
+      { date: "2000-11-02", en: "Expedition 1 began continuous human presence.", es: "La Expedición 1 inició la presencia humana continua." },
+      { date: "2011", en: "Assembly completed after 13 years of construction.", es: "Se completó el ensamblaje tras 13 años de construcción." },
+    ],
+    instruments: [
+      { name: "Destiny", en: "US laboratory module.", es: "Módulo laboratorio de EE. UU." },
+      { name: "Columbus", en: "ESA research laboratory.", es: "Laboratorio de investigación de la ESA." },
+      { name: "Kibō", en: "JAXA's large experiment module.", es: "Gran módulo de experimentos de JAXA." },
+      { name: "Cupola", en: "Seven-window dome for Earth observation.", es: "Cúpula de siete ventanas para observar la Tierra." },
+    ],
+    links: [{ label: "NASA · ISS", url: "https://www.nasa.gov/international-space-station/" }],
   },
 ];
 

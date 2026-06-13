@@ -1,23 +1,20 @@
 import { setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
+import HomeClient from "@/components/HomeClient";
+import uapStoriesData from "@/data/uap-stories.json";
 
 type Props = { params: Promise<{ locale: string }> };
 
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <HomeContent />;
+  const uapCount = uapStoriesData.length;
+  return <HomeContent uapCount={uapCount} />;
 }
 
-function HomeContent() {
+function HomeContent({ uapCount }: { uapCount: number }) {
   const t = useTranslations("home");
-
-  const stats = [
-    { val: "300+", label: t("stats_missions") },
-    { val: "65+",  label: t("stats_years") },
-    { val: "10+",  label: t("stats_programs") },
-  ];
 
   return (
     <main className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center px-4 text-center relative overflow-hidden">
@@ -60,18 +57,13 @@ function HomeContent() {
           {t("cta")}
         </Link>
 
-        {/* ── Stats — glass cards ──────────────────────────────────────── */}
-        <div className="grid grid-cols-3 gap-4 mt-2 w-full max-w-sm">
-          {stats.map(({ val, label }) => (
-            <div
-              key={label}
-              className="bg-white/90 backdrop-blur-xl border border-white/70 rounded-2xl px-4 py-5 shadow-lg ring-1 ring-inset ring-white/50 text-center"
-            >
-              <p className="text-2xl sm:text-3xl font-bold text-primary">{val}</p>
-              <p className="text-foreground/50 text-xs mt-1 leading-tight">{label}</p>
-            </div>
-          ))}
-        </div>
+        {/* ── Stats & UAP Secret Portal ───────────────────────────────── */}
+        <HomeClient
+          uapCount={uapCount}
+          statsMissionsLabel={t("stats_missions")}
+          statsYearsLabel={t("stats_years")}
+          statsProgramsLabel={t("stats_programs")}
+        />
       </div>
     </main>
   );
