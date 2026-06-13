@@ -13,7 +13,8 @@ const STATUS_STYLES: Record<string, string> = {
 
 export default function MissionCard({ mission }: Props) {
   const t = useTranslations("mission");
-  const thumb = mission.multimedia?.images?.[0];
+  const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const thumb = mission.image ? `${BASE}/${mission.image}` : mission.multimedia?.images?.[0];
   const color = PROGRAM_COLORS[mission.program] ?? "#0B3D91";
   const year = mission.launch_details.date?.slice(0, 4);
 

@@ -29,6 +29,11 @@ const ASTRONAUT_MAP: Record<string, string> = {
   glover: "glover",
   koch: "koch",
   hansen: "hansen",
+  swigert: "swigert",
+  haise: "haise",
+  evans: "evans",
+  young: "young",
+  crippen: "crippen",
 };
 
 export default function MissionStats({ stats, color, allMissions, statsTitle }: Props) {

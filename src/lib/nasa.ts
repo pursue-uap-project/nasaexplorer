@@ -10,6 +10,7 @@ export type Mission = {
   stats?: { label: string; value: string }[];
   youtubeId?: string;
   imageQuery?: string;
+  image?: string;
   crewed?: boolean;
   rocketId?: string;
   audioClip?: {
@@ -60,6 +61,7 @@ const MISSIONS: Mission[] = [
       es: "Alan Shepard se convirtió en el primer estadounidense en el espacio a bordo del Freedom 7, completando un vuelo suborbital de 15 minutos a 187 km de altitud, probando los sistemas del Mercury.",
     },
     imageQuery: "Alan Shepard Freedom 7 Mercury astronaut launch",
+    image: "assets/missions/freedom-7.jpg",
     stats: [
       { label: "Astronaut",  value: "Alan Shepard" },
       { label: "Duration",   value: "15 min 22 sec" },
@@ -87,6 +89,7 @@ const MISSIONS: Mission[] = [
       es: "John Glenn se convirtió en el primer estadounidense en orbitar la Tierra, completando tres órbitas en 4 horas 55 minutos. La misión restauró la confianza nacional en la carrera espacial.",
     },
     imageQuery: "John Glenn Friendship 7 Mercury orbit Earth",
+    image: "assets/missions/friendship-7.jpg",
     stats: [
       { label: "Astronaut",  value: "John Glenn" },
       { label: "Orbits",     value: "3" },
@@ -107,6 +110,7 @@ const MISSIONS: Mission[] = [
       es: "La última misión Gemini, tripulada por Jim Lovell y Buzz Aldrin, demostró las técnicas de actividad extravehicular cruciales para el Apolo. Aldrin realizó más de 5 horas de paseos espaciales.",
     },
     imageQuery: "Gemini XII Buzz Aldrin EVA spacewalk orbit",
+    image: "assets/missions/gemini-12.jpg",
     stats: [
       { label: "Crew",       value: "Lovell · Aldrin" },
       { label: "Duration",   value: "3d 22h 34m" },
@@ -127,6 +131,7 @@ const MISSIONS: Mission[] = [
       es: "El primer alunizaje tripulado. Neil Armstrong y Buzz Aldrin aterrizaron en el Mar de la Tranquilidad el 20 de julio de 1969. Los primeros pasos de Armstrong fueron seguidos por 600 millones de personas.",
     },
     imageQuery: "Apollo 11 Moon landing Neil Armstrong Buzz Aldrin lunar surface",
+    image: "assets/missions/apollo-11.jpg",
     youtubeId: "hZNB5ASBV1k",
     stats: [
       { label: "Crew",       value: "Armstrong · Collins · Aldrin" },
@@ -158,6 +163,7 @@ const MISSIONS: Mission[] = [
       es: "El alunizaje fue abortado tras la explosión de un tanque de oxígeno. La tripulación usó el Módulo Lunar como bote salvavidas para regresar a la Tierra en una de las mayores historias de supervivencia de la NASA.",
     },
     imageQuery: "Apollo 13 oxygen tank explosion Jim Lovell lifeboat rescue",
+    image: "assets/missions/apollo-13.jpg",
     stats: [
       { label: "Crew",       value: "Lovell · Swigert · Haise" },
       { label: "Failure",    value: "O₂ tank 2 explosion" },
@@ -186,6 +192,7 @@ const MISSIONS: Mission[] = [
       es: "El último alunizaje Apolo y la última vez que humanos caminaron en la Luna. Gene Cernan y Harrison Schmitt — el único científico en pisar la Luna — recogieron 110.5 kg de muestras en Taurus-Littrow.",
     },
     imageQuery: "Apollo 17 Gene Cernan Harrison Schmitt lunar rover Taurus-Littrow",
+    image: "assets/missions/apollo-17.jpg",
     stats: [
       { label: "Crew",         value: "Cernan · Evans · Schmitt" },
       { label: "Landing site", value: "Taurus-Littrow" },
@@ -206,6 +213,7 @@ const MISSIONS: Mission[] = [
       es: "La primera estación espacial estadounidense alojó tres tripulaciones entre 1973 y 1974. Los astronautas realizaron observaciones solares pioneras y experimentos de recursos terrestres que marcaron el futuro de las estaciones espaciales.",
     },
     imageQuery: "Skylab space station crew solar telescope Earth orbit",
+    image: "assets/missions/skylab.jpg",
     stats: [
       { label: "Crews",        value: "3 missions" },
       { label: "Total time",   value: "171 crew-days" },
@@ -226,6 +234,7 @@ const MISSIONS: Mission[] = [
       es: "La primera misión del Transbordador Espacial lanzó Columbia exactamente 20 años después del vuelo de Gagarin. Tripulada por John Young y Robert Crippen, validó el diseño del orbitador durante 2 días en órbita.",
     },
     imageQuery: "Space Shuttle Columbia STS-1 launch John Young Robert Crippen",
+    image: "assets/missions/sts-1.jpg",
     stats: [
       { label: "Crew",       value: "Young · Crippen" },
       { label: "Duration",   value: "2d 6h 20m" },
@@ -246,6 +255,7 @@ const MISSIONS: Mission[] = [
       es: "Desplegado desde el Discovery en 1990, Hubble ha realizado más de 1.5 millones de observaciones. Sus imágenes transformaron la cosmología: determinaron la edad del universo, revelaron la energía oscura y mapearon la formación estelar.",
     },
     imageQuery: "Hubble Space Telescope galaxy nebula deep field stars",
+    image: "assets/missions/hubble.jpg",
     stats: [
       { label: "Altitude",       value: "~547 km" },
       { label: "Mirror",         value: "2.4 m" },
@@ -266,6 +276,7 @@ const MISSIONS: Mission[] = [
       es: "La ISS ha estado habitada de forma continua desde el 2 de noviembre de 2000, más de 25 años de presencia humana ininterrumpida. Proyecto conjunto de NASA, Roscosmos, ESA, JAXA y CSA, es el laboratorio de microgravedad más avanzado del mundo.",
     },
     imageQuery: "International Space Station ISS orbit Earth crew cupola",
+    image: "assets/missions/iss.jpg",
     youtubeId: "jJ7Md2QGRh4",
     stats: [
       { label: "Altitude",      value: "~408 km" },
@@ -287,6 +298,7 @@ const MISSIONS: Mission[] = [
       es: "El objeto creado por humanos más lejano jamás construido, Voyager 1 cruzó al espacio interestelar en agosto de 2012. Lanzado en 1977, realizó históricos sobrevuelos de Júpiter y Saturno antes de dirigirse a la constelación de Ofiuco.",
     },
     imageQuery: "Voyager 1 spacecraft interstellar space NASA probe Jupiter Saturn",
+    image: "assets/missions/voyager-1.jpg",
     stats: [
       { label: "Distance",           value: "~165 AU (2025)" },
       { label: "Speed",              value: "17 km/s" },
@@ -306,6 +318,7 @@ const MISSIONS: Mission[] = [
       es: "La única nave que ha visitado los cuatro planetas exteriores — Júpiter, Saturno, Urano y Neptuno — Voyager 2 entró al espacio interestelar en noviembre de 2018. Es la única sonda que ha sobrevolado Urano y Neptuno.",
     },
     imageQuery: "Voyager 2 spacecraft outer planets Uranus Neptune NASA probe",
+    image: "assets/missions/voyager-2.jpg",
     stats: [
       { label: "Distance",           value: "~137 AU (2025)" },
       { label: "Speed",              value: "15.4 km/s" },
@@ -325,6 +338,7 @@ const MISSIONS: Mission[] = [
       es: "New Horizons fue la primera nave en explorar Plutón de cerca, revelando su icónica llanura de hielo de nitrógeno en forma de corazón (Regio Tombaugh) en el histórico sobrevuelo del 14 de julio de 2015. Ahora explora el Cinturón de Kuiper.",
     },
     imageQuery: "New Horizons Pluto flyby heart Tombaugh Regio Kuiper Belt",
+    image: "assets/missions/new-horizons.jpg",
     stats: [
       { label: "Distance",    value: "~57 AU (2025)" },
       { label: "Pluto flyby", value: "Jul 14, 2015" },
@@ -344,6 +358,7 @@ const MISSIONS: Mission[] = [
       es: "Juno orbita Júpiter desde el 4 de julio de 2016, estudiando los orígenes del gigante gaseoso, su estructura interior, atmósfera y magnetosfera. Su misión extendida incluye espectaculares sobrevuelos de las lunas Ganímedes, Europa e Io.",
     },
     imageQuery: "Juno spacecraft Jupiter orbit polar vortex storms NASA",
+    image: "assets/missions/juno.jpg",
     stats: [
       { label: "Target",          value: "Jupiter system" },
       { label: "Orbital period",  value: "~38 days" },
@@ -364,6 +379,7 @@ const MISSIONS: Mission[] = [
       es: "El rover Curiosity explora el Cráter Gale desde el 6 de agosto de 2012, confirmando que el Marte antiguo tuvo condiciones habitables — agua líquida, moléculas orgánicas y la química correcta. Ha recorrido más de 32 km.",
     },
     imageQuery: "Curiosity rover Mars Gale Crater Mount Sharp science",
+    image: "assets/missions/curiosity.jpg",
     stats: [
       { label: "Location",    value: "Gale Crater, Mars" },
       { label: "Landed",      value: "Aug 6, 2012" },
@@ -383,6 +399,7 @@ const MISSIONS: Mission[] = [
       es: "El rover Perseverance explora el Cráter Jezero de Marte. Ha recogido más de 23 muestras selladas para retornar a la Tierra, desplegó el helicóptero Ingenuity y está probando MOXIE para producir oxígeno de la atmósfera marciana.",
     },
     imageQuery: "Perseverance rover Mars Jezero Crater Ingenuity helicopter rocks",
+    image: "assets/missions/perseverance.jpg",
     youtubeId: "gm0b_ijaYMQ",
     stats: [
       { label: "Location",    value: "Jezero Crater, Mars" },
@@ -404,6 +421,7 @@ const MISSIONS: Mission[] = [
       es: "Desde el punto L2 a 1.5 millones de km de la Tierra, Webb observa en infrarrojo revelando galaxias de hace 13.500 millones de años, atmósferas de exoplanetas y viveros estelares invisibles para el Hubble.",
     },
     imageQuery: "James Webb Space Telescope deep field galaxy infrared nebula",
+    image: "assets/missions/jwst.jpg",
     youtubeId: "1dAtGSzLwK8",
     stats: [
       { label: "Location",      value: "L2 · 1.5M km" },
@@ -425,6 +443,7 @@ const MISSIONS: Mission[] = [
       es: "La primera prueba integrada del SLS y la nave Orion. La misión no tripulada viajó 450.000 km más allá de la Luna, demostrando todos los sistemas necesarios para las futuras misiones tripuladas Artemis.",
     },
     imageQuery: "Artemis I SLS launch Orion Moon uncrewed test NASA Kennedy",
+    image: "assets/missions/artemis-i.jpg",
     youtubeId: "H5sLin9Hg_I",
     stats: [
       { label: "Vehicle",       value: "SLS Block 1 + Orion" },
@@ -445,6 +464,7 @@ const MISSIONS: Mission[] = [
       es: "La primera misión Artemis tripulada llevará a Reid Wiseman, Victor Glover, Christina Koch y el canadiense Jeremy Hansen en una trayectoria libre de 10 días alrededor de la Luna, los primeros humanos en alcanzar distancia lunar desde el Apolo 17.",
     },
     imageQuery: "Artemis II crew Reid Wiseman Victor Glover Christina Koch Moon mission",
+    image: "assets/missions/artemis-ii.jpg",
     stats: [
       { label: "Crew",     value: "Wiseman · Glover · Koch · Hansen" },
       { label: "Duration", value: "~10 days" },
@@ -452,7 +472,6 @@ const MISSIONS: Mission[] = [
       { label: "Status",   value: "Planned 2026" },
     ],
     crewed: true,
-    rocketId: "sls",
     countdownTarget: "2026-09-30T12:00:00Z"
   },
 ];

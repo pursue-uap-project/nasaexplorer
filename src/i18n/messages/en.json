@@ -44,7 +44,11 @@
     "back": "All Missions",
     "about_title": "About this mission",
     "stats_title": "Mission facts",
-    "gallery_title": "Media"
+    "gallery_title": "Media",
+    "crew_section_title": "Mission Crew",
+    "crew_section_subtitle": "Click on an astronaut to view their profile and full biography",
+    "mission_image_title": "Featured Mission Photograph",
+    "mission_image_subtitle": "Photographic record from official NASA archives"
   },
   "mission": {
     "launch_date": "Date",

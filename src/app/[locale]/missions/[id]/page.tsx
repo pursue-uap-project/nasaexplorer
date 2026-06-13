@@ -5,7 +5,7 @@ import { getMissions, getMissionById, getMissionImages, PROGRAM_COLORS } from "@
 import MissionDetailGallery from "@/components/MissionDetailGallery";
 import MissionStats from "@/components/MissionStats";
 import HistoricalAudio from "@/components/HistoricalAudio";
-import OrbitalSimulator from "@/components/OrbitalSimulator";
+import MissionMediaAndCrew from "@/components/MissionMediaAndCrew";
 import RocketScale from "@/components/RocketScale";
 import MissionCountdown from "@/components/MissionCountdown";
 
@@ -167,8 +167,14 @@ export default async function MissionDetailPage({ params }: Props) {
             <RocketScale rocketId={mission.rocketId} />
           )}
 
-          {/* Orbital Insertion Simulator */}
-          <OrbitalSimulator missionName={mission.name} color={color} />
+          {/* Mission Media & Crew Display */}
+          <MissionMediaAndCrew
+            missionImage={mission.image}
+            missionName={mission.name}
+            crewNames={mission.stats?.find((s) => s.label.toLowerCase() === "crew" || s.label.toLowerCase() === "astronaut")?.value}
+            color={color}
+            allMissions={allMissions}
+          />
         </div>
 
         {/* Gallery */}

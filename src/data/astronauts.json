@@ -118,5 +118,55 @@
     "bio_en": "Mission Specialist for Artemis II, representing the Canadian Space Agency. He is a colonel in the Royal Canadian Air Force.",
     "bio_es": "Especialista de misión para Artemis II, en representación de la Agencia Espacial Canadiense. Es coronel de las Fuerzas Aéreas Canadienses.",
     "image": "https://www.nasa.gov/wp-content/uploads/2015/01/jeremy_hansen.jpg"
+  },
+  "swigert": {
+    "name": "Jack Swigert",
+    "agency": "NASA",
+    "born": "1930",
+    "died": "1982",
+    "active": "1966–1977",
+    "bio_en": "Command Module Pilot on Apollo 13. He was one of the 24 astronauts who flew to the Moon, and later elected to Congress.",
+    "bio_es": "Piloto del Módulo de Mando en Apolo 13. Fue uno de los 24 astronautas que viajaron a la Luna, y posteriormente elegido para el Congreso.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/jack_swigert.jpg"
+  },
+  "haise": {
+    "name": "Fred Haise",
+    "agency": "NASA",
+    "born": "1933",
+    "died": null,
+    "active": "1966–1979",
+    "bio_en": "Lunar Module Pilot on Apollo 13. He was scheduled to walk on the Moon but instead flew the crippled spacecraft back to Earth.",
+    "bio_es": "Piloto del Módulo Lunar en Apolo 13. Estaba programado para caminar sobre la Luna, pero en su lugar pilotó la nave averiada de regreso a la Tierra.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/fred_haise.jpg"
+  },
+  "evans": {
+    "name": "Ron Evans",
+    "agency": "NASA",
+    "born": "1933",
+    "died": "1990",
+    "active": "1966–1977",
+    "bio_en": "Command Module Pilot on Apollo 17. He spent a record-breaking 148 hours in lunar orbit alone while his crewmates walked on the surface.",
+    "bio_es": "Piloto del Módulo de Mando en Apolo 17. Pasó un récord de 148 horas en órbita lunar en solitario mientras sus compañeros caminaban por la superficie.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/ronald_evans.jpg"
+  },
+  "young": {
+    "name": "John Young",
+    "agency": "NASA",
+    "born": "1930",
+    "died": "2018",
+    "active": "1962–2004",
+    "bio_en": "Commander of STS-1. He walked on the Moon during Apollo 16, flew the Space Shuttle twice, and is the only person to fly six space missions.",
+    "bio_es": "Comandante de STS-1. Caminó en la Luna durante Apolo 16, voló el Transbordador Espacial dos veces y es la única persona en volar seis misiones espaciales.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/john_young.jpg"
+  },
+  "crippen": {
+    "name": "Robert Crippen",
+    "agency": "NASA",
+    "born": "1937",
+    "died": null,
+    "active": "1969–1995",
+    "bio_en": "Pilot of STS-1, the first orbital test flight of the Space Shuttle. He later commanded three subsequent Space Shuttle flights.",
+    "bio_es": "Piloto de la STS-1, el primer vuelo de prueba orbital del Transbordador Espacial. Posteriormente comandó tres vuelos adicionales del transbordador.",
+    "image": "https://www.nasa.gov/wp-content/uploads/2015/01/robert_crippen.jpg"
   }
 }
