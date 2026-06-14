@@ -59,3 +59,15 @@ body {
 }
 .kenburns { animation: kenburns 24s ease-in-out infinite alternate; }
 @media (prefers-reduced-motion: reduce) { .kenburns { animation: none; } }
+
+/* ── Scroll-driven timeline connector line (Idea 9 - Item 3) ── */
+@supports (animation-timeline: scroll()) {
+  .scroll-drawn-track {
+    animation: draw-timeline-line auto linear;
+    animation-timeline: scroll(root);
+  }
+  @keyframes draw-timeline-line {
+    from { height: 0%; }
+    to { height: 100%; }
+  }
+}

@@ -28,7 +28,7 @@ export default function MissionsRoadmap({ missions }: Props) {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 relative">
       {/* Central glowing track line */}
-      <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-blue-500/80 via-indigo-500/50 to-transparent transform md:-translate-x-1/2" />
+      <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-blue-500/80 via-indigo-500/50 to-transparent transform md:-translate-x-1/2 scroll-drawn-track" />
 
       <div className="space-y-12 relative">
         {sortedMissions.map((m, idx) => {
