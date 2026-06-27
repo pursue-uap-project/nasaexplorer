@@ -2,18 +2,16 @@ import { setRequestLocale } from "next-intl/server";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import HomeClient from "@/components/HomeClient";
-import uapStoriesData from "@/data/uap-stories.json";
 
 type Props = { params: Promise<{ locale: string }> };
 
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const uapCount = uapStoriesData.length;
-  return <HomeContent uapCount={uapCount} />;
+  return <HomeContent />;
 }
 
-function HomeContent({ uapCount }: { uapCount: number }) {
+function HomeContent() {
   const t = useTranslations("home");
 
   return (
@@ -57,9 +55,8 @@ function HomeContent({ uapCount }: { uapCount: number }) {
           {t("cta")}
         </Link>
 
-        {/* ── Stats & UAP Secret Portal ───────────────────────────────── */}
+        {/* ── Stats ───────────────────────────────────────────────────── */}
         <HomeClient
-          uapCount={uapCount}
           statsMissionsLabel={t("stats_missions")}
           statsYearsLabel={t("stats_years")}
           statsProgramsLabel={t("stats_programs")}

@@ -6,8 +6,7 @@ import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@/i18n/routing";
 import { getMissions, Mission } from "@/lib/nasa";
-import uapStoriesData from "@/data/uap-stories.json";
-import { performUnifiedSearch, SearchResult, UapSighting } from "@/lib/fuzzy";
+import { performUnifiedSearch, SearchResult } from "@/lib/fuzzy";
 
 interface SearchClientProps {
   locale: "en" | "es";
@@ -21,7 +20,7 @@ export default function SearchClient({ locale }: SearchClientProps) {
   // Get initial query from URL
   const urlQuery = searchParams.get("q") || "";
   const [query, setQuery] = useState(urlQuery);
-  const [activeFilter, setActiveFilter] = useState<"all" | "nasa" | "uap">("all");
+  const [activeFilter, setActiveFilter] = useState<"all" | "nasa">("all");
   const [nasaMissions, setNasaMissions] = useState<Mission[]>([]);
 
   // Load NASA missions on mount
@@ -49,13 +48,10 @@ export default function SearchClient({ locale }: SearchClientProps) {
     setQuery(urlQuery);
   }, [urlQuery]);
 
-  // Cast UAP data
-  const uapSightings = useMemo(() => uapStoriesData as UapSighting[], []);
-
   // Perform the search
   const allResults = useMemo(() => {
-    return performUnifiedSearch(query, nasaMissions as any, uapSightings, locale);
-  }, [query, nasaMissions, uapSightings, locale]);
+    return performUnifiedSearch(query, nasaMissions as any, locale);
+  }, [query, nasaMissions, locale]);
 
   // Filter the results
   const filteredResults = useMemo(() => {
@@ -66,11 +62,9 @@ export default function SearchClient({ locale }: SearchClientProps) {
   // Counts for filters
   const counts = useMemo(() => {
     const nasa = allResults.filter((r) => r.type === "nasa").length;
-    const uap = allResults.filter((r) => r.type === "uap").length;
     return {
       all: allResults.length,
       nasa,
-      uap,
     };
   }, [allResults]);
 
@@ -184,16 +178,6 @@ export default function SearchClient({ locale }: SearchClientProps) {
                 }`}
               >
                 {t("nasa_only")} ({counts.nasa})
-              </button>
-              <button
-                onClick={() => setActiveFilter("uap")}
-                className={`px-4 py-1.5 rounded-lg text-xs font-bold font-mono uppercase tracking-wide transition-all ${
-                  activeFilter === "uap"
-                    ? "bg-emerald-600 text-white shadow-md shadow-emerald-900/30"
-                    : "text-white/50 hover:text-emerald-400 hover:bg-emerald-950/20"
-                }`}
-              >
-                {t("uap_only")} ({counts.uap})
               </button>
             </div>
 

@@ -67,7 +67,7 @@ export function scoreMatch(query: string, text: string): number {
 }
 
 export type SearchResult = {
-  type: "nasa" | "uap";
+  type: "nasa";
   id: string;
   title: string;
   subtitle: string;
@@ -85,22 +85,9 @@ export interface NasaMission {
   launch_details: { date: string };
 }
 
-export interface UapSighting {
-  id: string;
-  title_es: string;
-  title_en: string;
-  agency: string;
-  region: string;
-  year: string;
-  tags: string[];
-  body_es: string;
-  body_en: string;
-}
-
 export function performUnifiedSearch(
   query: string,
   nasaMissions: NasaMission[],
-  uapSightings: UapSighting[],
   locale: "en" | "es"
 ): SearchResult[] {
   if (!query.trim()) return [];
@@ -130,38 +117,6 @@ export function performUnifiedSearch(
         description: desc,
         url: `/missions/${mission.id}`,
         tags: [program, launchYear].filter(Boolean),
-        score: maxScore,
-      });
-    }
-  }
-
-  // Search UAP Sightings
-  for (const sighting of uapSightings) {
-    const title = locale === "es" ? sighting.title_es : sighting.title_en;
-    const desc = locale === "es" ? sighting.body_es : sighting.body_en;
-    const agency = sighting.agency;
-    const region = sighting.region;
-    const year = sighting.year;
-    const tags = sighting.tags || [];
-
-    const titleScore = scoreMatch(query, title) * 2.5;
-    const descScore = scoreMatch(query, desc) * 1.0;
-    const agencyScore = scoreMatch(query, agency) * 1.5;
-    const regionScore = scoreMatch(query, region) * 1.2;
-    const yearScore = scoreMatch(query, year) * 1.0;
-    const tagsScore = tags.reduce((acc, tag) => Math.max(acc, scoreMatch(query, tag) * 1.3), 0);
-
-    const maxScore = Math.max(titleScore, descScore, agencyScore, regionScore, yearScore, tagsScore);
-
-    if (maxScore > 0.15) {
-      results.push({
-        type: "uap",
-        id: sighting.id,
-        title,
-        subtitle: `UAP Report · ${agency} · ${region} (${year})`,
-        description: desc,
-        url: `/uap/sighting/${sighting.id}`,
-        tags: [agency, year, ...tags].filter(Boolean),
         score: maxScore,
       });
     }
