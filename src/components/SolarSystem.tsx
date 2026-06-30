@@ -321,6 +321,7 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
     if (!canvas || !container) return;
     const ctx = canvas.getContext("2d")!;
     let raf: number;
+    let running = false;
 
     function resize() {
       const w = container!.clientWidth;
@@ -338,6 +339,9 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
       zoomRef.current = Math.max(0.35, Math.min(4.5, zoomRef.current * zoomFactor));
     }
     canvas.addEventListener("wheel", handleCanvasWheel, { passive: false });
+
+    // Movimiento reducido: arranca en pausa (sistema estático; el usuario puede reanudar).
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) pausedRef.current = true;
 
     function frame(ts: number) {
       if (!pausedRef.current && lastTsRef.current > 0) {
@@ -454,13 +458,27 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
         }
       }
 
-      raf = requestAnimationFrame(frame);
+      if (running) raf = requestAnimationFrame(frame);
     }
 
-    raf = requestAnimationFrame(frame);
-    return () => { 
-      cancelAnimationFrame(raf); 
-      ro.disconnect(); 
+    const start = () => { if (!running) { running = true; lastTsRef.current = 0; raf = requestAnimationFrame(frame); } };
+    const stop  = () => { if (running) { running = false; cancelAnimationFrame(raf); } };
+
+    // Pausa el render con pestaña oculta o canvas fuera de viewport → ahorra CPU/batería.
+    const onVis = () => (document.hidden ? stop() : start());
+    document.addEventListener("visibilitychange", onVis);
+    const io = new IntersectionObserver(
+      ([e]) => (e.isIntersecting && !document.hidden ? start() : stop()),
+      { threshold: 0 }
+    );
+    io.observe(canvas);
+
+    start();
+    return () => {
+      stop();
+      ro.disconnect();
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVis);
       canvas.removeEventListener("wheel", handleCanvasWheel);
     };
   }, []);
