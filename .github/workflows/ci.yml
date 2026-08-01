@@ -1,0 +1,45 @@
+name: CI
+
+# El repo no tenía ninguna validación previa al merge: el único workflow era el
+# deploy, que corre en `push` a main. Un lockfile desincronizado con
+# package.json entró así el 30 de junio, `npm ci` falló y el sitio se quedó sin
+# desplegar un mes sin que nada avisara. Esto lo detecta antes de entrar.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      # `npm ci` es justo lo que hace el deploy, y lo que falla cuando el
+      # lockfile no concuerda con package.json. Es la comprobación que faltaba.
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
+
+      # Un build que no genera páginas es un fallo silencioso: el deploy
+      # subiría un artefacto vacío y el sitio quedaría en blanco.
+      - name: Comprobar que el export tiene contenido
+        run: |
+          test -d out || { echo "No se generó el directorio out/"; exit 1; }
+          paginas=$(find out -name '*.html' | wc -l)
+          echo "Páginas generadas: $paginas"
+          test "$paginas" -gt 10 || { echo "Demasiado pocas páginas ($paginas)"; exit 1; }
