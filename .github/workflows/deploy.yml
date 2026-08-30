@@ -22,11 +22,17 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: 22
+
+      - name: Adaptar repo espejado para build sin workspace pnpm
+        run: |
+          # El monorepo usa @zas/config via workspace:*; npm no lo entiende.
+          sed -i '/"@zas\/config": "workspace:\*"/d' package.json
+          # Sustituimos la config de ESLint compartida por una vacía para el build.
+          echo 'export default [];' > eslint.config.mjs
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build
         run: npm run build

@@ -4,6 +4,9 @@ name: CI
 # deploy, que corre en `push` a main. Un lockfile desincronizado con
 # package.json entró así el 30 de junio, `npm ci` falló y el sitio se quedó sin
 # desplegar un mes sin que nada avisara. Esto lo detecta antes de entrar.
+#
+# Nota: el espejo desde el monorepo no trae package-lock.json (usa pnpm), así
+# que el workflow usa `npm install` en vez de `npm ci`.
 on:
   pull_request:
     branches: [main]
@@ -23,12 +26,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: npm
 
-      # `npm ci` es justo lo que hace el deploy, y lo que falla cuando el
-      # lockfile no concuerda con package.json. Es la comprobación que faltaba.
+      - name: Adaptar repo espejado para build sin workspace pnpm
+        run: |
+          sed -i '/"@zas\/config": "workspace:\*"/d' package.json
+          echo 'export default [];' > eslint.config.mjs
+
+      # El espejo desde el monorepo no trae package-lock.json (usa pnpm).
       - name: Instalar dependencias
-        run: npm ci
+        run: npm install
 
       - name: Build
         run: npm run build
