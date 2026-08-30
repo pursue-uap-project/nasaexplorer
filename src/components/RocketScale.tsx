@@ -116,28 +116,28 @@ export default function RocketScale({ rocketId }: Props) {
   const hRedstone = (referenceRedstone.height / maxH) * 150;
 
   return (
-    <div className="bg-white/40 backdrop-blur-2xl border border-white/60 rounded-3xl p-6 sm:p-8 mt-8">
-      <h3 className="text-foreground font-bold text-base mb-2 flex items-center gap-2">
-        <span>🚀</span>
+    <div className="bg-card border border-card-border rounded-3xl p-6 sm:p-8 mt-8">
+      <h3 className="text-ink font-bold text-base mb-2 flex items-center gap-2">
+        <span aria-hidden="true">🚀</span>
         {t("title")}
       </h3>
-      <p className="text-foreground/50 text-xs mb-6">
+      <p className="text-muted text-xs mb-6">
         {t("subtitle", { name: activeRocket.name })}
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
         {/* Scaling Visual SVG Diagram */}
-        <div className="md:col-span-2 bg-[#040d21] border border-white/10 rounded-2xl p-5 flex flex-col items-center justify-end h-[240px] relative">
+        <div className="md:col-span-2 bg-background border border-white/10 rounded-2xl p-5 flex flex-col items-center justify-end h-[240px] relative">
           
           {/* Height grid lines */}
           <div className="absolute inset-x-0 bottom-5 top-5 flex flex-col justify-between pointer-events-none">
-            <div className="border-t border-white/[0.04] w-full relative">
+            <div className="border-t border-white/4 w-full relative">
               <span className="absolute -top-2.5 left-2 font-mono text-[9px] text-white/20">110m</span>
             </div>
-            <div className="border-t border-white/[0.04] w-full relative">
+            <div className="border-t border-white/4 w-full relative">
               <span className="absolute -top-2.5 left-2 font-mono text-[9px] text-white/20">55m</span>
             </div>
-            <div className="border-t border-white/[0.04] w-full relative">
+            <div className="border-t border-white/4 w-full relative">
               <span className="absolute -top-2.5 left-2 font-mono text-[9px] text-white/20">0m</span>
             </div>
           </div>
@@ -185,26 +185,26 @@ export default function RocketScale({ rocketId }: Props) {
 
         {/* Technical Specs List */}
         <div className="md:col-span-3">
-          <div className="bg-white/30 border border-white/50 rounded-2xl p-5 divide-y divide-white/20">
+          <div className="bg-card-sunken border border-card-border rounded-2xl p-5 divide-y divide-white/20">
             <div className="flex justify-between py-2.5 text-xs">
-              <span className="text-foreground/45 uppercase tracking-wider">{t("spec_name")}</span>
-              <span className="font-bold text-foreground">{activeRocket.name}</span>
+              <span className="text-muted uppercase tracking-wider">{t("spec_name")}</span>
+              <span className="font-bold text-ink">{activeRocket.name}</span>
             </div>
             <div className="flex justify-between py-2.5 text-xs">
-              <span className="text-foreground/45 uppercase tracking-wider">{t("spec_height")}</span>
-              <span className="font-bold text-foreground font-mono">{activeRocket.height} m</span>
+              <span className="text-muted uppercase tracking-wider">{t("spec_height")}</span>
+              <span className="font-bold text-ink font-mono">{activeRocket.height} m</span>
             </div>
             <div className="flex justify-between py-2.5 text-xs">
-              <span className="text-foreground/45 uppercase tracking-wider">{t("spec_thrust")}</span>
-              <span className="font-bold text-foreground font-mono" style={{ color: activeRocket.color }}>{activeRocket.thrust}</span>
+              <span className="text-muted uppercase tracking-wider">{t("spec_thrust")}</span>
+              <span className="font-bold text-ink font-mono" style={{ color: activeRocket.color }}>{activeRocket.thrust}</span>
             </div>
             <div className="flex justify-between py-2.5 text-xs">
-              <span className="text-foreground/45 uppercase tracking-wider">{t("spec_mass")}</span>
-              <span className="font-bold text-foreground font-mono">{activeRocket.mass}</span>
+              <span className="text-muted uppercase tracking-wider">{t("spec_mass")}</span>
+              <span className="font-bold text-ink font-mono">{activeRocket.mass}</span>
             </div>
             <div className="flex justify-between py-2.5 text-xs">
-              <span className="text-foreground/45 uppercase tracking-wider">{t("spec_payload")}</span>
-              <span className="font-bold text-foreground font-mono">{activeRocket.payload}</span>
+              <span className="text-muted uppercase tracking-wider">{t("spec_payload")}</span>
+              <span className="font-bold text-ink font-mono">{activeRocket.payload}</span>
             </div>
           </div>
         </div>

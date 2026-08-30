@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
@@ -6,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@/i18n/routing";
 import { getMissions, Mission } from "@/lib/nasa";
-import { performUnifiedSearch, SearchResult } from "@/lib/fuzzy";
+import { performUnifiedSearch } from "@/lib/fuzzy";
 
 interface SearchClientProps {
   locale: "en" | "es";
@@ -50,7 +51,7 @@ export default function SearchClient({ locale }: SearchClientProps) {
 
   // Perform the search
   const allResults = useMemo(() => {
-    return performUnifiedSearch(query, nasaMissions as any, locale);
+    return performUnifiedSearch(query, nasaMissions, locale);
   }, [query, nasaMissions, locale]);
 
   // Filter the results
@@ -99,7 +100,7 @@ export default function SearchClient({ locale }: SearchClientProps) {
           <motion.h1
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-200 to-emerald-400"
+            className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-blue-400 via-indigo-200 to-emerald-400"
           >
             {t("title")}
           </motion.h1>
@@ -109,7 +110,7 @@ export default function SearchClient({ locale }: SearchClientProps) {
             transition={{ delay: 0.15 }}
             className="text-white/40 text-xs sm:text-sm font-mono tracking-widest mt-2 uppercase"
           >
-            CROSS-PORTAL DECLASSIFIED DATABASE INDEX
+            NASA MISSION DATABASE INDEX
           </motion.p>
         </div>
 
@@ -120,7 +121,7 @@ export default function SearchClient({ locale }: SearchClientProps) {
           transition={{ type: "spring", stiffness: 200, damping: 20 }}
           className="relative max-w-2xl mx-auto mb-10"
         >
-          <div className="relative rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-xl p-2 shadow-2xl focus-within:border-indigo-500/50 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all duration-300">
+          <div className="relative rounded-2xl bg-white/4 border border-white/10 backdrop-blur-xl p-2 shadow-2xl focus-within:border-indigo-500/50 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all duration-300">
             <div className="flex items-center gap-3 px-3">
               {/* Search icon */}
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 text-white/40 shrink-0">
@@ -132,7 +133,7 @@ export default function SearchClient({ locale }: SearchClientProps) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t("placeholder")}
-                className="w-full bg-transparent border-0 text-white placeholder-white/30 focus:ring-0 outline-none text-base py-2 font-sans"
+                className="w-full bg-transparent border-0 text-white placeholder-white/30 focus:ring-0 outline-hidden text-base py-2 font-sans"
               />
 
               {/* Clear button */}
@@ -158,12 +159,12 @@ export default function SearchClient({ locale }: SearchClientProps) {
         {query.trim().length >= 2 && (
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-white/10 pb-4 mb-6">
             {/* Filter buttons */}
-            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-white/[0.03] border border-white/5">
+            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-white/3 border border-white/5">
               <button
                 onClick={() => setActiveFilter("all")}
                 className={`px-4 py-1.5 rounded-lg text-xs font-bold font-mono uppercase tracking-wide transition-all ${
                   activeFilter === "all"
-                    ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-indigo-900/30"
+                    ? "bg-linear-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-indigo-900/30"
                     : "text-white/50 hover:text-white hover:bg-white/5"
                 }`}
               >
@@ -193,7 +194,7 @@ export default function SearchClient({ locale }: SearchClientProps) {
         {/* Results List */}
         <div className="relative min-h-[200px]">
           {query.trim().length < 2 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center text-white/30 border border-dashed border-white/10 rounded-2xl bg-white/[0.01]">
+            <div className="flex flex-col items-center justify-center py-16 text-center text-white/30 border border-dashed border-white/10 rounded-2xl bg-white/1">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 mb-3 text-white/20">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25-3v13.5m0-13.5L10.5 6m1.5-1.5L13.5 6M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
@@ -279,7 +280,7 @@ export default function SearchClient({ locale }: SearchClientProps) {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="flex flex-col items-center justify-center py-16 text-center text-white/30 border border-dashed border-white/10 rounded-2xl bg-white/[0.01]"
+              className="flex flex-col items-center justify-center py-16 text-center text-white/30 border border-dashed border-white/10 rounded-2xl bg-white/1"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 mb-3 text-white/20">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />

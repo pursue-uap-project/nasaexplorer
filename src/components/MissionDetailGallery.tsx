@@ -23,8 +23,8 @@ export default function MissionDetailGallery({
   const hasVideo = Boolean(youtubeId);
 
   return (
-    <div className="bg-white/30 border-t border-white/40 px-4 sm:px-6 lg:px-10 py-8">
-      <h3 className="text-foreground/35 text-xs font-mono uppercase tracking-widest mb-6">
+    <div className="bg-card-sunken border-t border-card-border px-4 sm:px-6 lg:px-10 py-8">
+      <h3 className="text-faint text-xs font-mono uppercase tracking-widest mb-6">
         {galleryTitle}
       </h3>
 
@@ -45,13 +45,13 @@ export default function MissionDetailGallery({
               ) : (
                 <>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={`https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`}
                     alt={`${missionName} video`}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-black/25 group-hover:bg-black/15 transition-colors" />
-                  <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-black/60 rounded-md px-2 py-1 backdrop-blur-sm">
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-black/60 rounded-md px-2 py-1 backdrop-blur-xs">
                     <svg viewBox="0 0 24 24" fill="#FF0000" className="w-4 h-4">
                       <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.2 31.2 0 0 0 0 12a31.2 31.2 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.2 31.2 0 0 0 24 12a31.2 31.2 0 0 0-.5-5.8z" />
                       <polygon fill="white" points="9.75,15.02 15.5,12 9.75,8.98" />
@@ -75,7 +75,7 @@ export default function MissionDetailGallery({
                 </>
               )}
             </div>
-            <p className="text-foreground/40 text-xs leading-snug px-0.5">
+            <p className="text-faint text-xs leading-snug px-0.5">
               Official NASA video · YouTube
             </p>
           </div>
@@ -87,7 +87,7 @@ export default function MissionDetailGallery({
             ? galleryImages.map((src, i) => (
                 <div
                   key={i}
-                  className="relative rounded-xl overflow-hidden aspect-video bg-gray-100 shadow-sm group"
+                  className="relative rounded-xl overflow-hidden aspect-video bg-gray-100 shadow-xs group"
                 >
                   <Image
                     src={src}
@@ -105,7 +105,7 @@ export default function MissionDetailGallery({
             : Array.from({ length: 4 }).map((_, i) => (
                 <div
                   key={i}
-                  className="rounded-xl aspect-video bg-gradient-to-br from-gray-100 to-gray-50 flex items-center justify-center"
+                  className="rounded-xl aspect-video bg-linear-to-br from-gray-100 to-gray-50 flex items-center justify-center"
                 >
                   <span className="text-gray-300 text-xs font-mono">img {i + 1}</span>
                 </div>

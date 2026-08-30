@@ -87,7 +87,7 @@ export default function MissionsClient({ missions }: { missions: Mission[] }) {
       <MissionAnalytics missions={missions} />
 
       {/* ── Sticky search + chips + advanced filters bar ───────────────── */}
-      <div className="sticky top-16 z-40 bg-[#040D21]/90 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_1px_0_0_rgba(255,255,255,0.05)] mb-6">
+      <div className="sticky top-16 z-40 bg-[#040D21]/90 backdrop-blur-xl border-b border-white/8 shadow-[0_1px_0_0_rgba(255,255,255,0.05)] mb-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-3">
           <div className="flex flex-col md:flex-row gap-3">
             {/* Search */}
@@ -96,7 +96,7 @@ export default function MissionsClient({ missions }: { missions: Mission[] }) {
               placeholder={t("search_placeholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="flex-1 rounded-xl border border-white/15 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white/20 bg-white/[0.07] text-white backdrop-blur-sm shadow-sm placeholder:text-white/30"
+              className="flex-1 rounded-xl border border-white/15 px-4 py-2 text-sm focus:outline-hidden focus:ring-2 focus:ring-white/20 bg-white/[0.07] text-white backdrop-blur-xs shadow-xs placeholder:text-white/30"
             />
             
             {/* Advanced Filters dropdown row */}
@@ -105,7 +105,7 @@ export default function MissionsClient({ missions }: { missions: Mission[] }) {
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="rounded-xl border border-white/15 px-3 py-2 text-xs focus:outline-none bg-[#050e21] text-white/80 cursor-pointer hover:bg-white/[0.04] transition-all"
+                className="rounded-xl border border-white/15 px-3 py-2 text-xs focus:outline-hidden bg-[#050e21] text-white/80 cursor-pointer hover:bg-white/4 transition-all"
               >
                 <option value="all">{t("type_all")}</option>
                 <option value="crewed">{t("type_crewed")}</option>
@@ -116,7 +116,7 @@ export default function MissionsClient({ missions }: { missions: Mission[] }) {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="rounded-xl border border-white/15 px-3 py-2 text-xs focus:outline-none bg-[#050e21] text-white/80 cursor-pointer hover:bg-white/[0.04] transition-all"
+                className="rounded-xl border border-white/15 px-3 py-2 text-xs focus:outline-hidden bg-[#050e21] text-white/80 cursor-pointer hover:bg-white/4 transition-all"
               >
                 <option value="all">{t("status_all")}</option>
                 <option value="active">{t("status_active")}</option>
@@ -128,7 +128,7 @@ export default function MissionsClient({ missions }: { missions: Mission[] }) {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="rounded-xl border border-white/15 px-3 py-2 text-xs focus:outline-none bg-[#050e21] text-white/80 cursor-pointer hover:bg-white/[0.04] transition-all"
+                className="rounded-xl border border-white/15 px-3 py-2 text-xs focus:outline-hidden bg-[#050e21] text-white/80 cursor-pointer hover:bg-white/4 transition-all"
               >
                 <option value="launch-desc">{t("sort_launch_desc")}</option>
                 <option value="launch-asc">{t("sort_launch_asc")}</option>
@@ -139,9 +139,9 @@ export default function MissionsClient({ missions }: { missions: Mission[] }) {
               {/* View Mode Toggle */}
               <button
                 onClick={() => setViewMode(viewMode === "grid" ? "roadmap" : "grid")}
-                className="rounded-xl border border-white/15 px-3.5 py-2 text-xs bg-white/[0.05] hover:bg-white/[0.1] text-white font-medium transition-all flex items-center gap-1.5 shadow-sm"
+                className="rounded-xl border border-white/15 px-3.5 py-2 text-xs bg-white/5 hover:bg-white/10 text-white font-medium transition-all flex items-center gap-1.5 shadow-xs"
               >
-                <span>{viewMode === "grid" ? "🗺️" : "🔲"}</span>
+                <span aria-hidden="true">{viewMode === "grid" ? "🗺️" : "🔲"}</span>
                 <span>{viewMode === "grid" ? t("view_roadmap") : t("view_grid")}</span>
               </button>
             </div>
@@ -155,8 +155,8 @@ export default function MissionsClient({ missions }: { missions: Mission[] }) {
                 onClick={() => setFilter(key)}
                 className={`shrink-0 px-4 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 border ${
                   filter === key
-                    ? "bg-white/[0.15] text-white ring-1 ring-inset ring-white/25 border-transparent"
-                    : "bg-white/[0.05] border-white/15 text-white/50 hover:text-white hover:bg-white/[0.10]"
+                    ? "bg-white/15 text-white ring-1 ring-inset ring-white/25 border-transparent"
+                    : "bg-white/5 border-white/15 text-white/50 hover:text-white hover:bg-white/10"
                 }`}
               >
                 {label}

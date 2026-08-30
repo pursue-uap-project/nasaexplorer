@@ -1,7 +1,7 @@
 {
   "name": "NASA Explorer",
   "short_name": "NASA Explorer",
-  "description": "Interactive explorer of NASA missions, the solar system, and declassified UAP archives.",
+  "description": "Interactive explorer of NASA missions and the solar system.",
   "start_url": "/en",
   "scope": "/en",
   "display": "standalone",

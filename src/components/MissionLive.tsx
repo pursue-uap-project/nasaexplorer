@@ -9,7 +9,7 @@ type ISS = { latitude: number; longitude: number; altitude: number; velocity: nu
 function LiveCard({ title, color, children }: { title: string; color: string; children: React.ReactNode }) {
   const t = useTranslations("active");
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4" style={{ borderLeft: `3px solid ${color}` }}>
+    <div className="rounded-2xl border border-white/10 bg-white/3 p-4" style={{ borderLeft: `3px solid ${color}` }}>
       <div className="mb-3 flex items-center gap-2">
         <span className="flex items-center gap-1.5 rounded-full bg-red-500/15 px-2 py-0.5 text-[10px] font-bold tracking-widest text-red-400">
           <span className="onair-dot h-1.5 w-1.5 rounded-full bg-red-500" /> {t("live_now")}
@@ -67,7 +67,7 @@ function MarsLive({ mars, color }: { mars: MarsLatest; color: string }) {
       <div className="flex items-center gap-4">
         {mars.photo && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={mars.photo} alt="Mars latest" className="h-20 w-28 shrink-0 rounded-lg border border-white/10 object-cover" />
+          <img loading="lazy" decoding="async" src={mars.photo} alt="Mars latest" className="h-20 w-28 shrink-0 rounded-lg border border-white/10 object-cover" />
         )}
         <div className="grid flex-1 grid-cols-2 gap-x-4 gap-y-3">
           <Metric label={t("sol")} value={`${mars.sol}`} color={color} />

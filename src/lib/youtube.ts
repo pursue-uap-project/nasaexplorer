@@ -28,7 +28,16 @@ export async function searchNASAVideos(
   if (!res.ok) throw new Error("YouTube API error");
   const data = await res.json();
 
-  return data.items.map((item: any) => ({
+  type YtSearchItem = {
+    id: { videoId: string };
+    snippet: {
+      title: string;
+      thumbnails: { medium: { url: string } };
+      publishedAt: string;
+      channelTitle: string;
+    };
+  };
+  return (data.items as YtSearchItem[]).map((item) => ({
     id: item.id.videoId,
     title: item.snippet.title,
     thumbnail: item.snippet.thumbnails.medium.url,

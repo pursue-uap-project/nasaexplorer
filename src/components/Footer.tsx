@@ -19,7 +19,8 @@ export default function Footer() {
 
         {/* Left: NASA credits */}
         <div className="flex items-center gap-2.5">
-          <img src="/nasaexplorer/nasa-logo.png" alt="NASA" className="h-5 w-auto brightness-0 invert opacity-30" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img loading="lazy" decoding="async" src="/nasaexplorer/nasa-logo.png" alt="NASA" className="h-5 w-auto brightness-0 invert opacity-30" />
           <span>
             {credits}{" "}
             <a
@@ -36,7 +37,7 @@ export default function Footer() {
         {/* Right: repo + lang switcher */}
         <div className="flex items-center gap-5">
           <a
-            href="https://github.com/pursue-uap-project/nasaexplorer"
+            href="https://github.com/zaswear/zaswear-projects"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 hover:text-white transition-colors"

@@ -28,7 +28,7 @@ export default function MissionsRoadmap({ missions }: Props) {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 relative">
       {/* Central glowing track line */}
-      <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-blue-500/80 via-indigo-500/50 to-transparent transform md:-translate-x-1/2 scroll-drawn-track" />
+      <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-linear-to-b from-blue-500/80 via-indigo-500/50 to-transparent transform md:-translate-x-1/2 scroll-drawn-track" />
 
       <div className="space-y-12 relative">
         {sortedMissions.map((m, idx) => {
@@ -45,7 +45,7 @@ export default function MissionsRoadmap({ missions }: Props) {
             >
               {/* Central Chronological Node Dot */}
               <div
-                className="absolute left-6 md:left-1/2 w-4 h-4 rounded-full border-4 border-[#040d21] transform -translate-x-1/2 z-10 transition-all duration-300 hover:scale-125"
+                className="absolute left-6 md:left-1/2 w-4 h-4 rounded-full border-4 border-background transform -translate-x-1/2 z-10 transition-all duration-300 hover:scale-125"
                 style={{
                   backgroundColor: color,
                   boxShadow: `0 0 10px 2px ${color}80`,
@@ -55,7 +55,7 @@ export default function MissionsRoadmap({ missions }: Props) {
               {/* Symmetrical Spacing for Alternate Alignment */}
               <div className="w-full md:w-1/2 pl-12 md:pl-0 md:px-8">
                 <div
-                  className={`bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl p-5 hover:border-white/20 transition-all hover:shadow-[0_10px_30px_-10px_rgba(255,255,255,0.05)] ${
+                  className={`bg-white/3 backdrop-blur-xl border border-white/10 rounded-2xl p-5 hover:border-white/20 transition-all hover:shadow-[0_10px_30px_-10px_rgba(255,255,255,0.05)] ${
                     isEven ? "md:text-right" : "md:text-left"
                   }`}
                 >

@@ -1,23 +1,169 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-:root {
-  --color-background: #040D21;
-  --color-primary: #0B3D91;
-  --color-accent: #FC3D21;
-  --color-foreground: #1E293B;
+@theme {
+  /* ═══════════════════════════════════════════════════════════════════════
+     SISTEMA DE COLOR
+     ═══════════════════════════════════════════════════════════════════════
+     La app tiene dos sistemas de superficie y los dos son deliberados:
+
+       · CHROME OSCURO  — navbar, footer, overlays. Vive sobre el degradado
+         de fondo y lleva texto claro (--on-dark*).
+       · TARJETA CLARA  — el contenido. Superficie clara sobre el fondo
+         oscuro, con texto oscuro (--ink / --body / --muted / --faint).
+
+     Antes esto no estaba declarado en ningún sitio: las superficies eran
+     `bg-white/N` sueltos (de /1 a /90) y la jerarquía tipográfica se hacía
+     con opacidad sobre el texto (`text-foreground/30`…/80). Esa combinación
+     era la causa del fallo de contraste: una superficie translúcida sobre un
+     degradado da un fondo que cambia con el scroll, y encima un texto también
+     translúcido. Medido: `text-foreground/50` sobre `bg-white/40` daba 1,78:1
+     (el mínimo AA es 4,5:1).
+
+     Los valores de abajo están verificados uno a uno contra las TRES
+     superficies claras. Peor caso de cada token (sobre --card-sunken):
+
+         ink 8,7 : 1   ·   body 7,3 : 1   ·   muted 5,1 : 1   ·   faint 4,8 : 1
+
+     Todos por encima del 4,5:1 de AA para texto normal.
+
+     Regla: la jerarquía se expresa con color, nunca con opacidad. Si hace
+     falta un nivel más tenue que --faint, se añade un token, no un `/40`.
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  /* Fondo de página */
+  --color-background: oklch(16.3% 0.045 262);
+  --color-background-deep: oklch(21.4% 0.048 258);
+
+  /* Marca */
+  --color-primary: #0b3d91;                    /* azul NASA */
+  --color-accent: #fc3d21;                     /* rojo NASA — decorativo */
+  --color-accent-ink: oklch(45% 0.19 28);      /* misma familia, legible como
+                                                  texto sobre --card (5,0:1).
+                                                  El --accent puro da 2,2:1 y
+                                                  no puede llevar texto. */
+
+  /* Superficies claras (contenido). Sólidas y no `white/N`: una superficie
+     translúcida sobre un degradado cambia de color según dónde esté en la
+     página, así que su contraste no se puede garantizar. Sólido = medible.
+     Al ir sobre un fondo casi negro, la diferencia visual con el translúcido
+     original es inapreciable (0,3 puntos de ratio). */
+  --color-card: oklch(84.5% 0.008 255);
+  --color-card-hi: oklch(88.5% 0.006 255);       /* panel elevado dentro de tarjeta */
+  --color-card-sunken: oklch(79% 0.010 255);     /* panel hundido / zona de datos */
+  --color-card-border: oklch(72% 0.012 255);        /* separador decorativo */
+  --color-card-border-strong: oklch(52% 0.018 255); /* límite de control, 3,4:1 */
+
+  /* Texto sobre superficie clara */
+  --color-ink: oklch(23% 0.036 264);
+  --color-body: oklch(29% 0.034 261);
+  --color-muted: oklch(38.5% 0.030 259);
+  --color-faint: oklch(40% 0.028 258);
+
+  /* Superficies oscuras (chrome) */
+  --color-surface-dark: oklch(22% 0.030 258);
+  --color-surface-dark-hi: oklch(27% 0.030 258);
+
+  /* Texto sobre superficie oscura */
+  --color-on-dark: oklch(97% 0.006 250);
+  --color-on-dark-muted: oklch(80% 0.016 252);
+  --color-on-dark-faint: oklch(66% 0.020 254);
+
+  /* Compatibilidad: --foreground era el token de texto único. Se mantiene
+     apuntando a --body para no romper nada que quede sin migrar, pero lo
+     correcto es usar el token semántico que corresponda. */
+  --color-foreground: oklch(29% 0.034 261);
+
+  --font-sans: var(--font-montserrat), system-ui, sans-serif;
+
+  /* ── Escala tipográfica ──────────────────────────────────────────────────
+     Antes se usaban las utilidades por defecto de Tailwind, que son una
+     escala genérica. Ratio ~1.25 entre pasos, line-height propio por paso. */
+  --text-2xs: 11px;
+  --text-2xs--line-height: 1.45;
+  --text-xs: 12px;
+  --text-xs--line-height: 1.5;
+  --text-sm: 14px;
+  --text-sm--line-height: 1.55;
+  --text-base: 16px;
+  --text-base--line-height: 1.6;
+  --text-lg: 19px;
+  --text-lg--line-height: 1.5;
+  --text-xl: 23px;
+  --text-xl--line-height: 1.35;
+  --text-2xl: 29px;
+  --text-2xl--line-height: 1.25;
+  --text-3xl: 37px;
+  --text-3xl--line-height: 1.15;
+  --text-4xl: 46px;
+  --text-4xl--line-height: 1.1;
+  --text-5xl: 58px;
+  --text-5xl--line-height: 1.05;
+
+  --tracking-nav: 0.04em;
+
+  /* Superficie mínima de pulsación. 44px es SC 2.5.5 (AAA) y lo que
+     recomiendan Apple y Material; el mínimo AA (SC 2.5.8) son 24px. */
+  --tap: 44px;
+}
+
+/* Área de pulsación sin tocar el tamaño del icono. */
+@utility tap-target {
+  min-width: var(--tap);
+  min-height: var(--tap);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
 }
 
 html {
-  background: #040D21;
+  background: var(--color-background);
+  /* La app es oscura: sin esto los controles nativos (select, date picker,
+     barras de scroll, autocompletado) se pintan en claro sobre el fondo. */
+  color-scheme: dark;
 }
 
 body {
-  background: linear-gradient(to bottom, #040D21, #0A192F);
-  background-attachment: fixed;
-  color: var(--color-foreground);
-  min-height: 100vh;
+  /* El degradado va en una capa fija propia (::before) y no en el body con
+     `background-attachment: fixed`. Con `fixed` el navegador tiene que
+     repintar el fondo en cada frame de scroll en lugar de desplazar una capa
+     ya compuesta — es una causa clásica de scroll con tirones en móvil, y en
+     iOS Safari el comportamiento además es inconsistente. Una capa fija con
+     z-index negativo da el mismo resultado visual y coste cero por frame. */
+  color: var(--color-on-dark);
+  /* dvh y no vh: en móvil 100vh no descuenta la barra de direcciones y el
+     contenido salta al retraerse. */
+  min-height: 100dvh;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    var(--color-background),
+    var(--color-background-deep)
+  );
 }
 
 @keyframes shimmer {
@@ -70,4 +216,11 @@ body {
     from { height: 0%; }
     to { height: 100%; }
   }
+}
+
+/* Teselas del mapa ISS: el Dark Gray de Esri es más claro que el `dark_all` de
+   CARTO al que sustituye, así que se oscurece y se tiñe hacia el azul del tema
+   para no romper el aspecto del panel. */
+.iss-tiles {
+  filter: brightness(0.55) saturate(0.6) hue-rotate(185deg);
 }

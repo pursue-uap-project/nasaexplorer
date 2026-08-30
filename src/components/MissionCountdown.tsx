@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { SlidingNumber } from "@/components/animate-ui/primitives/texts/sliding-number";
 
 type Props = {
   targetDate: string;
@@ -26,7 +27,9 @@ export default function MissionCountdown({ targetDate, missionName }: Props) {
       const difference = target - now;
 
       if (difference <= 0) {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0, isOver: true });
+        const daysInOrbit = Math.floor((now - target) / (1000 * 60 * 60 * 24));
+        const hoursInOrbit = Math.floor(((now - target) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        setTimeLeft({ days: daysInOrbit, hours: hoursInOrbit, minutes: 0, seconds: 0, isOver: true });
         return;
       }
 
@@ -46,18 +49,27 @@ export default function MissionCountdown({ targetDate, missionName }: Props) {
 
   if (timeLeft.isOver) {
     return (
-      <div className="bg-emerald-950/40 border border-emerald-500/20 backdrop-blur-xl rounded-3xl p-6 text-center max-w-xl mx-auto my-8">
-        <span className="text-3xl">🚀</span>
-        <h4 className="text-white font-bold text-sm mt-2">{t("completed_title", { name: missionName })}</h4>
-        <p className="text-white/60 text-xs mt-1">{t("completed_desc")}</p>
+      <div className="bg-cyan-950/40 border border-cyan-500/30 backdrop-blur-xl rounded-3xl p-6 text-center max-w-xl mx-auto my-8 shadow-xl">
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <span aria-hidden="true" className="text-2xl animate-pulse">🛰️</span>
+          <span className="bg-cyan-500/20 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full border border-cyan-500/30">
+            Misión Activa en Órbita
+          </span>
+        </div>
+        <h4 className="text-white font-bold text-lg">{missionName}</h4>
+        <div className="mt-4 flex justify-center items-center gap-4">
+          <div className="bg-white/5 border border-white/10 rounded-2xl px-5 py-3 text-center">
+            <span className="text-3xl font-extrabold text-cyan-400 font-mono">{timeLeft.days}</span>
+            <span className="block text-[11px] text-cyan-200/70 uppercase tracking-wider font-semibold mt-0.5">Días en Órbita</span>
+          </div>
+          <div className="bg-white/5 border border-white/10 rounded-2xl px-5 py-3 text-center">
+            <span className="text-3xl font-extrabold text-cyan-400 font-mono">{timeLeft.hours}</span>
+            <span className="block text-[11px] text-cyan-200/70 uppercase tracking-wider font-semibold mt-0.5">Horas</span>
+          </div>
+        </div>
       </div>
     );
   }
-
-  // Format digit to ensure 2 numbers (e.g. 09)
-  const formatDigit = (num: number) => {
-    return num < 10 ? `0${num}` : num.toString();
-  };
 
   return (
     <div className="bg-[#0b1428]/60 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 max-w-xl mx-auto my-8 shadow-2xl relative overflow-hidden">
@@ -71,9 +83,9 @@ export default function MissionCountdown({ targetDate, missionName }: Props) {
       <div className="flex items-center justify-around gap-2 max-w-sm mx-auto">
         {/* Days */}
         <div className="flex flex-col items-center">
-          <div className="bg-[#040d21] border border-white/10 rounded-2xl w-14 h-14 flex items-center justify-center shadow-lg">
+          <div className="bg-background border border-white/10 rounded-2xl w-14 h-14 flex items-center justify-center shadow-lg">
             <span className="text-2xl font-extrabold text-blue-400 font-mono tracking-wide">
-              {formatDigit(timeLeft.days)}
+              <SlidingNumber number={timeLeft.days} minDigits={2} />
             </span>
           </div>
           <span className="text-[10px] text-white/40 uppercase font-mono mt-2">{t("days")}</span>
@@ -83,9 +95,9 @@ export default function MissionCountdown({ targetDate, missionName }: Props) {
 
         {/* Hours */}
         <div className="flex flex-col items-center">
-          <div className="bg-[#040d21] border border-white/10 rounded-2xl w-14 h-14 flex items-center justify-center shadow-lg">
+          <div className="bg-background border border-white/10 rounded-2xl w-14 h-14 flex items-center justify-center shadow-lg">
             <span className="text-2xl font-extrabold text-blue-400 font-mono tracking-wide">
-              {formatDigit(timeLeft.hours)}
+              <SlidingNumber number={timeLeft.hours} minDigits={2} />
             </span>
           </div>
           <span className="text-[10px] text-white/40 uppercase font-mono mt-2">{t("hours")}</span>
@@ -95,9 +107,9 @@ export default function MissionCountdown({ targetDate, missionName }: Props) {
 
         {/* Minutes */}
         <div className="flex flex-col items-center">
-          <div className="bg-[#040d21] border border-white/10 rounded-2xl w-14 h-14 flex items-center justify-center shadow-lg">
+          <div className="bg-background border border-white/10 rounded-2xl w-14 h-14 flex items-center justify-center shadow-lg">
             <span className="text-2xl font-extrabold text-blue-400 font-mono tracking-wide">
-              {formatDigit(timeLeft.minutes)}
+              <SlidingNumber number={timeLeft.minutes} minDigits={2} />
             </span>
           </div>
           <span className="text-[10px] text-white/40 uppercase font-mono mt-2">{t("minutes")}</span>
@@ -107,9 +119,9 @@ export default function MissionCountdown({ targetDate, missionName }: Props) {
 
         {/* Seconds */}
         <div className="flex flex-col items-center">
-          <div className="bg-[#040d21] border border-white/10 rounded-2xl w-14 h-14 flex items-center justify-center shadow-lg">
+          <div className="bg-background border border-white/10 rounded-2xl w-14 h-14 flex items-center justify-center shadow-lg">
             <span className="text-2xl font-extrabold text-orange-400 font-mono tracking-wide">
-              {formatDigit(timeLeft.seconds)}
+              <SlidingNumber number={timeLeft.seconds} minDigits={2} />
             </span>
           </div>
           <span className="text-[10px] text-white/40 uppercase font-mono mt-2">{t("seconds")}</span>

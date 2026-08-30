@@ -1,6 +1,6 @@
-# AeroSpace & Anomalies Portal (NASA Explorer)
+# NASA Explorer
 
-An interactive, high-performance web portal that unifies **space exploration science** and **aerial anomaly history** in a single, bilingually localized (ES/EN) application. Built with Next.js, TypeScript, Tailwind CSS, and Leaflet.
+An interactive, high-performance web portal for **space exploration science**, bilingually localized (ES/EN). Built with Next.js, TypeScript, Tailwind CSS, and Leaflet.
 
 ---
 
@@ -13,12 +13,6 @@ Explore the wonders of space science and official NASA operational telemetry:
 * **ISS Tracker in Real Time**: Live tracking of the International Space Station's speed, latitude, longitude, and orbit trails over a clean geo-vector dark map.
 * **Astronomy Picture of the Day (APOD)**: Walk through the historic NASA APOD archive with custom date pickers, random selections, and caching capabilities.
 * **Live Broadcasts**: Stream NASA TV and NASA en Español feeds natively in-app.
-
-### 🛸 Declassified UAP Archive (Project Pursue)
-Dive into declassified files, intelligence releases, and logs of Unidentified Anomalous Phenomena:
-* **Geospatial Sighting Radar**: An interactive mapping interface that renders declassified case locations on a custom dark military-themed map with glowing radar pins.
-* **Declassified Case Explorer**: Filter over 60+ historically declassified cases (Foo Fighters, pre-Roswell FBI files, USAF records, etc.) using chronological timelines, agency tags, and region filters.
-* **Interactive Document Drawer**: View decrypted logs, attachments, images, and official document PDF archives directly inside the portal.
 
 ---
 
@@ -64,5 +58,4 @@ Follow these steps to run the portal on your local machine:
 ## 📄 License & Credits
 
 * **NASA Telemetry & Images**: Courtesy of the official [NASA Open APIs](https://api.nasa.gov/).
-* **Declassified Archives**: Curated official public records and FOIA-released intelligence document files.
 * **Leaflet Maps**: Map tiles powered by CartoDB Dark.

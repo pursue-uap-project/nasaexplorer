@@ -515,8 +515,9 @@ export async function getMissionImages(query: string, count = 6): Promise<string
     );
     if (!res.ok) return [];
     const data = await res.json();
+    type NasaSearchItem = { links?: { href: string }[] };
     return (data.collection?.items ?? [])
-      .flatMap((item: any) => item.links?.map((l: any) => l.href).filter(Boolean) ?? [])
+      .flatMap((item: NasaSearchItem) => item.links?.map((l) => l.href).filter(Boolean) ?? [])
       .map((url: string) => url.replace(/~orig/g, "~medium").replace(/~large/g, "~medium"))
       .slice(0, count);
   } catch {
@@ -783,4 +784,40 @@ export async function getApod(apiKey: string) {
   );
   if (!res.ok) throw new Error("APOD API error");
   return res.json();
+}
+
+// `fetchLiveUpcomingLaunches` vivía aquí: código muerto (nunca se importó),
+// contra Launch Library 2.2.0 (obsoleta) y con `next.revalidate`, que en un
+// `output: "export"` no hace nada — los datos quedaban congelados en el build.
+// Sustituido por src/lib/launches.ts (JSON horneado por cron + refresco en
+// cliente contra 2.3.0) y src/components/LaunchFeed.tsx.
+
+export type MissionFilters = {
+  agency?: string;
+  decade?: string;
+  status?: MissionStatus | "all";
+  type?: "crewed" | "robotic" | "all";
+};
+
+export function filterMissionsAdvanced(missions: Mission[], filters: MissionFilters): Mission[] {
+  return missions.filter((m) => {
+    if (filters.status && filters.status !== "all" && m.launch_details.status !== filters.status) {
+      return false;
+    }
+    if (filters.type === "crewed" && !m.crewed) return false;
+    if (filters.type === "robotic" && m.crewed) return false;
+
+    if (filters.decade && filters.decade !== "all") {
+      const year = parseInt(m.launch_details.date?.slice(0, 4) || "0", 10);
+      const decStart = parseInt(filters.decade, 10);
+      if (isNaN(year) || year < decStart || year >= decStart + 10) return false;
+    }
+
+    if (filters.agency && filters.agency !== "all") {
+      const p = m.program?.toLowerCase() || "";
+      if (!p.includes(filters.agency.toLowerCase())) return false;
+    }
+
+    return true;
+  });
 }

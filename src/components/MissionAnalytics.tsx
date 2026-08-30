@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import type { Mission } from "@/lib/nasa";
 
 type Props = {
@@ -10,7 +10,6 @@ type Props = {
 
 export default function MissionAnalytics({ missions }: Props) {
   const t = useTranslations("analytics");
-  const locale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
 
   // Stats Calculations
@@ -59,9 +58,9 @@ export default function MissionAnalytics({ missions }: Props) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-2">
         <button
           onClick={() => setIsOpen(true)}
-          className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] text-white/80 hover:text-white font-medium text-sm transition-all duration-200 shadow-sm"
+          className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-2xl border border-white/10 bg-white/3 hover:bg-white/[0.07] text-white/80 hover:text-white font-medium text-sm transition-all duration-200 shadow-xs"
         >
-          <span>📊</span>
+          <span aria-hidden="true">📊</span>
           <span>{t("show_dashboard")}</span>
         </button>
       </div>
@@ -83,19 +82,6 @@ export default function MissionAnalytics({ missions }: Props) {
     })
     .join(" ");
 
-  // Pie Chart calculations for Status (Active, Completed, Planned)
-  const pieTotal = stats.active + stats.completed + stats.planned;
-  const activePercent = (stats.active / pieTotal) * 100;
-  const completedPercent = (stats.completed / pieTotal) * 100;
-  const plannedPercent = (stats.planned / pieTotal) * 100;
-
-  // SVG Donut slice helper
-  const getCoordinatesForPercent = (percent: number) => {
-    const x = Math.cos(2 * Math.PI * percent);
-    const y = Math.sin(2 * Math.PI * percent);
-    return [x, y];
-  };
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-8">
       <div className="bg-[#0b1428]/70 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
@@ -110,7 +96,7 @@ export default function MissionAnalytics({ missions }: Props) {
           </div>
           <button
             onClick={() => setIsOpen(false)}
-            className="px-3.5 py-1.5 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.1] text-white/60 hover:text-white text-xs font-semibold transition-all"
+            className="px-3.5 py-1.5 rounded-xl border border-white/10 bg-white/4 hover:bg-white/10 text-white/60 hover:text-white text-xs font-semibold transition-all"
           >
             {t("hide_dashboard")}
           </button>
@@ -118,19 +104,19 @@ export default function MissionAnalytics({ missions }: Props) {
 
         {/* ── Key Cards Row ────────────────────────────────────────────── */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 relative z-10">
-          <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col justify-between">
+          <div className="bg-white/2 border border-white/5 rounded-2xl p-4 flex flex-col justify-between">
             <span className="text-white/40 text-xs font-mono uppercase tracking-wider">{t("stat_total")}</span>
             <span className="text-3xl font-extrabold text-white mt-2 font-mono">{stats.total}</span>
           </div>
-          <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col justify-between">
+          <div className="bg-white/2 border border-white/5 rounded-2xl p-4 flex flex-col justify-between">
             <span className="text-white/40 text-xs font-mono uppercase tracking-wider">{t("stat_crewed")}</span>
             <span className="text-3xl font-extrabold text-blue-400 mt-2 font-mono">{stats.crewed}</span>
           </div>
-          <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col justify-between">
+          <div className="bg-white/2 border border-white/5 rounded-2xl p-4 flex flex-col justify-between">
             <span className="text-white/40 text-xs font-mono uppercase tracking-wider">{t("stat_robotic")}</span>
             <span className="text-3xl font-extrabold text-purple-400 mt-2 font-mono">{stats.robotic}</span>
           </div>
-          <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col justify-between">
+          <div className="bg-white/2 border border-white/5 rounded-2xl p-4 flex flex-col justify-between">
             <span className="text-white/40 text-xs font-mono uppercase tracking-wider">{t("stat_active")}</span>
             <span className="text-3xl font-extrabold text-emerald-400 mt-2 font-mono">{stats.active}</span>
           </div>
@@ -140,7 +126,7 @@ export default function MissionAnalytics({ missions }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
           
           {/* Chart 1: Missions Timeline by Decade */}
-          <div className="bg-white/[0.01] border border-white/5 rounded-2xl p-5">
+          <div className="bg-white/1 border border-white/5 rounded-2xl p-5">
             <h4 className="text-white/70 text-sm font-semibold mb-4 flex items-center gap-2">
               <span className="w-1.5 h-3 rounded-full bg-blue-500" />
               {t("chart_timeline_title")}
@@ -207,7 +193,7 @@ export default function MissionAnalytics({ missions }: Props) {
           </div>
 
           {/* Chart 2: Program Breakdowns */}
-          <div className="bg-white/[0.01] border border-white/5 rounded-2xl p-5 flex flex-col justify-between">
+          <div className="bg-white/1 border border-white/5 rounded-2xl p-5 flex flex-col justify-between">
             <h4 className="text-white/70 text-sm font-semibold mb-4 flex items-center gap-2">
               <span className="w-1.5 h-3 rounded-full bg-purple-500" />
               {t("chart_programs_title")}
@@ -221,9 +207,9 @@ export default function MissionAnalytics({ missions }: Props) {
                       <span className="text-white/80 font-medium">{name}</span>
                       <span className="text-white/40 font-mono">{val}</span>
                     </div>
-                    <div className="h-2 w-full bg-white/[0.04] rounded-full overflow-hidden">
+                    <div className="h-2 w-full bg-white/4 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500"
+                        className="h-full bg-linear-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-500"
                         style={{ width: `${widthPercent}%` }}
                       />
                     </div>

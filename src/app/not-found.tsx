@@ -26,7 +26,7 @@ export default function NotFound() {
   const c = copy[locale];
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-indigo-50/60 flex flex-col items-center justify-center px-4 text-center relative overflow-hidden">
+    <main className="min-h-screen bg-linear-to-br from-blue-50 via-slate-50 to-indigo-50/60 flex flex-col items-center justify-center px-4 text-center relative overflow-hidden">
 
       {/* Decorative blobs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -35,13 +35,14 @@ export default function NotFound() {
       </div>
 
       <div className="relative z-10 flex flex-col items-center gap-5 max-w-md">
-        <img
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img decoding="async"
           src="/nasaexplorer/nasa-logo.png"
           alt="NASA"
           className="h-16 w-auto opacity-35"
         />
 
-        <p className="text-xs font-mono tracking-[0.3em] text-foreground/30 uppercase">
+        <p className="text-xs font-mono tracking-[0.3em] text-faint uppercase">
           {c.code}
         </p>
 
@@ -49,7 +50,7 @@ export default function NotFound() {
           {c.heading}
         </h1>
 
-        <p className="text-foreground/50 leading-relaxed">
+        <p className="text-muted leading-relaxed">
           {c.body}
         </p>
 

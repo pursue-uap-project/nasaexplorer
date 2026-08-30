@@ -1,0 +1,52 @@
+[
+  {
+    "term": "APOD",
+    "fullName": "Astronomy Picture of the Day",
+    "category": "acronym",
+    "definition": {
+      "es": "Imagen Astronómica del Día provista por la NASA y la Universidad Tecnológica de Míchigan.",
+      "en": "Astronomy Picture of the Day hosted by NASA and Michigan Technological University."
+    },
+    "icon": "🌌"
+  },
+  {
+    "term": "AU",
+    "fullName": "Astronomical Unit",
+    "category": "concept",
+    "definition": {
+      "es": "Unidad astronómica equivalente a la distancia media entre la Tierra y el Sol (~149.6 millones de km).",
+      "en": "Astronomical unit representing the average distance from Earth to the Sun (~149.6 million km)."
+    },
+    "icon": "☀️"
+  },
+  {
+    "term": "ISS",
+    "fullName": "International Space Station",
+    "category": "acronym",
+    "definition": {
+      "es": "Estación Espacial Internacional en órbita terrestre baja que actúa como laboratorio microgravitatorio.",
+      "en": "International Space Station in low Earth orbit functioning as a microgravity research laboratory."
+    },
+    "icon": "🛰️"
+  },
+  {
+    "term": "LEO",
+    "fullName": "Low Earth Orbit",
+    "category": "concept",
+    "definition": {
+      "es": "Órbita terrestre baja situada entre 160 y 2,000 km sobre la superficie de la Tierra.",
+      "en": "Low Earth orbit situated between 160 km and 2,000 km above Earth's surface."
+    },
+    "icon": "🌍"
+  },
+  {
+    "term": "JWST",
+    "fullName": "James Webb Space Telescope",
+    "category": "acronym",
+    "definition": {
+      "es": "Telescopio espacial infrarrojo lanzado en 2021 posicionado en el punto de Lagrange L2.",
+      "en": "Infrared space telescope launched in 2021 positioned at the Lagrange point L2."
+    },
+    "icon": "🔭"
+  }
+]

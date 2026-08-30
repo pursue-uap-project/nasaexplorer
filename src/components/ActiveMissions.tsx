@@ -58,7 +58,7 @@ export default function ActiveMissions({ missions, images, videoIds, mars }: Pro
   const statusLabel = m.status ? m.status[locale] : (locale === "es" ? "Activa" : "Active");
 
   const sectionTitle = "mb-3 text-[11px] font-mono uppercase tracking-widest text-white/40";
-  const cardCls = "rounded-2xl border border-white/10 bg-white/[0.03] p-5";
+  const cardCls = "rounded-2xl border border-white/10 bg-white/3 p-5";
 
   return (
     <div>
@@ -69,7 +69,7 @@ export default function ActiveMissions({ missions, images, videoIds, mars }: Pro
             key={mission.id}
             onClick={() => select(i)}
             className={`shrink-0 rounded-xl border px-4 py-2 text-sm font-semibold transition ${
-              current === i ? "text-white" : "border-white/10 bg-white/[0.02] text-white/55 hover:bg-white/5 hover:text-white/80"
+              current === i ? "text-white" : "border-white/10 bg-white/2 text-white/55 hover:bg-white/5 hover:text-white/80"
             }`}
             style={current === i ? { background: `${mission.color}22`, borderColor: mission.color } : undefined}
           >
@@ -90,24 +90,24 @@ export default function ActiveMissions({ missions, images, videoIds, mars }: Pro
           <div className="relative h-[360px] overflow-hidden rounded-3xl border border-white/10 sm:h-[420px]">
             {heroSrc ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={heroSrc} alt={m.name} className="kenburns absolute inset-0 h-full w-full object-cover" />
+              <img decoding="async" src={heroSrc} alt={m.name} className="kenburns absolute inset-0 h-full w-full object-cover" />
             ) : (
               <div className="absolute inset-0" style={{ background: `linear-gradient(160deg, #0B3D91, ${m.color})` }} />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#040D21] via-[#040D21]/35 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-[#040D21] via-[#040D21]/35 to-transparent" />
 
             <div className="absolute left-6 top-5 flex gap-2">
-              <span className="rounded-full px-3 py-1.5 text-xs font-bold text-white backdrop-blur-sm" style={{ background: `${m.color}cc` }}>
+              <span className="rounded-full px-3 py-1.5 text-xs font-bold text-white backdrop-blur-xs" style={{ background: `${m.color}cc` }}>
                 {m.program}
               </span>
               {m.agency && (
-                <span className="rounded-full bg-black/40 px-3 py-1.5 text-[11px] font-mono text-white/70 backdrop-blur-sm">
+                <span className="rounded-full bg-black/40 px-3 py-1.5 text-[11px] font-mono text-white/70 backdrop-blur-xs">
                   {m.agency}
                 </span>
               )}
             </div>
             <div className="absolute right-6 top-5">
-              <span className="flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 px-3 py-1.5 backdrop-blur-sm">
+              <span className="flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 px-3 py-1.5 backdrop-blur-xs">
                 <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
                 <span className="font-mono text-xs uppercase tracking-wider text-emerald-300">{statusLabel}</span>
               </span>
@@ -115,7 +115,7 @@ export default function ActiveMissions({ missions, images, videoIds, mars }: Pro
 
             <div className="absolute inset-x-0 bottom-0 px-7 pb-7 sm:px-10">
               <h2 className="text-4xl font-bold leading-tight text-white drop-shadow-lg sm:text-5xl">{m.name}</h2>
-              <p className="mt-1 text-lg text-white/75 drop-shadow">{m.tagline[locale]}</p>
+              <p className="mt-1 text-lg text-white/75 drop-shadow-sm">{m.tagline[locale]}</p>
               {m.since && <p className="mt-1 font-mono text-[11px] uppercase tracking-wider text-white/45">{m.since}</p>}
             </div>
           </div>
@@ -171,7 +171,7 @@ export default function ActiveMissions({ missions, images, videoIds, mars }: Pro
                   <ol className="relative ml-1 space-y-4 border-l border-white/10 pl-5">
                     {m.timeline.map((ev, i) => (
                       <li key={i} className="relative">
-                        <span className="absolute -left-[23px] top-1 h-2.5 w-2.5 rounded-full ring-4 ring-[#040D21]" style={{ background: m.color }} />
+                        <span className="absolute left-[-23px] top-1 h-2.5 w-2.5 rounded-full ring-4 ring-[#040D21]" style={{ background: m.color }} />
                         <div className="font-mono text-[11px] uppercase tracking-wider text-white/40">{ev.date}</div>
                         <div className="text-sm text-white/75">{ev[locale]}</div>
                       </li>
@@ -234,7 +234,7 @@ export default function ActiveMissions({ missions, images, videoIds, mars }: Pro
                   <button onClick={() => setPlaying(true)} className="group absolute inset-0" aria-label={m.name}>
                     {!thumbBroken ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <img loading="lazy" decoding="async"
                         src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
                         alt={m.name}
                         onError={() => setThumbBroken(true)}

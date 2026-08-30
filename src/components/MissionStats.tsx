@@ -51,8 +51,8 @@ export default function MissionStats({ stats, color, allMissions, statsTitle }: 
   };
 
   return (
-    <div className="lg:col-span-2 px-6 sm:px-8 py-8 bg-white/40">
-      <h2 className="text-foreground/35 text-xs font-mono uppercase tracking-widest mb-5">
+    <div className="lg:col-span-2 px-6 sm:px-8 py-8 bg-card">
+      <h2 className="text-faint text-xs font-mono uppercase tracking-widest mb-5">
         {statsTitle}
       </h2>
       <dl className="space-y-0">
@@ -62,9 +62,9 @@ export default function MissionStats({ stats, color, allMissions, statsTitle }: 
           return (
             <div
               key={label}
-              className="flex items-start justify-between gap-4 py-2.5 border-b border-white/50 last:border-0"
+              className="flex items-start justify-between gap-4 py-2.5 border-b border-card-border last:border-0"
             >
-              <dt className="text-foreground/45 text-xs uppercase tracking-wide shrink-0">
+              <dt className="text-muted text-xs uppercase tracking-wide shrink-0">
                 {label}
               </dt>
               <dd
@@ -80,7 +80,7 @@ export default function MissionStats({ stats, color, allMissions, statsTitle }: 
                           <button
                             key={pIdx}
                             onClick={() => setSelectedAstronaut(astId)}
-                            className="underline decoration-dotted hover:decoration-solid hover:scale-105 transition-all text-xs font-bold focus:outline-none"
+                            className="underline decoration-dotted hover:decoration-solid hover:scale-105 transition-all text-xs font-bold focus:outline-hidden"
                             style={{ color }}
                           >
                             {part.trim()}

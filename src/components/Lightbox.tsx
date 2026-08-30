@@ -40,7 +40,7 @@ export default function Lightbox({ images, index, onClose, onIndex }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[80] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm sm:p-8"
+      className="fixed inset-0 z-80 flex items-center justify-center bg-black/90 p-4 backdrop-blur-xs sm:p-8"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -78,7 +78,7 @@ export default function Lightbox({ images, index, onClose, onIndex }: Props) {
       {/* Figure */}
       <figure className="flex max-h-full w-full max-w-5xl flex-col items-center gap-3" onClick={(e) => e.stopPropagation()}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <img loading="lazy" decoding="async"
           src={img.hd}
           alt={img.title}
           className="max-h-[72vh] w-auto max-w-full rounded-lg object-contain shadow-2xl"

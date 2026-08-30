@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "@/i18n/routing";
 
 const TWO_PI = Math.PI * 2;
-const PERS   = 0.38;
 const SPEED  = 5;
 
 type Detail = { labelEn: string; labelEs: string; value: string };
@@ -534,11 +533,6 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
     }
   }
 
-  function handleClick(e: React.MouseEvent<HTMLCanvasElement>) {
-    const hit = hitTest(e);
-    setSelected(hit); // null closes drawer, any hit opens it
-  }
-
   function togglePause() {
     pausedRef.current = !pausedRef.current;
     if (!pausedRef.current) lastTsRef.current = 0;
@@ -584,15 +578,15 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
       />
 
       {/* Camera Instructions Overlay */}
-      <div className="absolute top-3 left-3 bg-black/45 backdrop-blur-sm border border-white/5 rounded-lg px-2.5 py-1.5 text-[9px] font-mono text-white/50 pointer-events-none uppercase tracking-wider space-y-0.5 z-10">
-        <div>🔍 Zoom: [Scroll Wheel]</div>
-        <div>🔄 Rotate: [Click & Drag Map]</div>
+      <div className="absolute top-3 left-3 bg-black/45 backdrop-blur-xs border border-white/5 rounded-lg px-2.5 py-1.5 text-[9px] font-mono text-white/50 pointer-events-none uppercase tracking-wider space-y-0.5 z-10">
+        <div><span aria-hidden="true">🔍</span> Zoom: [Scroll Wheel]</div>
+        <div><span aria-hidden="true">🔄</span> Rotate: [Click & Drag Map]</div>
       </div>
 
       {/* Hover tooltip */}
       {tip && !selected && (
         <div
-          className="absolute z-10 pointer-events-none bg-gray-950/90 border border-white/20 rounded-xl px-3 py-2 text-sm backdrop-blur-sm"
+          className="absolute z-10 pointer-events-none bg-gray-950/90 border border-white/20 rounded-xl px-3 py-2 text-sm backdrop-blur-xs"
           style={{ left: tip.cssX + 14, top: Math.max(8, tip.cssY - 52) }}
         >
           <p className="text-white font-semibold leading-tight">{tip.name}</p>
@@ -695,7 +689,7 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
       {/* Pause button */}
       <button
         onClick={togglePause}
-        className="absolute bottom-3 right-3 bg-black/60 hover:bg-black/80 border border-white/15 text-white/60 hover:text-white rounded-lg px-3 py-1 text-xs font-mono transition-all backdrop-blur-sm z-10"
+        className="absolute bottom-3 right-3 bg-black/60 hover:bg-black/80 border border-white/15 text-white/60 hover:text-white rounded-lg px-3 py-1 text-xs font-mono transition-all backdrop-blur-xs z-10"
       >
         {paused ? "▶" : "⏸"}
       </button>

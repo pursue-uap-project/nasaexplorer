@@ -13,11 +13,13 @@ import "@/app/globals.css";
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
-  variable: "--font-sans",
+  variable: "--font-montserrat",
   display: "swap",
  });
 
 export const metadata: Metadata = {
+  openGraph: { type: "website", images: ["https://pursue-uap-project.github.io/nasaexplorer/og.png"] },
+  twitter: { card: "summary_large_image", images: ["https://pursue-uap-project.github.io/nasaexplorer/og.png"] },
   title: "NASA Explorer",
   description: "Interactive explorer of NASA missions, the solar system, and the cosmos",
   manifest: "/manifest.json",

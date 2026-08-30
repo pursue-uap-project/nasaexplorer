@@ -43,14 +43,14 @@ export default function AstronautModal({ astronautId, isOpen, onClose, allMissio
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-end">
+        <div className="fixed inset-0 z-100 flex items-center justify-end">
           {/* Backdrop overlay */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/60 backdrop-blur-xs"
           />
 
           {/* Sliding Panel */}
@@ -68,7 +68,7 @@ export default function AstronautModal({ astronautId, isOpen, onClose, allMissio
               </span>
               <button
                 onClick={onClose}
-                className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/[0.08] text-white/50 hover:text-white transition-all"
+                className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/8 text-white/50 hover:text-white transition-all"
               >
                 ✕
               </button>
@@ -78,7 +78,7 @@ export default function AstronautModal({ astronautId, isOpen, onClose, allMissio
             <div className="flex items-center gap-4 mb-6">
               <div className="w-16 h-16 rounded-full overflow-hidden border border-white/20 bg-white/5 shrink-0">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <img loading="lazy" decoding="async"
                   src={astronaut.image.startsWith("http") ? astronaut.image : `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/${astronaut.image}`}
                   alt={astronaut.name}
                   className="w-full h-full object-cover"
@@ -95,7 +95,7 @@ export default function AstronautModal({ astronautId, isOpen, onClose, allMissio
             </div>
 
             {/* Personal Details */}
-            <div className="grid grid-cols-2 gap-4 mb-6 p-4 rounded-2xl border border-white/5 bg-white/[0.02]">
+            <div className="grid grid-cols-2 gap-4 mb-6 p-4 rounded-2xl border border-white/5 bg-white/2">
               <div>
                 <span className="text-white/30 text-[10px] font-mono uppercase tracking-wide block">
                   {t("born")}
@@ -139,7 +139,7 @@ export default function AstronautModal({ astronautId, isOpen, onClose, allMissio
                         // wait, navigate to this page
                         window.location.href = `/${locale}/missions/${m.id}`;
                       }}
-                      className="px-3.5 py-1.5 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.1] text-xs font-medium text-white/80 hover:text-white transition-all shadow-sm"
+                      className="px-3.5 py-1.5 rounded-xl border border-white/10 bg-white/4 hover:bg-white/10 text-xs font-medium text-white/80 hover:text-white transition-all shadow-xs"
                     >
                       🚀 {m.name}
                     </button>

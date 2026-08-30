@@ -142,7 +142,7 @@ export default function MissionsQuiz() {
             {/* Options list */}
             <div className="space-y-3 mb-6">
               {(t("locale") === "es" ? activeQuestion.options_es : activeQuestion.options_en).map((opt, optIdx) => {
-                let btnStyle = "border-white/10 bg-white/[0.02] hover:bg-white/[0.06] text-white/80";
+                let btnStyle = "border-white/10 bg-white/2 hover:bg-white/6 text-white/80";
                 
                 if (selectedOpt === optIdx && !isSubmitted) {
                   btnStyle = "border-blue-500 bg-blue-500/10 text-white ring-1 ring-blue-500/50";
@@ -152,7 +152,7 @@ export default function MissionsQuiz() {
                   } else if (selectedOpt === optIdx) {
                     btnStyle = "border-red-500 bg-red-500/10 text-white/70 ring-1 ring-red-500/50";
                   } else {
-                    btnStyle = "border-white/5 bg-white/[0.01] text-white/30 cursor-not-allowed";
+                    btnStyle = "border-white/5 bg-white/1 text-white/30 cursor-not-allowed";
                   }
                 }
 
@@ -164,11 +164,15 @@ export default function MissionsQuiz() {
                     className={`w-full text-left px-5 py-4 border rounded-2xl text-sm font-medium transition-all duration-200 flex items-center justify-between ${btnStyle}`}
                   >
                     <span>{opt}</span>
+                    {/* El símbolo era la única señal de acierto/error y solo se
+                        distinguía por color (✓ verde / ✗ rojo): invisible para
+                        daltónicos y mudo para lectores de pantalla. El
+                        aria-label lo verbaliza; el glifo queda decorativo. */}
                     {isSubmitted && optIdx === activeQuestion.answer && (
-                      <span className="text-emerald-400 text-base">✓</span>
+                      <span className="text-emerald-400 text-base" role="img" aria-label={t("answer_correct")}>✓</span>
                     )}
                     {isSubmitted && selectedOpt === optIdx && optIdx !== activeQuestion.answer && (
-                      <span className="text-red-400 text-base">✗</span>
+                      <span className="text-red-400 text-base" role="img" aria-label={t("answer_incorrect")}>✗</span>
                     )}
                   </button>
                 );
@@ -177,9 +181,9 @@ export default function MissionsQuiz() {
 
             {/* Sighting explanation */}
             {isSubmitted && (
-              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 mb-6 animate-fade-in">
+              <div className="p-4 rounded-2xl bg-white/3 border border-white/5 mb-6 animate-fade-in">
                 <p className="text-white/80 text-xs leading-relaxed">
-                  💡 <span className="font-semibold text-white">{t("explanation_title")}:</span>{" "}
+                  <span aria-hidden="true">💡</span> <span className="font-semibold text-white">{t("explanation_title")}:</span>{" "}
                   {t("locale") === "es" ? activeQuestion.explanation_es : activeQuestion.explanation_en}
                 </p>
               </div>
@@ -202,7 +206,7 @@ export default function MissionsQuiz() {
               ) : (
                 <button
                   onClick={handleNext}
-                  className="px-6 py-3 rounded-xl text-sm font-bold bg-white text-[#040d21] hover:bg-white/90 transition-all shadow-md"
+                  className="px-6 py-3 rounded-xl text-sm font-bold bg-white text-background hover:bg-white/90 transition-all shadow-md"
                 >
                   {currentIdx + 1 === QUESTIONS.length ? t("finish") : t("next")}
                 </button>
@@ -219,7 +223,7 @@ export default function MissionsQuiz() {
             </p>
 
             {/* Badge card */}
-            <div className="max-w-sm mx-auto bg-white/[0.02] border border-white/10 rounded-2xl p-5 mb-8">
+            <div className="max-w-sm mx-auto bg-white/2 border border-white/10 rounded-2xl p-5 mb-8">
               <span className="text-xs uppercase font-mono tracking-widest text-blue-400 font-bold block mb-1">
                 {t("badge_unlocked")}
               </span>

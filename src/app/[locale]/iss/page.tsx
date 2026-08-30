@@ -13,7 +13,10 @@ export default async function IssPage({ params }: Props) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-primary">{t("title")}</h1>
-          <p className="text-foreground/55 mt-1.5 text-sm">{t("subtitle")}</p>
+          {/* on-dark y no muted: este subtítulo va directo sobre el fondo de
+              página, no dentro de una tarjeta clara. Antes era
+              text-foreground/55, o sea gris oscuro sobre azul noche: 1,3:1. */}
+          <p className="text-on-dark-muted mt-1.5 text-sm">{t("subtitle")}</p>
         </div>
         <IssTracker />
       </div>

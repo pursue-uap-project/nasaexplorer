@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useMemo } from "react";
 import { useTranslations, useLocale } from "next-intl";
 
 type TranscriptLine = {
@@ -16,6 +16,9 @@ type Props = {
   color: string;
 };
 
+// Alturas del visualizador: fijadas una vez al importar (no en render → puro y estable).
+const BAR_HEIGHTS = Array.from({ length: 10 }, () => Math.floor(Math.random() * 50) + 10);
+
 export default function HistoricalAudio({ audioUrl, transcripts, missionName, color }: Props) {
   const t = useTranslations("audio_player");
   const locale = useLocale();
@@ -23,17 +26,16 @@ export default function HistoricalAudio({ audioUrl, transcripts, missionName, co
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [activeIndex, setActiveIndex] = useState(-1);
 
-  // Sync active transcript line based on current playback time
-  useEffect(() => {
+  // Línea de transcripción activa: estado DERIVADO del tiempo de reproducción → useMemo.
+  const activeIndex = useMemo(() => {
     let bestIdx = -1;
     for (let i = 0; i < transcripts.length; i++) {
       if (currentTime >= transcripts[i].time) {
         bestIdx = i;
       }
     }
-    setActiveIndex(bestIdx);
+    return bestIdx;
   }, [currentTime, transcripts]);
 
   const handlePlayPause = () => {
@@ -73,18 +75,18 @@ export default function HistoricalAudio({ audioUrl, transcripts, missionName, co
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="bg-white/40 backdrop-blur-2xl border border-white/60 rounded-3xl p-6 sm:p-8 mt-8">
-      <h3 className="text-foreground font-bold text-base mb-2 flex items-center gap-2">
-        <span>🎙️</span>
+    <div className="bg-card border border-card-border rounded-3xl p-6 sm:p-8 mt-8">
+      <h3 className="text-ink font-bold text-base mb-2 flex items-center gap-2">
+        <span aria-hidden="true">🎙️</span>
         {t("title", { name: missionName })}
       </h3>
-      <p className="text-foreground/50 text-xs mb-6">
+      <p className="text-muted text-xs mb-6">
         {t("subtitle")}
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
         {/* Retro visualizer + player controls */}
-        <div className="md:col-span-1 bg-[#040d21] border border-white/10 rounded-2xl p-5 flex flex-col justify-between h-[180px] relative overflow-hidden">
+        <div className="md:col-span-1 bg-background border border-white/10 rounded-2xl p-5 flex flex-col justify-between h-[180px] relative overflow-hidden">
           {/* Animated Oscilloscope wave lines (using CSS keyframes for a retro look) */}
           <div className="absolute inset-0 opacity-20 pointer-events-none flex items-center justify-around px-8">
             {[...Array(10)].map((_, i) => (
@@ -92,7 +94,7 @@ export default function HistoricalAudio({ audioUrl, transcripts, missionName, co
                 key={i}
                 className="w-1.5 bg-blue-500 rounded-full transition-all duration-150"
                 style={{
-                  height: isPlaying ? `${Math.floor(Math.random() * 50) + 10}px` : "6px",
+                  height: isPlaying ? `${BAR_HEIGHTS[i]}px` : "6px",
                   animation: isPlaying ? `pulse 0.4s ease-in-out infinite alternate ${i * 0.05}s` : "none",
                 }}
               />
@@ -150,7 +152,7 @@ export default function HistoricalAudio({ audioUrl, transcripts, missionName, co
         </div>
 
         {/* Sync interactive transcript */}
-        <div className="md:col-span-2 bg-[#040d21]/95 border border-white/10 rounded-2xl p-5 h-[180px] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
+        <div className="md:col-span-2 bg-background/95 border border-white/10 rounded-2xl p-5 h-[180px] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
           <div className="space-y-4">
             {transcripts.map((line, idx) => {
               const isActive = idx === activeIndex;

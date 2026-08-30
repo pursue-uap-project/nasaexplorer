@@ -196,25 +196,25 @@ export default function OrbitalSimulator({ missionName, color }: Props) {
   };
 
   return (
-    <div className="bg-white/40 backdrop-blur-2xl border border-white/60 rounded-3xl p-6 sm:p-8 mt-8">
-      <h3 className="text-foreground font-bold text-base mb-2 flex items-center gap-2">
-        <span>🛰️</span>
+    <div className="bg-card border border-card-border rounded-3xl p-6 sm:p-8 mt-8">
+      <h3 className="text-ink font-bold text-base mb-2 flex items-center gap-2">
+        <span aria-hidden="true">🛰️</span>
         {t("title", { name: missionName })}
       </h3>
-      <p className="text-foreground/50 text-xs mb-6 leading-relaxed">
+      <p className="text-muted text-xs mb-6 leading-relaxed">
         {t("subtitle")}
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         
         {/* Canvas Display */}
-        <div className="lg:col-span-3 flex items-center justify-center bg-[#040d21] border border-white/10 rounded-2xl p-4 overflow-hidden relative min-h-[300px]">
+        <div className="lg:col-span-3 flex items-center justify-center bg-background border border-white/10 rounded-2xl p-4 overflow-hidden relative min-h-[300px]">
           <canvas ref={canvasRef} width="400" height="300" className="max-w-full" />
           
           {/* Simulation Overlay Alerts */}
           {status === "crashed" && (
-            <div className="absolute inset-0 bg-red-950/70 backdrop-blur-sm flex flex-col items-center justify-center text-center p-4">
-              <span className="text-3xl mb-2">💥</span>
+            <div className="absolute inset-0 bg-red-950/70 backdrop-blur-xs flex flex-col items-center justify-center text-center p-4">
+              <span aria-hidden="true" className="text-3xl mb-2">💥</span>
               <h4 className="text-white font-bold text-sm">{t("crashed_title")}</h4>
               <p className="text-white/60 text-xs mt-1 max-w-[240px]">{t("crashed_desc")}</p>
               <button onClick={handleReset} className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-xl text-xs font-bold transition-all shadow-md">
@@ -224,8 +224,8 @@ export default function OrbitalSimulator({ missionName, color }: Props) {
           )}
 
           {status === "escape" && (
-            <div className="absolute inset-0 bg-amber-950/70 backdrop-blur-sm flex flex-col items-center justify-center text-center p-4">
-              <span className="text-3xl mb-2">☄️</span>
+            <div className="absolute inset-0 bg-amber-950/70 backdrop-blur-xs flex flex-col items-center justify-center text-center p-4">
+              <span aria-hidden="true" className="text-3xl mb-2">☄️</span>
               <h4 className="text-white font-bold text-sm">{t("escape_title")}</h4>
               <p className="text-white/60 text-xs mt-1 max-w-[240px]">{t("escape_desc")}</p>
               <button onClick={handleReset} className="mt-4 px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold transition-all shadow-md">
@@ -239,23 +239,23 @@ export default function OrbitalSimulator({ missionName, color }: Props) {
         <div className="lg:col-span-2 flex flex-col justify-between">
           {/* Telemetry panel */}
           <div className="space-y-4">
-            <h4 className="text-foreground/60 text-xs uppercase tracking-wider font-mono font-bold border-b border-foreground/10 pb-2">
+            <h4 className="text-muted text-xs uppercase tracking-wider font-mono font-bold border-b border-foreground/10 pb-2">
               {t("telemetry_title")}
             </h4>
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white/30 border border-white/50 rounded-xl p-3">
-                <span className="text-foreground/40 text-[10px] uppercase font-mono tracking-wide block">{t("telemetry_alt")}</span>
-                <span className="text-lg font-bold text-foreground font-mono mt-1 block">{altitude} km</span>
+              <div className="bg-card-sunken border border-card-border rounded-xl p-3">
+                <span className="text-faint text-[10px] uppercase font-mono tracking-wide block">{t("telemetry_alt")}</span>
+                <span className="text-lg font-bold text-ink font-mono mt-1 block">{altitude} km</span>
               </div>
-              <div className="bg-white/30 border border-white/50 rounded-xl p-3">
-                <span className="text-foreground/40 text-[10px] uppercase font-mono tracking-wide block">{t("telemetry_speed")}</span>
-                <span className="text-lg font-bold text-foreground font-mono mt-1 block">{speed} km/s</span>
+              <div className="bg-card-sunken border border-card-border rounded-xl p-3">
+                <span className="text-faint text-[10px] uppercase font-mono tracking-wide block">{t("telemetry_speed")}</span>
+                <span className="text-lg font-bold text-ink font-mono mt-1 block">{speed} km/s</span>
               </div>
             </div>
 
             {/* Orbit health gauge */}
-            <div className="bg-white/30 border border-white/50 rounded-xl p-3 flex items-center justify-between">
-              <span className="text-foreground/40 text-[10px] uppercase font-mono tracking-wide">{t("telemetry_status")}</span>
+            <div className="bg-card-sunken border border-card-border rounded-xl p-3 flex items-center justify-between">
+              <span className="text-faint text-[10px] uppercase font-mono tracking-wide">{t("telemetry_status")}</span>
               <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
                 status === "orbit" ? "bg-emerald-100 text-emerald-700" :
                 status === "suborbital" ? "bg-amber-100 text-amber-700" :
@@ -270,12 +270,12 @@ export default function OrbitalSimulator({ missionName, color }: Props) {
           <div className="mt-6 pt-4 border-t border-foreground/10 space-y-4">
             {/* Heading angle adjuster */}
             <div className="flex items-center justify-between gap-4">
-              <span className="text-foreground/60 text-xs font-bold shrink-0">{t("control_heading")} ({angle}°)</span>
+              <span className="text-muted text-xs font-bold shrink-0">{t("control_heading")} ({angle}°)</span>
               <div className="flex gap-2">
-                <button onClick={() => adjustAngle(-15)} disabled={!isRunning} className="px-3 py-1.5 rounded-lg bg-white/70 hover:bg-white border border-white/80 text-xs font-bold disabled:opacity-40 transition-all shadow-sm">
+                <button onClick={() => adjustAngle(-15)} disabled={!isRunning} className="px-3 py-1.5 rounded-lg bg-card hover:bg-white border border-card-border text-xs font-bold disabled:opacity-40 transition-all shadow-xs">
                   ⟲ -15°
                 </button>
-                <button onClick={() => adjustAngle(15)} disabled={!isRunning} className="px-3 py-1.5 rounded-lg bg-white/70 hover:bg-white border border-white/80 text-xs font-bold disabled:opacity-40 transition-all shadow-sm">
+                <button onClick={() => adjustAngle(15)} disabled={!isRunning} className="px-3 py-1.5 rounded-lg bg-card hover:bg-white border border-card-border text-xs font-bold disabled:opacity-40 transition-all shadow-xs">
                   ⟳ +15°
                 </button>
               </div>
@@ -283,7 +283,7 @@ export default function OrbitalSimulator({ missionName, color }: Props) {
 
             {/* Thrust booster toggles */}
             <div className="flex items-center justify-between gap-4">
-              <span className="text-foreground/60 text-xs font-bold">{t("control_thrust")}</span>
+              <span className="text-muted text-xs font-bold">{t("control_thrust")}</span>
               <div className="flex gap-2">
                 <button
                   onMouseDown={() => setThrust(100)}

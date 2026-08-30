@@ -92,12 +92,27 @@ export default function IssTracker() {
         minZoom: 1,
         maxZoom: 6,
         zoomControl: true,
-        attributionControl: false,
+        // Esri exige atribución visible para sus basemaps; se deja el control
+        // (discreto, abajo a la derecha) en vez de ocultarlo.
+        attributionControl: true,
       });
 
+      // CARTO empezó a exigir API key y ahora estampa "API KEY REQUIRED" sobre
+      // cada tile. No falla: devuelve HTTP 200 con la marca de agua dibujada,
+      // así que no hay error que capturar. Se cambia a Esri Dark Gray Canvas,
+      // que no pide clave. OJO: Esri ordena la ruta {z}/{y}/{x}, no {z}/{x}/{y}.
+      // A este zoom (máx. 6) la capa base ya trae los nombres de país, así que
+      // no hace falta superponer la de etiquetas.
       L.tileLayer(
-        "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-        { subdomains: "abcd", maxZoom: 19 }
+        "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+        {
+          maxZoom: 6,
+          attribution: "Tiles &copy; Esri",
+          // El gris de Esri es más claro que el `dark_all` de CARTO y desentona
+          // con el azul del tema. Se oscurece por CSS para conservar el aspecto
+          // que tenía el mapa antes del cambio de proveedor.
+          className: "iss-tiles",
+        }
       ).addTo(map);
 
       // Custom glowing ISS icon
@@ -133,7 +148,7 @@ export default function IssTracker() {
 
       DSN_STATIONS.forEach(st => {
         L.marker(st.coords as [number, number], { icon: dsnIcon })
-          .bindPopup(`<div class="p-2 font-mono text-[10px] bg-slate-950 text-white rounded border border-amber-500/20 max-w-[200px]">
+          .bindPopup(`<div class="p-2 font-mono text-[10px] bg-slate-950 text-white rounded-sm border border-amber-500/20 max-w-[200px]">
             <span class="font-bold text-amber-400 block mb-0.5 uppercase">${st.name}</span>
             <span class="text-white/40 block text-[8px] tracking-wider font-bold">DSN STATION // ${st.location.toUpperCase()}</span>
           </div>`)
@@ -168,7 +183,6 @@ export default function IssTracker() {
       mapRef.current?.remove();
       mapRef.current = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Polling loop — starts after map is initialized and tab is active
@@ -253,7 +267,7 @@ export default function IssTracker() {
 
       {/* Loading overlay */}
       {!position && !error && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-950/80 z-[1000]">
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-950/80 z-1000">
           <div className="flex flex-col items-center gap-3">
             <div className="w-8 h-8 rounded-full border-2 border-cyan-500/30 border-t-cyan-400 animate-spin" />
             <p className="text-white/60 text-sm font-mono">{t("loading")}</p>
@@ -263,14 +277,14 @@ export default function IssTracker() {
 
       {/* Error state */}
       {error && !position && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-950/80 z-[1000]">
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-950/80 z-1000">
           <p className="text-red-400/80 text-sm font-mono">{t("api_error")}</p>
         </div>
       )}
 
       {/* Live badge */}
       {position && (
-        <div className="absolute top-3 left-3 z-[1000] flex items-center gap-1.5 bg-gray-950/80 backdrop-blur-sm text-xs font-mono px-2.5 py-1 rounded-full border border-white/10">
+        <div className="absolute top-3 left-3 z-1000 flex items-center gap-1.5 bg-gray-950/80 backdrop-blur-xs text-xs font-mono px-2.5 py-1 rounded-full border border-white/10">
           <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
           <span className="text-white/70">{t("live")}</span>
         </div>
@@ -279,7 +293,7 @@ export default function IssTracker() {
       {/* Follow toggle */}
       <button
         onClick={toggleFollow}
-        className={`absolute top-3 right-3 z-[1000] px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+        className={`absolute top-3 right-3 z-1000 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
           following
             ? "bg-cyan-500/20 border-cyan-400/40 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.25)]"
             : "bg-gray-950/70 border-white/15 text-white/50 hover:text-white/80"
@@ -290,7 +304,7 @@ export default function IssTracker() {
 
       {/* Stats panel */}
       {position && (
-        <div className="absolute bottom-3 left-3 z-[1000] bg-gray-950/85 backdrop-blur-sm border border-white/10 rounded-xl px-4 py-3 min-w-[200px] space-y-2">
+        <div className="absolute bottom-3 left-3 z-1000 bg-gray-950/85 backdrop-blur-xs border border-white/10 rounded-xl px-4 py-3 min-w-[200px] space-y-2">
           {statRow(t("stat_lat"), `${fmt(position.latitude)}°`)}
           {statRow(t("stat_lon"), `${fmt(position.longitude)}°`)}
           {statRow(t("stat_alt"), `${fmt(position.altitude, 1)} km`)}

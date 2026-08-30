@@ -58,13 +58,13 @@ export default async function MissionDetailPage({ params }: Props) {
           className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full blur-3xl opacity-30"
           style={{ background: color }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-background/80 via-transparent to-transparent" />
 
         {/* Back link */}
         <div className="absolute top-5 left-5 sm:left-8">
           <Link
             href="/missions"
-            className="flex items-center gap-1.5 text-sm font-medium text-foreground/60 hover:text-primary transition-colors bg-white/70 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/80 shadow-sm"
+            className="flex items-center gap-1.5 text-sm font-medium text-muted hover:text-primary transition-colors bg-card px-3 py-1.5 rounded-full border border-card-border shadow-xs"
           >
             <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
               <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
@@ -78,7 +78,7 @@ export default async function MissionDetailPage({ params }: Props) {
           <div className="mx-auto max-w-5xl px-6 sm:px-8">
             <div className="flex items-center gap-2 mb-3">
               <span
-                className="text-xs font-bold px-3 py-1 rounded-full text-white shadow-sm"
+                className="text-xs font-bold px-3 py-1 rounded-full text-white shadow-xs"
                 style={{ background: `${color}dd` }}
               >
                 {mission.program}
@@ -99,7 +99,7 @@ export default async function MissionDetailPage({ params }: Props) {
 
       {/* ── BODY ─────────────────────────────────────────────────────────── */}
       <div
-        className="bg-white/65 backdrop-blur-2xl border border-white/80 shadow-2xl ring-1 ring-inset ring-white/50 mx-0 sm:mx-4 lg:mx-auto lg:max-w-5xl sm:rounded-3xl overflow-hidden -mt-6 relative z-10"
+        className="bg-card border border-card-border shadow-2xl mx-0 sm:mx-4 lg:mx-auto lg:max-w-5xl sm:rounded-3xl overflow-hidden -mt-6 relative z-10"
         style={{ boxShadow: `0 25px 60px -10px ${color}15, 0 10px 30px -5px rgba(11,61,145,0.07)` }}
       >
         {/* Description + stats */}
@@ -107,17 +107,17 @@ export default async function MissionDetailPage({ params }: Props) {
 
           {/* Description */}
           <div className="lg:col-span-3 px-6 sm:px-8 py-8">
-            <h2 className="text-foreground/35 text-xs font-mono uppercase tracking-widest mb-4">
+            <h2 className="text-faint text-xs font-mono uppercase tracking-widest mb-4">
               {t("about_title")}
             </h2>
-            <p className="text-foreground/70 leading-relaxed text-sm">
+            <p className="text-body leading-relaxed text-sm">
               {mission.description[loc]}
             </p>
 
             {/* Launch details row */}
-            <div className="mt-6 pt-6 border-t border-white/60 flex flex-wrap gap-4 text-xs text-foreground/50">
+            <div className="mt-6 pt-6 border-t border-card-border flex flex-wrap gap-4 text-xs text-muted">
               <span>
-                <span className="font-mono uppercase tracking-wide text-foreground/30 mr-1.5">
+                <span className="font-mono uppercase tracking-wide text-faint mr-1.5">
                   {tMission("launch_date")}
                 </span>
                 {mission.launch_details.date
@@ -128,7 +128,7 @@ export default async function MissionDetailPage({ params }: Props) {
                   : "—"}
               </span>
               <span>
-                <span className="font-mono uppercase tracking-wide text-foreground/30 mr-1.5">
+                <span className="font-mono uppercase tracking-wide text-faint mr-1.5">
                   {tMission("program")}
                 </span>
                 {mission.program}

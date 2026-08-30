@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -194,12 +195,12 @@ export default function ApodView() {
   const isLong = (apod?.explanation.length ?? 0) > shortLen;
 
   const navBtn =
-    "p-2 rounded-xl border border-white/15 bg-white/[0.07] text-white/55 hover:text-white hover:bg-white/[0.12] disabled:opacity-25 disabled:cursor-not-allowed transition-all duration-150";
+    "p-2 rounded-xl border border-white/15 bg-white/[0.07] text-white/55 hover:text-white hover:bg-white/12 disabled:opacity-25 disabled:cursor-not-allowed transition-all duration-150";
 
   return (
     <div>
       {/* ── Sticky date navigation bar ─────────────────────────────────── */}
-      <div className="sticky top-16 z-40 bg-[#040D21]/90 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_1px_0_0_rgba(255,255,255,0.05)] mb-8">
+      <div className="sticky top-16 z-40 bg-[#040D21]/90 backdrop-blur-xl border-b border-white/8 shadow-[0_1px_0_0_rgba(255,255,255,0.05)] mb-8">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-2 sm:gap-3">
 
           {/* ← Prev day */}
@@ -216,7 +217,7 @@ export default function ApodView() {
 
           {/* Date display — overlaid native date input */}
           <div className="relative flex-1 sm:flex-none sm:min-w-[260px]">
-            <div className="px-4 py-2 rounded-xl border border-white/15 bg-white/[0.07] text-sm font-medium text-white/65 text-center select-none hover:bg-white/[0.12] hover:text-white transition-all cursor-pointer">
+            <div className="px-4 py-2 rounded-xl border border-white/15 bg-white/[0.07] text-sm font-medium text-white/65 text-center select-none hover:bg-white/12 hover:text-white transition-all cursor-pointer">
               <span className="flex items-center gap-2 justify-center">
                 <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-primary/50 shrink-0">
                   <path fillRule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z" clipRule="evenodd" />
@@ -253,7 +254,7 @@ export default function ApodView() {
           {!isToday && (
             <button
               onClick={() => setSelectedDate(today)}
-              className="px-3 py-2 rounded-xl text-xs font-medium border border-white/20 bg-white/10 text-white/75 hover:bg-white/[0.18] hover:text-white transition-all duration-150"
+              className="px-3 py-2 rounded-xl text-xs font-medium border border-white/20 bg-white/10 text-white/75 hover:bg-white/18 hover:text-white transition-all duration-150"
             >
               {t("today")}
             </button>
@@ -263,7 +264,7 @@ export default function ApodView() {
           <button
             onClick={() => setSelectedDate(randomApodDate())}
             title={t("random")}
-            className="px-3 py-2 rounded-xl text-xs font-medium border border-white/15 bg-white/[0.06] text-white/45 hover:bg-white/[0.12] hover:text-white transition-all duration-150 flex items-center gap-1.5 shrink-0"
+            className="px-3 py-2 rounded-xl text-xs font-medium border border-white/15 bg-white/6 text-white/45 hover:bg-white/12 hover:text-white transition-all duration-150 flex items-center gap-1.5 shrink-0"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
               <polyline points="16 3 21 3 21 8" />
@@ -280,16 +281,16 @@ export default function ApodView() {
 
       {/* Skeleton screen */}
       {loadState === "loading" && (
-        <div className="animate-pulse bg-white/65 backdrop-blur-2xl border border-white/80 rounded-3xl shadow-2xl overflow-hidden">
+        <div className="animate-pulse bg-card border border-card-border rounded-3xl shadow-2xl overflow-hidden">
           {/* Image placeholder */}
-          <div className="bg-gradient-to-br from-slate-200/80 to-slate-300/60 w-full" style={{ height: "52vh" }}>
+          <div className="bg-linear-to-br from-slate-200/80 to-slate-300/60 w-full" style={{ height: "52vh" }}>
             {/* Shimmer overlay */}
             <div className="w-full h-full relative overflow-hidden">
-              <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_infinite] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+              <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.6s_infinite] bg-linear-to-r from-transparent via-white/30 to-transparent" />
             </div>
           </div>
           {/* Text placeholders */}
-          <div className="px-6 sm:px-8 py-7 space-y-4 bg-white/30">
+          <div className="px-6 sm:px-8 py-7 space-y-4 bg-card-sunken">
             <div className="flex justify-between items-center">
               <div className="h-2.5 bg-slate-200 rounded-full w-24" />
               <div className="h-2.5 bg-slate-200 rounded-full w-20" />
@@ -308,17 +309,17 @@ export default function ApodView() {
 
       {/* Error / fallback */}
       {loadState === "error" && (
-        <div className="bg-white/65 backdrop-blur-2xl border border-white/80 rounded-3xl shadow-sm p-12 sm:p-16 text-center">
+        <div className="bg-card border border-card-border rounded-3xl shadow-xs p-12 sm:p-16 text-center">
           {/* Star / telescope icon */}
           <svg viewBox="0 0 48 48" fill="none" className="w-14 h-14 mx-auto mb-5 text-primary/20">
             <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="2" />
             <path d="M24 14v10l6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             <circle cx="24" cy="24" r="2" fill="currentColor" />
           </svg>
-          <p className="text-foreground/60 text-base font-medium mb-2">
+          <p className="text-muted text-base font-medium mb-2">
             {t("error_title")}
           </p>
-          <p className="text-foreground/40 text-sm max-w-sm mx-auto mb-8 leading-relaxed">
+          <p className="text-faint text-sm max-w-sm mx-auto mb-8 leading-relaxed">
             {t("error_body")}
           </p>
           <a
@@ -338,13 +339,13 @@ export default function ApodView() {
 
       {/* APOD card */}
       {loadState === "ok" && apod && (
-        <div className="bg-white/65 backdrop-blur-2xl border border-white/80 rounded-3xl shadow-2xl ring-1 ring-inset ring-white/50 overflow-hidden">
+        <div className="bg-card border border-card-border rounded-3xl shadow-2xl overflow-hidden">
 
           {/* Media */}
           {apod.media_type === "image" ? (
             <div className="bg-gray-950 flex items-center justify-center" style={{ minHeight: "40vh" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <img loading="lazy" decoding="async"
                 src={apod.hdurl ?? apod.url}
                 alt={apod.title}
                 className="w-full max-h-[72vh] object-contain"
@@ -362,10 +363,10 @@ export default function ApodView() {
           )}
 
           {/* Info */}
-          <div className="px-6 sm:px-8 py-6 bg-white/30">
+          <div className="px-6 sm:px-8 py-6 bg-card-sunken">
 
             {/* Meta row */}
-            <div className="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs font-mono text-foreground/35">
+            <div className="flex items-center justify-between flex-wrap gap-2 mb-4 text-xs font-mono text-faint">
               <div className="flex items-center gap-3">
                 <time dateTime={apod.date}>{apod.date}</time>
                 {isFallback ? (
@@ -405,7 +406,7 @@ export default function ApodView() {
             </h2>
 
             {/* Explanation */}
-            <p className="text-foreground/65 leading-relaxed text-sm max-w-3xl">
+            <p className="text-body leading-relaxed text-sm max-w-3xl">
               {expanded || !isLong
                 ? apod.explanation
                 : apod.explanation.slice(0, shortLen) + "…"}
@@ -421,13 +422,13 @@ export default function ApodView() {
             )}
 
             {/* Official link — always shown at the bottom */}
-            <div className="mt-6 pt-5 border-t border-white/60 flex items-center justify-between flex-wrap gap-3">
-              <span className="text-xs text-foreground/30 font-mono">NASA · APOD</span>
+            <div className="mt-6 pt-5 border-t border-card-border flex items-center justify-between flex-wrap gap-3">
+              <span className="text-xs text-faint font-mono">NASA · APOD</span>
               <a
                 href="https://apod.nasa.gov/apod/astropix.html"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs text-foreground/45 hover:text-primary transition-colors border border-white/70 bg-white/50 hover:bg-white px-3 py-1.5 rounded-lg"
+                className="inline-flex items-center gap-1.5 text-xs text-muted hover:text-primary transition-colors border border-card-border bg-card hover:bg-white px-3 py-1.5 rounded-lg"
               >
                 <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
                   <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
