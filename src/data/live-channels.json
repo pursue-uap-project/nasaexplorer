@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-31T14:11:03.152Z",
+  "checkedAt": "2026-08-31T20:13:44.635Z",
   "channels": [
     {
       "id": "nasa",
@@ -11,8 +11,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "8NOLpgadWXc",
+      "fallbackVideoId": "-HQOp1-LpU0",
       "recent": [
+        {
+          "id": "-HQOp1-LpU0",
+          "title": "U.S. Spacewalk 99",
+          "published": "2026-08-31T14:58:21+00:00"
+        },
         {
           "id": "8NOLpgadWXc",
           "title": "NASA's Artemis II Astronauts Receive the Congressional Space Medal of Honor",
@@ -27,11 +32,6 @@
           "id": "9wq3VHsL_bE",
           "title": "Nancy Grace Roman Space Telescope Launch",
           "published": "2026-08-30T12:29:47+00:00"
-        },
-        {
-          "id": "l5OJk1FuEKg",
-          "title": "Nancy Grace Roman Space Telescope Prelaunch News Conference (Aug. 29, 2026)",
-          "published": "2026-08-29T16:34:47+00:00"
         }
       ]
     },
@@ -79,8 +79,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "ZpgUgrtkPy0",
+      "fallbackVideoId": "tKZV-koyxtg",
       "recent": [
+        {
+          "id": "tKZV-koyxtg",
+          "title": "What happened this month at the European Space Agency? (August 2026)",
+          "published": "2026-08-31T15:17:34+00:00"
+        },
         {
           "id": "ZpgUgrtkPy0",
           "title": "Looking up during the Antarctic polar night 🌌",
@@ -95,11 +100,6 @@
           "id": "fg59nsvefjI",
           "title": "Countdown to Sophie Adenot's third spacewalk",
           "published": "2026-08-28T14:39:07+00:00"
-        },
-        {
-          "id": "vzytcrGSqUU",
-          "title": "MTG-I2 launch (Official broadcast)",
-          "published": "2026-08-27T21:44:49+00:00"
         }
       ]
     },
