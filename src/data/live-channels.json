@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-31T20:13:44.635Z",
+  "checkedAt": "2026-08-31T23:57:16.778Z",
   "channels": [
     {
       "id": "nasa",
@@ -11,8 +11,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "-HQOp1-LpU0",
+      "fallbackVideoId": "6o3m9Bw67Os",
       "recent": [
+        {
+          "id": "6o3m9Bw67Os",
+          "title": "NASA's Nancy Grace Roman Space Telescope Launches (Official NASA Recap)",
+          "published": "2026-08-31T21:45:46+00:00"
+        },
         {
           "id": "-HQOp1-LpU0",
           "title": "U.S. Spacewalk 99",
@@ -27,11 +32,6 @@
           "id": "dnAJJwgpHs4",
           "title": "Nancy Grace Roman Space Telescope Postlaunch News Conference",
           "published": "2026-08-30T14:29:34+00:00"
-        },
-        {
-          "id": "9wq3VHsL_bE",
-          "title": "Nancy Grace Roman Space Telescope Launch",
-          "published": "2026-08-30T12:29:47+00:00"
         }
       ]
     },
