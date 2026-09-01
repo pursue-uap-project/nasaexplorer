@@ -48,6 +48,16 @@ export default function Footer() {
             GitHub
           </a>
 
+          <a
+            href="https://ko-fi.com/zaswear"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 hover:text-white transition-colors"
+          >
+            <span aria-hidden="true">☕</span>
+            Ko-fi
+          </a>
+
           <div className="flex items-center gap-1">
             {(["en", "es"] as const).map((l) => (
               <button
