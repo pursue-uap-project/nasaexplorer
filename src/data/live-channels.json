@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-01T08:17:53.261Z",
+  "checkedAt": "2026-09-01T13:34:28.719Z",
   "channels": [
     {
       "id": "nasa",
@@ -11,17 +11,17 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "6o3m9Bw67Os",
+      "fallbackVideoId": "-HQOp1-LpU0",
       "recent": [
-        {
-          "id": "6o3m9Bw67Os",
-          "title": "NASA's Nancy Grace Roman Space Telescope Launches (Official NASA Recap)",
-          "published": "2026-08-31T21:45:46+00:00"
-        },
         {
           "id": "-HQOp1-LpU0",
           "title": "U.S. Spacewalk 99",
           "published": "2026-08-31T14:58:21+00:00"
+        },
+        {
+          "id": "6o3m9Bw67Os",
+          "title": "NASA's Nancy Grace Roman Space Telescope Launches (Official NASA Recap)",
+          "published": "2026-08-31T21:45:46+00:00"
         },
         {
           "id": "8NOLpgadWXc",
@@ -79,8 +79,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "tKZV-koyxtg",
+      "fallbackVideoId": "3KPmNAXskBY",
       "recent": [
+        {
+          "id": "3KPmNAXskBY",
+          "title": "Sophie Adenot's third spacewalk | U.S. Spacewalk 99 (Official broadcast)",
+          "published": "2026-09-01T10:57:43+00:00"
+        },
         {
           "id": "tKZV-koyxtg",
           "title": "What happened this month at the European Space Agency? (August 2026)",
@@ -90,11 +95,6 @@
           "id": "ZpgUgrtkPy0",
           "title": "Looking up during the Antarctic polar night 🌌",
           "published": "2026-08-29T09:50:35+00:00"
-        },
-        {
-          "id": "RKt-QZWh7U8",
-          "title": "Sophie Adenot's third spacewalk | U.S. Spacewalk 99 (Official broadcast)",
-          "published": "2026-08-28T14:54:34+00:00"
         },
         {
           "id": "fg59nsvefjI",
