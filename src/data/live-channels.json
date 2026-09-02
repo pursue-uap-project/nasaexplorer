@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-02T09:45:05.842Z",
+  "checkedAt": "2026-09-02T17:29:31.432Z",
   "channels": [
     {
       "id": "nasa",
@@ -79,8 +79,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "3KPmNAXskBY",
+      "fallbackVideoId": "DJBpVdtxkk8",
       "recent": [
+        {
+          "id": "DJBpVdtxkk8",
+          "title": "Third spacewalk completed for Sophie 🧑‍🚀✅",
+          "published": "2026-09-02T14:51:10+00:00"
+        },
         {
           "id": "3KPmNAXskBY",
           "title": "Sophie Adenot's third spacewalk | U.S. Spacewalk 99 (Official broadcast)",
@@ -95,11 +100,6 @@
           "id": "tKZV-koyxtg",
           "title": "What happened this month at the European Space Agency? (August 2026)",
           "published": "2026-08-31T15:17:34+00:00"
-        },
-        {
-          "id": "ZpgUgrtkPy0",
-          "title": "Looking up during the Antarctic polar night 🌌",
-          "published": "2026-08-29T09:50:35+00:00"
         }
       ]
     },
