@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-03T17:21:11.872Z",
+  "checkedAt": "2026-09-03T19:58:12.800Z",
   "channels": [
     {
       "id": "nasa",
@@ -11,8 +11,18 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "_oXt3-YDih4",
+      "fallbackVideoId": "jHKf1eHp3eQ",
       "recent": [
+        {
+          "id": "jHKf1eHp3eQ",
+          "title": "Artemis III: Our Next Step Back to the Moon",
+          "published": "2026-09-03T18:49:04+00:00"
+        },
+        {
+          "id": "MVt2139voxk",
+          "title": "For Earth, With Love: Artemis II",
+          "published": "2026-09-03T17:14:03+00:00"
+        },
         {
           "id": "_oXt3-YDih4",
           "title": "Artemis Origins: Humanity's Return to the Moon",
@@ -22,16 +32,6 @@
           "id": "-HQOp1-LpU0",
           "title": "U.S. Spacewalk 99",
           "published": "2026-09-01T20:34:38+00:00"
-        },
-        {
-          "id": "6o3m9Bw67Os",
-          "title": "NASA's Nancy Grace Roman Space Telescope Launches (Official NASA Recap)",
-          "published": "2026-08-31T21:45:46+00:00"
-        },
-        {
-          "id": "8NOLpgadWXc",
-          "title": "NASA's Artemis II Astronauts Receive the Congressional Space Medal of Honor",
-          "published": "2026-08-30T15:13:26+00:00"
         }
       ]
     },
