@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-03T09:16:34.706Z",
+  "checkedAt": "2026-09-03T13:40:28.783Z",
   "channels": [
     {
       "id": "nasa",
@@ -79,8 +79,18 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "DJBpVdtxkk8",
+      "fallbackVideoId": "oC7lQngNG3o",
       "recent": [
+        {
+          "id": "oC7lQngNG3o",
+          "title": "BepiColombo’s Mercury arrival begins (Official ESA broadcast)",
+          "published": "2026-08-26T13:36:25+00:00"
+        },
+        {
+          "id": "6VDCFAdiiOo",
+          "title": "Sophie Adenot trains with an EMS suit in space 🏋️‍♀️",
+          "published": "2026-09-03T09:04:44+00:00"
+        },
         {
           "id": "DJBpVdtxkk8",
           "title": "Third spacewalk completed for Sophie 🧑‍🚀✅",
@@ -90,16 +100,6 @@
           "id": "3KPmNAXskBY",
           "title": "Sophie Adenot's third spacewalk | U.S. Spacewalk 99 (Official broadcast)",
           "published": "2026-09-01T20:30:43+00:00"
-        },
-        {
-          "id": "H2TN8ZWnL6s",
-          "title": "BepiColombo begins its final approach to Mercury",
-          "published": "2026-09-01T17:58:35+00:00"
-        },
-        {
-          "id": "tKZV-koyxtg",
-          "title": "What happened this month at the European Space Agency? (August 2026)",
-          "published": "2026-08-31T15:17:34+00:00"
         }
       ]
     },
