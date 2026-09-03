@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-02T19:59:40.906Z",
+  "checkedAt": "2026-09-03T04:46:36.698Z",
   "channels": [
     {
       "id": "nasa",
@@ -11,29 +11,8 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "_oXt3-YDih4",
-      "recent": [
-        {
-          "id": "_oXt3-YDih4",
-          "title": "Artemis Origins: Humanity's Return to the Moon",
-          "published": "2026-09-02T17:23:04+00:00"
-        },
-        {
-          "id": "-HQOp1-LpU0",
-          "title": "U.S. Spacewalk 99",
-          "published": "2026-09-01T20:34:38+00:00"
-        },
-        {
-          "id": "6o3m9Bw67Os",
-          "title": "NASA's Nancy Grace Roman Space Telescope Launches (Official NASA Recap)",
-          "published": "2026-08-31T21:45:46+00:00"
-        },
-        {
-          "id": "8NOLpgadWXc",
-          "title": "NASA's Artemis II Astronauts Receive the Congressional Space Medal of Honor",
-          "published": "2026-08-30T15:13:26+00:00"
-        }
-      ]
+      "fallbackVideoId": null,
+      "recent": []
     },
     {
       "id": "nasa-es",
@@ -45,29 +24,8 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "ASlHjrJeJpI",
-      "recent": [
-        {
-          "id": "ASlHjrJeJpI",
-          "title": "Despegue: El telescopio espacial Nancy Grace Roman de la #NASA",
-          "published": "2026-08-30T12:27:26+00:00"
-        },
-        {
-          "id": "152HMZ2OuJM",
-          "title": "El telescopio espacial Nancy Grace Roman de la #NASA",
-          "published": "2026-08-29T16:33:44+00:00"
-        },
-        {
-          "id": "s9jvm4MLQeo",
-          "title": "#NASA: El telescopio espacial Nancy Grace Roman y la energía oscura",
-          "published": "2026-08-24T14:04:21+00:00"
-        },
-        {
-          "id": "FgemIiYSeoc",
-          "title": "#NASA: Cómo el telescopio espacial Nancy Grace Roman buscará exoplanetas",
-          "published": "2026-08-21T14:38:35+00:00"
-        }
-      ]
+      "fallbackVideoId": null,
+      "recent": []
     },
     {
       "id": "esa",
@@ -79,29 +37,8 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "DJBpVdtxkk8",
-      "recent": [
-        {
-          "id": "DJBpVdtxkk8",
-          "title": "Third spacewalk completed for Sophie 🧑‍🚀✅",
-          "published": "2026-09-02T14:51:10+00:00"
-        },
-        {
-          "id": "3KPmNAXskBY",
-          "title": "Sophie Adenot's third spacewalk | U.S. Spacewalk 99 (Official broadcast)",
-          "published": "2026-09-01T20:30:43+00:00"
-        },
-        {
-          "id": "H2TN8ZWnL6s",
-          "title": "BepiColombo begins its final approach to Mercury",
-          "published": "2026-09-01T17:58:35+00:00"
-        },
-        {
-          "id": "tKZV-koyxtg",
-          "title": "What happened this month at the European Space Agency? (August 2026)",
-          "published": "2026-08-31T15:17:34+00:00"
-        }
-      ]
+      "fallbackVideoId": null,
+      "recent": []
     },
     {
       "id": "spacex",
@@ -113,29 +50,8 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "-a0ecQMq-rM",
-      "recent": [
-        {
-          "id": "-a0ecQMq-rM",
-          "title": "Starship - Critical Path",
-          "published": "2026-07-13T20:13:37+00:00"
-        },
-        {
-          "id": "ANe_HW4X8oc",
-          "title": "Starship - Test Like You Fly",
-          "published": "2026-04-27T22:33:28+00:00"
-        },
-        {
-          "id": "rcd_SQZDlnk",
-          "title": "Starship's Tenth Flight Test",
-          "published": "2025-09-29T22:53:54+00:00"
-        },
-        {
-          "id": "BYTE4MtR0do",
-          "title": "Fram2 Polar Orbit Views",
-          "published": "2025-05-04T23:29:11+00:00"
-        }
-      ]
+      "fallbackVideoId": null,
+      "recent": []
     }
   ]
 }
