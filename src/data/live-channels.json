@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-04T13:37:16.712Z",
+  "checkedAt": "2026-09-04T17:13:07.160Z",
   "channels": [
     {
       "id": "nasa",
@@ -79,8 +79,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "gF70orCmD1E",
+      "fallbackVideoId": "nw9E-yCYy-Q",
       "recent": [
+        {
+          "id": "nw9E-yCYy-Q",
+          "title": "A satellite's final moments, captured from a plane 🛰️",
+          "published": "2026-09-04T17:00:31+00:00"
+        },
         {
           "id": "gF70orCmD1E",
           "title": "200 days in space, 150,000 push-ups later 💪🧑‍🚀",
@@ -95,11 +100,6 @@
           "id": "6VDCFAdiiOo",
           "title": "Sophie Adenot trains with an EMS suit in space 🏋️‍♀️",
           "published": "2026-09-03T09:04:44+00:00"
-        },
-        {
-          "id": "DJBpVdtxkk8",
-          "title": "Third spacewalk completed for Sophie 🧑‍🚀✅",
-          "published": "2026-09-02T14:51:10+00:00"
         }
       ]
     },
