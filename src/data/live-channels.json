@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-04T09:09:44.057Z",
+  "checkedAt": "2026-09-04T13:37:16.712Z",
   "channels": [
     {
       "id": "nasa",
@@ -79,8 +79,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "oC7lQngNG3o",
+      "fallbackVideoId": "gF70orCmD1E",
       "recent": [
+        {
+          "id": "gF70orCmD1E",
+          "title": "200 days in space, 150,000 push-ups later 💪🧑‍🚀",
+          "published": "2026-09-04T12:52:53+00:00"
+        },
         {
           "id": "oC7lQngNG3o",
           "title": "BepiColombo’s Mercury arrival begins (Official ESA broadcast)",
@@ -95,11 +100,6 @@
           "id": "DJBpVdtxkk8",
           "title": "Third spacewalk completed for Sophie 🧑‍🚀✅",
           "published": "2026-09-02T14:51:10+00:00"
-        },
-        {
-          "id": "3KPmNAXskBY",
-          "title": "Sophie Adenot's third spacewalk | U.S. Spacewalk 99 (Official broadcast)",
-          "published": "2026-09-01T20:30:43+00:00"
         }
       ]
     },
