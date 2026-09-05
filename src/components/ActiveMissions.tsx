@@ -16,11 +16,35 @@ type Props = {
 };
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const LOCAL_HEROES: Record<string, string> = {
-  artemis: `${BASE}/assets/artemis-hero.png`,
-  jwst: `${BASE}/assets/jwst-hero.png`,
-  perseverance: `${BASE}/assets/perseverance-hero.png`,
-  iss: `${BASE}/assets/iss-hero.png`,
+
+/**
+ * Fotografías REALES del archivo público de la NASA (images.nasa.gov), no
+ * ilustraciones. Las anteriores eran imágenes generadas por IA — una de ellas
+ * llevaba visible la marca de agua del generador — y en un portal cuyo argumento
+ * es «datos reales de la NASA» eso invalida el resto del contenido.
+ * `credit` se pinta sobre la imagen; el `nasa_id` permite volver al original.
+ */
+const LOCAL_HEROES: Record<string, { src: string; credit: string; nasaId: string }> = {
+  artemis: {
+    src: `${BASE}/assets/artemis-hero.webp`,
+    credit: "NASA / Joel Kowsky — Artemis I, 16 nov 2022",
+    nasaId: "NHQ202211160028",
+  },
+  jwst: {
+    src: `${BASE}/assets/jwst-hero.webp`,
+    credit: "NASA / ESA / CSA / STScI — «Webb’s First Deep Field», SMACS 0723",
+    nasaId: "webb_first_deep_field",
+  },
+  perseverance: {
+    src: `${BASE}/assets/perseverance-hero.webp`,
+    credit: "NASA / JPL-Caltech / MSSS — autorretrato en «Cheyava Falls»",
+    nasaId: "PIA26344",
+  },
+  iss: {
+    src: `${BASE}/assets/iss-hero.webp`,
+    credit: "NASA — ISS fotografiada desde la Crew Dragon Endeavour",
+    nasaId: "iss066e081189",
+  },
 };
 
 export default function ActiveMissions({ missions, images, videoIds, mars }: Props) {
@@ -53,7 +77,8 @@ export default function ActiveMissions({ missions, images, videoIds, mars }: Pro
 
   const m = missions[current];
   const gallery = images[m.id] ?? [];
-  const heroSrc = LOCAL_HEROES[m.id] ?? gallery[0]?.url ?? null;
+  const localHero = LOCAL_HEROES[m.id];
+  const heroSrc = localHero?.src ?? gallery[0]?.url ?? null;
   const videoId = videoIds[m.id] || m.youtubeId;
   const statusLabel = m.status ? m.status[locale] : (locale === "es" ? "Activa" : "Active");
 
@@ -118,6 +143,18 @@ export default function ActiveMissions({ missions, images, videoIds, mars }: Pro
               <p className="mt-1 text-lg text-white/75 drop-shadow-sm">{m.tagline[locale]}</p>
               {m.since && <p className="mt-1 font-mono text-[11px] uppercase tracking-wider text-white/45">{m.since}</p>}
             </div>
+
+            {/* Crédito de la foto: sin él no se distingue un archivo real de una ilustración. */}
+            {localHero && (
+              <a
+                href={`https://images.nasa.gov/details/${localHero.nasaId}`}
+                target="_blank"
+                rel="noreferrer"
+                className="absolute bottom-2 right-3 max-w-[70%] truncate font-mono text-[10px] text-white/45 hover:text-white/80"
+              >
+                {localHero.credit}
+              </a>
+            )}
           </div>
 
           {/* ── LIVE ── */}

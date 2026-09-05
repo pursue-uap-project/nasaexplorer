@@ -481,10 +481,14 @@ const MISSIONS: Mission[] = [
     id: "artemis-ii",
     name: "Artemis II",
     program: "Artemis",
-    launch_details: { date: "2026-09-30", status: "planned" }, // Updated to September 2026 for a long countdown
+    // Fecha y estado reales: despegó el 2026-04-01 (Launch Library 2 · «Launch
+    // Successful»). Antes decía `2026-09-30 / planned` con un comentario que lo
+    // admitía: se había movido a futuro «para tener una cuenta atrás larga». Es
+    // el fallo que este sitio no se puede permitir — inventar una fecha.
+    launch_details: { date: "2026-04-01", status: "completed" },
     description: {
-      en: "The first crewed Artemis mission will carry Reid Wiseman, Victor Glover, Christina Hammock Koch, and Canadian Jeremy Hansen on a 10-day free-return trajectory around the Moon — the first humans to reach lunar distance since Apollo 17 in 1972.",
-      es: "La primera misión Artemis tripulada llevará a Reid Wiseman, Victor Glover, Christina Koch y el canadiense Jeremy Hansen en una trayectoria libre de 10 días alrededor de la Luna, los primeros humanos en alcanzar distancia lunar desde el Apolo 17.",
+      en: "The first crewed Artemis mission carried Reid Wiseman, Victor Glover, Christina Hammock Koch, and Canadian Jeremy Hansen on a 10-day free-return trajectory around the Moon — the first humans to reach lunar distance since Apollo 17 in 1972.",
+      es: "La primera misión Artemis tripulada llevó a Reid Wiseman, Victor Glover, Christina Koch y el canadiense Jeremy Hansen en una trayectoria libre de 10 días alrededor de la Luna: los primeros humanos en alcanzar distancia lunar desde el Apolo 17.",
     },
     imageQuery: "Artemis II crew Reid Wiseman Victor Glover Christina Koch Moon mission",
     image: "assets/missions/artemis-ii.jpg",
@@ -492,10 +496,9 @@ const MISSIONS: Mission[] = [
       { label: "Crew",     value: "Wiseman · Glover · Koch · Hansen" },
       { label: "Duration", value: "~10 days" },
       { label: "Target",   value: "Lunar free-return" },
-      { label: "Status",   value: "Planned 2026" },
+      { label: "Status",   value: "Flown · 1 Apr 2026" },
     ],
     crewed: true,
-    countdownTarget: "2026-09-30T12:00:00Z"
   },
 ];
 
@@ -624,8 +627,8 @@ export const ACTIVE_MISSIONS: ActiveMission[] = [
       { label: "Target",    value: "Lunar South Pole" },
       { label: "Vehicle",   value: "SLS + Orion" },
       { label: "Artemis I", value: "Nov 2022 ✓" },
-      { label: "Artemis II", value: "2026 · crewed flyby" },
-      { label: "Artemis III", value: "2027 · landing" },
+      { label: "Artemis II", value: "Apr 2026 ✓ · crewed flyby" },
+      { label: "Artemis III", value: "2027 · landing (TBD)" },
     ],
     agency: "NASA",
     since: "Program · since 2017",

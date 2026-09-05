@@ -1,26 +1,30 @@
-import { setRequestLocale } from "next-intl/server";
-import { useTranslations } from "next-intl";
-import HeroVideoScrub from "@/components/HeroVideoScrub";
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import HomeHero from "@/components/HomeHero";
+import HomeLaunchBoard from "@/components/HomeLaunchBoard";
+import HomeMissionGrid from "@/components/HomeMissionGrid";
+import HomeApodCard from "@/components/HomeApodCard";
+import HomeIndex from "@/components/HomeIndex";
 
 type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "home" });
+  return { title: t("meta_title"), description: t("meta_description") };
+}
 
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <HomeContent />;
-}
-
-function HomeContent() {
-  const t = useTranslations("home");
 
   return (
-    <main className="w-full bg-black text-white selection:bg-cyan-500 selection:text-black">
-      {/* ── Oneshot Hero Video-Scrubbing Section ── */}
-      <HeroVideoScrub
-        statsMissionsLabel={t("stats_missions")}
-        statsYearsLabel={t("stats_years")}
-        statsProgramsLabel={t("stats_programs")}
-      />
+    <main className="w-full">
+      <HomeHero />
+      <HomeLaunchBoard />
+      <HomeMissionGrid />
+      <HomeApodCard />
+      <HomeIndex />
     </main>
   );
 }
