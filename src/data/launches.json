@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-05T09:45:02.538Z",
+  "checkedAt": "2026-09-05T14:37:26.134Z",
   "source": "Launch Library 2 (thespacedevs.com)",
   "upcoming": [
     {
@@ -9,10 +9,10 @@
       "net": "2026-09-05T20:00:00Z",
       "windowStart": "2026-09-05T20:00:00Z",
       "status": {
-        "id": 8,
-        "name": "To Be Confirmed",
-        "abbrev": "TBC",
-        "description": "Awaiting official confirmation - current date is known with some certainty."
+        "id": 1,
+        "name": "Go for Launch",
+        "abbrev": "Go",
+        "description": "Current T-0 confirmed by official or reliable sources."
       },
       "provider": "Isar Aerospace",
       "providerType": "Private",

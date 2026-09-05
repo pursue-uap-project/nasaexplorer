@@ -20,7 +20,8 @@ del monorepo, que necesita el secret `PAGES_KEY_NASAEXPLORER`.
 - **Animación**: framer-motion. **Estado**: zustand.
 - **Estilo**: Tailwind CSS v4 con tokens en `@theme` (`src/app/globals.css`).
 
-> No hay React Three Fiber ni modelos 3D en uso, aunque queden `.glb` en `public/models/`.
+> No hay React Three Fiber ni visor 3D. `public/models/` se borró: eran 18 MB de `.glb`
+> que no cargaba ningún componente. Si algún día vuelve el visor, vuelven los modelos.
 
 ## Comandos
 - `npm run dev` · `npm run build` (genera `out/`) · `npm run lint` · `npx tsc --noEmit`
@@ -65,9 +66,10 @@ hidratación del export estático).
   de misión pesaban 33 MB en PNG; ahora 0,5 MB en WebP a 1440 px.
 - **Nada de cifras decorativas.** Fuera los contadores del tipo «300+ misiones»: si un
   número aparece, sale de un dato real y se dice de dónde.
-- `ACTIVE_MISSIONS` y `MISSIONS` en `src/lib/nasa.ts` están escritos a mano. **Al tocar
-  fechas o hitos hay que contrastarlos**: son el único contenido del sitio que no viene
-  de una API y por tanto el único que puede quedarse obsoleto en silencio.
+- `ACTIVE_MISSIONS` y `MISSIONS` en `src/lib/nasa.ts` están escritos a mano: son el único
+  contenido del sitio que no viene de una API y por tanto el único que puede quedarse
+  obsoleto en silencio. Lo vigila `scripts/check-mission-dates.mjs` (ver abajo), pero el
+  guardia no sustituye a mirar la fuente al tocar una fecha.
 
 ## Datos volátiles
 `scripts/sync-space-data.mjs` (lo lanza `nasaexplorer-sync.yml` en el monorepo) hornea:
@@ -81,6 +83,28 @@ hidratación del export estático).
 - `src/data/live-channels.json` — **cada 30 min**. Un id de directo de YouTube dura horas;
   esto NO se puede hacer en cliente (ni el RSS ni `/@handle/live` mandan CORS).
 
+## Guardia del catálogo
+`scripts/check-mission-dates.mjs` lo lanza el job `catalogo` de `nasaexplorer-sync.yml`
+(cron quincenal y a mano) y falla en rojo si el catálogo miente:
+
+- `planned` con la fecha ya pasada, o `completed`/`active` con fecha futura.
+- `countdownTarget` vencido.
+- Discrepancia contra Launch Library 2, solo para misiones de 2015 en adelante
+  (LL2 no cubre Mercury ni Apollo con fiabilidad).
+
+```bash
+node scripts/check-mission-dates.mjs           # todo
+node scripts/check-mission-dates.mjs --local   # sin red, solo coherencia interna
+```
+
+Lee `nasa.ts` **como texto, con expresión regular**, porque el fichero no se puede
+importar desde Node (importa `./youtube` sin extensión). Si un refactor cambia la forma
+del catálogo el parser dejaría de encajar, así que aborta si saca menos de 15 misiones:
+un guardia ciego que pasa en verde es peor que no tenerlo.
+
+Nació de un caso real: Artemis II figuraba como `2026-09-30 / planned` con el comentario
+«Updated to September 2026 for a long countdown» cuando había despegado el 2026-04-01.
+
 ## Arquitectura
 ```
 src/app/[locale]/   → páginas (missions, launches, active, solar, iss, live, apod, search)
@@ -88,6 +112,7 @@ src/components/     → UI. Home*.tsx son los bloques de la portada
 src/lib/            → nasa.ts (catálogo + APIs), launches.ts, live-channels.ts, youtube.ts
 src/data/           → JSON horneado por el cron + astronautas y glosario
 src/i18n/messages/  → en.json · es.json
+scripts/            → sync-space-data.mjs (cron) · check-mission-dates.mjs (guardia)
 public/assets/      → fotografías reales del archivo NASA, en WebP
 ```
 
