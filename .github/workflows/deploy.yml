@@ -32,7 +32,18 @@ jobs:
           echo 'export default [];' > eslint.config.mjs
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          # npm se salta a veces el binario de plataforma de @swc/core, que es
+          # una optionalDependency (npm/cli#4828). Sin lockfile que lo fije, el
+          # build revienta al compilar next.config.ts via next-intl/plugin con
+          # "Cannot find module '@swc/core-linux-x64-gnu'". Pasó el 2026-09-04.
+          node -e "require('@swc/core')" 2>/dev/null || {
+            echo "Falta el binding nativo de @swc/core; reinstalando"
+            rm -rf node_modules/@swc
+            npm install @swc/core --force --no-save
+            node -e "require('@swc/core')"
+          }
 
       - name: Build
         run: npm run build
