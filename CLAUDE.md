@@ -47,7 +47,7 @@ Cinco bloques, todos alimentados por datos reales:
 | `HomeHero` | foto real del archivo NASA + barra de telemetría | JWST NGC 3324 · Launch Library 2 |
 | `HomeLaunchBoard` | próximos 6 lanzamientos | Launch Library 2 (vivo + horneado) |
 | `HomeMissionGrid` | las 4 misiones de `ACTIVE_MISSIONS` | `src/lib/nasa.ts` |
-| `HomeApodCard` | imagen astronómica de hoy | `api.nasa.gov/planetary/apod` |
+| `HomeApodCard` | imagen astronómica de hoy | `src/data/apod.json` + `api.nasa.gov` en vivo |
 | `HomeIndex` | índice de secciones + procedencia de datos | — |
 
 `useLaunchFeed()` (`src/lib/use-launch-feed.ts`) comparte **una sola** petición a LL2
@@ -73,6 +73,11 @@ hidratación del export estático).
 `scripts/sync-space-data.mjs` (lo lanza `nasaexplorer-sync.yml` en el monorepo) hornea:
 - `src/data/launches.json` — cada 15 días. LL2 manda CORS, así que además se refresca en
   el navegador en cada visita; el JSON es la foto inicial (pinta al instante, indexable).
+- `src/data/apod.json` — **cada día a las 06:00 UTC**. La portada y `/apod` piden la
+  imagen en vivo, pero sin clave propia esa petición sale con `DEMO_KEY`, compartida
+  por todo el mundo y en 429 buena parte del día. El JSON horneado es lo que se pinta
+  en el primer render; el fetch del navegador solo lo mejora. Si `api.nasa.gov` falla,
+  el script cae a `apod.nasa.gov/apod/astropix.html`, que no pide clave.
 - `src/data/live-channels.json` — **cada 30 min**. Un id de directo de YouTube dura horas;
   esto NO se puede hacer en cliente (ni el RSS ni `/@handle/live` mandan CORS).
 

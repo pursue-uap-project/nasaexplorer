@@ -7,6 +7,7 @@
  *
  *   src/data/live-channels.json  ← qué canal está EN DIRECTO ahora mismo
  *   src/data/launches.json       ← lanzamientos próximos y recientes
+ *   src/data/apod.json           ← imagen astronómica del día
  *
  * Por qué un script y no un fetch en el navegador:
  *   - El sitio es `output: "export"` (GitHub Pages). No hay servidor.
@@ -21,6 +22,7 @@
  *   node scripts/sync-space-data.mjs            # todo
  *   node scripts/sync-space-data.mjs --live     # solo canales en directo
  *   node scripts/sync-space-data.mjs --launches # solo lanzamientos
+ *   node scripts/sync-space-data.mjs --apod     # solo la imagen del día
  *
  * Sin dependencias: solo fetch nativo de Node >= 22.
  */
@@ -295,6 +297,83 @@ async function syncLaunches() {
   return payload;
 }
 
+// ── Imagen astronómica del día (APOD) ──────────────────────────────────────
+
+// La portada y /apod la piden en vivo desde el navegador, pero `DEMO_KEY` es una
+// clave compartida por todo el mundo y vive permanentemente al borde de su cuota:
+// la portada pública llevaba días enseñando «no se ha podido cargar» porque la
+// API contestaba 429. Horneando la foto aquí, la tarjeta siempre pinta algo real
+// aunque la API rechace al visitante; el fetch del cliente ya solo la mejora.
+const APOD_PAGE = "https://apod.nasa.gov/apod/astropix.html";
+
+/**
+ * Respaldo cuando api.nasa.gov rechaza la petición. `DEMO_KEY` la comparte todo
+ * el mundo y devuelve 429 buena parte del día, así que sin esto el horneado
+ * dependería de la suerte. La página pública no pide clave y lleva décadas con
+ * el mismo formato: título en el primer <b>, imagen en <IMG SRC="image/…">, el
+ * enlace de alrededor a la versión grande, y la explicación tras «Explanation:».
+ */
+async function apodDesdeLaPagina() {
+  const html = await fetchText(APOD_PAGE);
+  const abs = (p) => (p ? new URL(p, "https://apod.nasa.gov/apod/").href : null);
+  const limpia = (s) =>
+    decodeEntities(s.replace(/<[^>]+>/g, " "))
+      .replace(/\s+/g, " ")
+      .trim();
+
+  const titulo = html.match(/<b>\s*([\s\S]*?)\s*<\/b>/i);
+  const img = html.match(/<img\s+src="(image\/[^"]+)"/i);
+  const grande = html.match(/<a\s+href="(image\/[^"]+)"/i);
+  const expl = html.match(/Explanation:\s*<\/b>([\s\S]*?)<p>/i);
+  const credito = html.match(/(?:Image|Video|Illustration)\s+Credit[^<]*(?:<[^>]+>)*\s*([\s\S]*?)<p>/i);
+
+  if (!titulo || !img) throw new Error("no se pudo leer astropix.html");
+
+  const hoy = new Date().toISOString().slice(0, 10);
+  return {
+    date: hoy,
+    title: limpia(titulo[1]),
+    explanation: expl ? limpia(expl[1]) : "",
+    media_type: "image",
+    url: abs(img[1]),
+    hdurl: abs(grande?.[1] ?? img[1]),
+    copyright: credito ? limpia(credito[1]).slice(0, 200) || null : null,
+  };
+}
+
+async function syncApod() {
+  const key = process.env.NASA_API_KEY || "DEMO_KEY";
+  let d;
+  try {
+    d = JSON.parse(
+      await fetchText(`https://api.nasa.gov/planetary/apod?api_key=${key}&thumbs=true`),
+    );
+    if (!d?.date || !d?.title) throw new Error("respuesta sin date/title");
+  } catch (err) {
+    console.log(`  · la API falló (${err.message}); leyendo la página pública`);
+    d = await apodDesdeLaPagina();
+    d._fuente = APOD_PAGE;
+  }
+
+  // `media_type` puede ser "video": con `thumbs=true` la API devuelve además una
+  // miniatura, que es lo que se pinta en la tarjeta en vez de un <img> roto.
+  const payload = {
+    checkedAt: new Date().toISOString(),
+    source: d._fuente ?? "NASA APOD (api.nasa.gov/planetary/apod)",
+    date: d.date,
+    title: d.title,
+    explanation: d.explanation ?? "",
+    media_type: d.media_type === "video" ? "video" : "image",
+    url: d.media_type === "video" ? (d.thumbnail_url ?? null) : (d.url ?? null),
+    hdurl: d.hdurl ?? null,
+    copyright: d.copyright ? d.copyright.trim() : null,
+  };
+
+  console.log(`  ✓ APOD ${payload.date}: ${payload.title}`);
+  await writeJson("apod.json", payload);
+  return payload;
+}
+
 // ── Escritura ──────────────────────────────────────────────────────────────
 
 async function writeJson(name, payload) {
@@ -324,7 +403,7 @@ async function writeJson(name, payload) {
 
 async function main() {
   const args = process.argv.slice(2);
-  const only = args.find((a) => a === "--live" || a === "--launches");
+  const only = args.find((a) => a === "--live" || a === "--launches" || a === "--apod");
 
   let failed = false;
 
@@ -344,6 +423,16 @@ async function main() {
       await syncLaunches();
     } catch (err) {
       console.error(`  ✗ launches: ${err.message}`);
+      failed = true;
+    }
+  }
+
+  if (!only || only === "--apod") {
+    console.log("▶ Descargando la imagen astronómica del día…");
+    try {
+      await syncApod();
+    } catch (err) {
+      console.error(`  ✗ apod: ${err.message}`);
       failed = true;
     }
   }
