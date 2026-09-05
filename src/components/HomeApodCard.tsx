@@ -53,7 +53,10 @@ export default function HomeApodCard() {
   const [apod, setApod] = useState<Apod | null>(semilla);
 
   useEffect(() => {
-    const key = process.env.NEXT_PUBLIC_NASA_API_KEY ?? "DEMO_KEY";
+    // `||`, no `??`: cuando el workflow declara la variable pero el secret no
+    // existe, Next incrusta la cadena vacía, y `?? ` solo cubre null/undefined.
+    // El resultado era `api_key=` a secas, que la API rechaza siempre.
+    const key = process.env.NEXT_PUBLIC_NASA_API_KEY || "DEMO_KEY";
     let alive = true;
     fetch(`https://api.nasa.gov/planetary/apod?api_key=${key}`)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
