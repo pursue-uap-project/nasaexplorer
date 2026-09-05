@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import horneada from "@/data/apod.json";
 
 type ApodData = {
   title: string;
@@ -163,22 +164,50 @@ export default function ApodView() {
         setLoadState("ok");
       })
       .catch(() => {
-        // Find if we have a static fallback for the selected date, or select a random one from our list!
-        const matchingFallback = FALLBACK_APODS.find(f => f.date === selectedDate);
-        const fallback = matchingFallback || FALLBACK_APODS[Math.abs(selectedDate.split("-").map(Number).reduce((a,b)=>a+b, 0)) % FALLBACK_APODS.length];
-        
-        const localizedFallback: ApodData = {
-          title: locale === "es" ? fallback.title_es : fallback.title,
-          url: fallback.url,
-          hdurl: fallback.url,
-          media_type: fallback.media_type,
-          explanation: locale === "es" ? fallback.explanation_es : fallback.explanation,
-          date: selectedDate, // keep selected date for UI consistency
-          copyright: fallback.copyright
-        };
-        setApod(localizedFallback);
-        setIsFallback(true);
-        setLoadState("ok");
+        // Respaldo SOLO con la foto que de verdad corresponde a esta fecha.
+        //
+        // Antes, si no había coincidencia se elegía una de las cinco fijas con
+        // `selectedDate.split("-")…% FALLBACK_APODS.length` y se pintaba con
+        // `date: selectedDate`: pedías el 3 de marzo de 2015 y salía una foto de
+        // 1972 rotulada como de ese día, `<time datetime>` incluido. Con cinco
+        // imágenes para treinta años de archivo, eso era lo que pasaba casi
+        // siempre. El badge «Respaldo Local» no arregla una fecha falsa.
+        //
+        // Si hoy no hay respuesta de la API, queda la foto horneada por el cron;
+        // para cualquier otra fecha se dice que no se pudo cargar, que es la
+        // verdad, y se enlaza el archivo oficial.
+        const propia = FALLBACK_APODS.find((f) => f.date === selectedDate);
+        if (propia) {
+          setApod({
+            title: locale === "es" ? propia.title_es : propia.title,
+            url: propia.url,
+            hdurl: propia.url,
+            media_type: propia.media_type,
+            explanation: locale === "es" ? propia.explanation_es : propia.explanation,
+            date: propia.date,
+            copyright: propia.copyright,
+          });
+          setIsFallback(true);
+          setLoadState("ok");
+          return;
+        }
+
+        if (isToday && horneada?.url) {
+          setApod({
+            title: horneada.title,
+            url: horneada.url,
+            hdurl: horneada.hdurl ?? horneada.url,
+            media_type: horneada.media_type === "video" ? "video" : "image",
+            explanation: horneada.explanation,
+            date: horneada.date,
+            copyright: horneada.copyright ?? undefined,
+          });
+          setIsFallback(true);
+          setLoadState("ok");
+          return;
+        }
+
+        setLoadState("error");
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDate]);
