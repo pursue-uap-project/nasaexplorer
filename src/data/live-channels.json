@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-05T09:33:30.727Z",
+  "checkedAt": "2026-09-05T13:04:52.507Z",
   "channels": [
     {
       "id": "nasa",
@@ -79,8 +79,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "nw9E-yCYy-Q",
+      "fallbackVideoId": "bjpyiITUR-k",
       "recent": [
+        {
+          "id": "bjpyiITUR-k",
+          "title": "Could Galileo satellites have saved Odysseus 10 years of wandering? 🛰️ 📖",
+          "published": "2026-09-05T09:50:01+00:00"
+        },
         {
           "id": "nw9E-yCYy-Q",
           "title": "A satellite's final moments, captured from a plane 🛰️",
@@ -95,11 +100,6 @@
           "id": "oC7lQngNG3o",
           "title": "BepiColombo’s Mercury arrival begins (Official ESA broadcast)",
           "published": "2026-09-03T16:53:04+00:00"
-        },
-        {
-          "id": "6VDCFAdiiOo",
-          "title": "Sophie Adenot trains with an EMS suit in space 🏋️‍♀️",
-          "published": "2026-09-03T09:04:44+00:00"
         }
       ]
     },
