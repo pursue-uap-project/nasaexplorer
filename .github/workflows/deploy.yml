@@ -48,7 +48,15 @@ jobs:
       - name: Build
         run: npm run build
         env:
+          # Solo en build: fotos de roveres marcianos. No sale del runner.
           NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
+          # Esta SI viaja al navegador: Next incrusta todo lo que empieza por
+          # NEXT_PUBLIC_ en el bundle, asi que cualquiera puede leerla en el JS
+          # publicado. Se acepta a proposito: una clave de api.nasa.gov no da
+          # acceso a ninguna cuenta ni a datos personales, solo sube el limite de
+          # 30 peticiones/hora de DEMO_KEY a 1.000. Sin ella, /apod no puede
+          # navegar por el archivo. No reutilizar esta clave para nada mas.
+          NEXT_PUBLIC_NASA_API_KEY: ${{ secrets.NEXT_PUBLIC_NASA_API_KEY }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
