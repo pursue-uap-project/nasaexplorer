@@ -4,6 +4,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Mission } from "@/lib/nasa";
 import astronautsData from "@/data/astronauts.json";
+import Icon from "@/components/Icon";
 
 type AstronautData = {
   name: string;
@@ -70,7 +71,7 @@ export default function AstronautModal({ astronautId, isOpen, onClose, allMissio
                 onClick={onClose}
                 className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/8 text-white/50 hover:text-white transition-all"
               >
-                ✕
+                <Icon name="close" />
               </button>
             </div>
 
@@ -141,7 +142,7 @@ export default function AstronautModal({ astronautId, isOpen, onClose, allMissio
                       }}
                       className="px-3.5 py-1.5 rounded-xl border border-white/10 bg-white/4 hover:bg-white/10 text-xs font-medium text-white/80 hover:text-white transition-all shadow-xs"
                     >
-                      🚀 {m.name}
+                      <Icon name="rocket" className="h-3.5 w-3.5 shrink-0" /> {m.name}
                     </button>
                   ))}
                 </div>

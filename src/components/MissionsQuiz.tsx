@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import Icon from "@/components/Icon";
 
 type Question = {
   id: number;
@@ -110,9 +111,9 @@ export default function MissionsQuiz() {
 
   // Badge assignment based on score
   const getBadge = () => {
-    if (score === 5) return { name: t("badge_director"), desc: t("badge_director_desc"), icon: "🚀" };
-    if (score >= 3) return { name: t("badge_specialist"), desc: t("badge_specialist_desc"), icon: "🧑‍🚀" };
-    return { name: t("badge_cadet"), desc: t("badge_cadet_desc"), icon: "🛰️" };
+    if (score === 5) return { name: t("badge_director"), desc: t("badge_director_desc"), icon: "rocket" as const };
+    if (score >= 3) return { name: t("badge_specialist"), desc: t("badge_specialist_desc"), icon: "person" as const };
+    return { name: t("badge_cadet"), desc: t("badge_cadet_desc"), icon: "satellite" as const };
   };
 
   return (
@@ -169,10 +170,10 @@ export default function MissionsQuiz() {
                         daltónicos y mudo para lectores de pantalla. El
                         aria-label lo verbaliza; el glifo queda decorativo. */}
                     {isSubmitted && optIdx === activeQuestion.answer && (
-                      <span className="text-emerald-400 text-base" role="img" aria-label={t("answer_correct")}>✓</span>
+                      <Icon name="check" label={t("answer_correct")} className="h-4 w-4 text-emerald-400" />
                     )}
                     {isSubmitted && selectedOpt === optIdx && optIdx !== activeQuestion.answer && (
-                      <span className="text-red-400 text-base" role="img" aria-label={t("answer_incorrect")}>✗</span>
+                      <Icon name="cross" label={t("answer_incorrect")} className="h-4 w-4 text-red-400" />
                     )}
                   </button>
                 );
@@ -183,7 +184,7 @@ export default function MissionsQuiz() {
             {isSubmitted && (
               <div className="p-4 rounded-2xl bg-white/3 border border-white/5 mb-6 animate-fade-in">
                 <p className="text-white/80 text-xs leading-relaxed">
-                  <span aria-hidden="true">💡</span> <span className="font-semibold text-white">{t("explanation_title")}:</span>{" "}
+                  <Icon name="bulb" className="h-4 w-4 shrink-0" /> <span className="font-semibold text-white">{t("explanation_title")}:</span>{" "}
                   {t("locale") === "es" ? activeQuestion.explanation_es : activeQuestion.explanation_en}
                 </p>
               </div>
@@ -216,7 +217,9 @@ export default function MissionsQuiz() {
         ) : (
           /* Results Screen */
           <div className="text-center py-6">
-            <div className="text-5xl mb-4">{getBadge().icon}</div>
+            <div className="mb-4 flex justify-center">
+              <Icon name={getBadge().icon} className="h-12 w-12 text-white/80" />
+            </div>
             <h3 className="text-2xl font-extrabold text-white mb-2">{t("results_title")}</h3>
             <p className="text-white/50 text-sm mb-6">
               {t("results_score", { score, total: QUESTIONS.length })}

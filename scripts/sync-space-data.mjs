@@ -23,6 +23,7 @@
  *   node scripts/sync-space-data.mjs --live     # solo canales en directo
  *   node scripts/sync-space-data.mjs --launches # solo lanzamientos
  *   node scripts/sync-space-data.mjs --apod     # solo la imagen del día
+ *   node scripts/sync-space-data.mjs --exoplanets # solo el recuento de exoplanetas
  *
  * Sin dependencias: solo fetch nativo de Node >= 22.
  */
@@ -43,12 +44,14 @@ const BROWSER_HEADERS = {
   cookie: "CONSENT=YES+cb; SOCS=CAI",
 };
 
-/** Canales del hub. `handle` resuelve el directo, `channelId` el RSS de recientes. */
+/** Canales del hub. `handle` resuelve el directo, `channelId` el RSS de recientes.
+ *  `icon` es un nombre del set de `src/components/Icon.tsx`: la lista de canales
+ *  llevaba emoji, que renderizan distinto en cada sistema y no son iconografía. */
 const CHANNELS = [
   {
     id: "nasa",
     labelKey: "nasa_channel",
-    emoji: "🛰️",
+    icon: "satellite",
     accent: "from-blue-500/40 to-indigo-600/10",
     handle: "NASA",
     channelId: "UCLA_DiR1FfKNvjuUpBHmylQ",
@@ -56,7 +59,7 @@ const CHANNELS = [
   {
     id: "nasa-es",
     labelKey: "nasa_es_channel",
-    emoji: "🌎",
+    icon: "antenna",
     accent: "from-amber-500/40 to-orange-600/10",
     handle: "nasa_es",
     channelId: "UC8zqCEvaRwHcfz3IhjhMMxQ",
@@ -64,7 +67,7 @@ const CHANNELS = [
   {
     id: "esa",
     labelKey: "esa_channel",
-    emoji: "🇪🇺",
+    icon: "satellite",
     accent: "from-emerald-500/40 to-teal-600/10",
     handle: "ESA",
     channelId: "UCIBaDdAbGlFDeS33shmlD0A",
@@ -72,7 +75,7 @@ const CHANNELS = [
   {
     id: "spacex",
     labelKey: "spacex_channel",
-    emoji: "🚀",
+    icon: "rocket",
     accent: "from-slate-400/40 to-slate-600/10",
     handle: "SpaceX",
     channelId: "UCtI0Hodo5o5dUb67FeUjDeA",
@@ -192,7 +195,7 @@ async function syncLive() {
     channels.push({
       id: ch.id,
       labelKey: ch.labelKey,
-      emoji: ch.emoji,
+      icon: ch.icon,
       accent: ch.accent,
       handle: ch.handle,
       channelId: ch.channelId,
@@ -374,6 +377,76 @@ async function syncApod() {
   return payload;
 }
 
+// ── Exoplanetas ────────────────────────────────────────────────────────────
+
+/**
+ * Recuento de exoplanetas confirmados, desde el NASA Exoplanet Archive.
+ *
+ * Se hornea en vez de pedirse en el navegador porque el archivo **no manda
+ * CORS**: comprobado con `Origin:` puesto, la respuesta llega sin
+ * `access-control-allow-origin`, así que el navegador la bloquearía. Mismo caso
+ * que los directos de YouTube.
+ *
+ * El protocolo es TAP (una API estándar de astronomía) y se consulta con SQL.
+ * `pscomppars` da una fila por planeta con los parámetros ya combinados de las
+ * distintas publicaciones — es la tabla correcta para contar. `ps`, en cambio,
+ * tiene una fila por planeta **y referencia**, así que contar ahí sale de más.
+ */
+const TAP = "https://exoplanetarchive.ipac.caltech.edu/TAP/sync";
+
+async function tap(query) {
+  const url = `${TAP}?query=${encodeURIComponent(query)}&format=json`;
+  const res = await fetch(url, { headers: { accept: "application/json" } });
+  if (!res.ok) throw new Error(`Exoplanet Archive respondió ${res.status}`);
+  return res.json();
+}
+
+async function syncExoplanets() {
+  const anio = new Date().getUTCFullYear();
+
+  const [total, metodos, porAnio, recientes] = await Promise.all([
+    tap("select count(*) as n from pscomppars"),
+    tap(
+      "select discoverymethod, count(*) as n from pscomppars " +
+        "group by discoverymethod order by n desc",
+    ),
+    tap("select disc_year, count(*) as n from pscomppars group by disc_year order by disc_year desc"),
+    tap(
+      "select top 12 pl_name, hostname, discoverymethod, disc_year, disc_facility, " +
+        "sy_dist, pl_rade, pl_bmasse, pl_orbper from pscomppars " +
+        `where disc_year=${anio} order by pl_name desc`,
+    ),
+  ]);
+
+  const payload = {
+    checkedAt: new Date().toISOString(),
+    source: "NASA Exoplanet Archive (pscomppars, TAP)",
+    total: total[0]?.n ?? null,
+    // El año en curso todavía suma: se guarda aparte para poder decir
+    // «N descubiertos en 2026» sin que parezca un total cerrado.
+    esteAnio: porAnio.find((r) => r.disc_year === anio)?.n ?? 0,
+    anio,
+    metodos: metodos.map((m) => ({ metodo: m.discoverymethod, n: m.n })),
+    porAnio: porAnio.filter((r) => r.disc_year >= anio - 14).map((r) => ({ anio: r.disc_year, n: r.n })),
+    recientes: recientes.map((p) => ({
+      nombre: p.pl_name,
+      estrella: p.hostname,
+      metodo: p.discoverymethod,
+      anio: p.disc_year,
+      instalacion: p.disc_facility,
+      // Distancias en pársecs en el archivo; se pasa a años luz, que es lo que
+      // entiende alguien que no es astrónomo. 1 pc = 3,26156 al.
+      distanciaAl: p.sy_dist == null ? null : Math.round(p.sy_dist * 3.26156),
+      radioTierras: p.pl_rade == null ? null : Number(p.pl_rade.toFixed(2)),
+      masaTierras: p.pl_bmasse == null ? null : Number(p.pl_bmasse.toFixed(2)),
+      periodoDias: p.pl_orbper == null ? null : Number(p.pl_orbper.toFixed(2)),
+    })),
+  };
+
+  await writeJson("exoplanets.json", payload);
+  return payload;
+}
+
 // ── Escritura ──────────────────────────────────────────────────────────────
 
 async function writeJson(name, payload) {
@@ -403,7 +476,9 @@ async function writeJson(name, payload) {
 
 async function main() {
   const args = process.argv.slice(2);
-  const only = args.find((a) => a === "--live" || a === "--launches" || a === "--apod");
+  const only = args.find(
+    (a) => a === "--live" || a === "--launches" || a === "--apod" || a === "--exoplanets",
+  );
 
   let failed = false;
 
@@ -433,6 +508,16 @@ async function main() {
       await syncApod();
     } catch (err) {
       console.error(`  ✗ apod: ${err.message}`);
+      failed = true;
+    }
+  }
+
+  if (!only || only === "--exoplanets") {
+    console.log("▶ Descargando el recuento de exoplanetas…");
+    try {
+      await syncExoplanets();
+    } catch (err) {
+      console.error(`  ✗ exoplanets: ${err.message}`);
       failed = true;
     }
   }

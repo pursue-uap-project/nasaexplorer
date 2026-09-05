@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import type { Mission } from "@/lib/nasa";
+import Icon from "@/components/Icon";
 
 type Props = {
   missions: Mission[];
@@ -60,7 +61,7 @@ export default function MissionAnalytics({ missions }: Props) {
           onClick={() => setIsOpen(true)}
           className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-2xl border border-white/10 bg-white/3 hover:bg-white/[0.07] text-white/80 hover:text-white font-medium text-sm transition-all duration-200 shadow-xs"
         >
-          <span aria-hidden="true">📊</span>
+          <Icon name="chart" className="h-4 w-4 shrink-0" />
           <span>{t("show_dashboard")}</span>
         </button>
       </div>

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/routing";
@@ -8,6 +9,7 @@ import HistoricalAudio from "@/components/HistoricalAudio";
 import MissionMediaAndCrew from "@/components/MissionMediaAndCrew";
 import RocketScale from "@/components/RocketScale";
 import MissionCountdown from "@/components/MissionCountdown";
+import { buildMetadata, SITE } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string; id: string }> };
 
@@ -17,6 +19,37 @@ export async function generateStaticParams() {
 }
 
 export const dynamicParams = false;
+
+/**
+ * Las 38 fichas son la mayor parte de las URL del sitio y hasta ahora
+ * compartían el título genérico del layout: en resultados de búsqueda y al
+ * compartir un enlace, Apollo 11 y Voyager 2 se veían idénticas.
+ *
+ * La descripción sale de la propia ficha, recortada: es texto escrito para
+ * humanos y describe la misión mejor que cualquier plantilla.
+ */
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale, id } = await params;
+  const mission = getMissionById(id);
+  if (!mission) return {};
+
+  const loc = locale === "es" ? "es" : "en";
+  const anio = mission.launch_details.date?.slice(0, 4);
+  const texto = mission.description[loc];
+
+  return buildMetadata({
+    locale,
+    path: `missions/${mission.id}`,
+    title: anio ? `${mission.name} (${anio}) · ${mission.program}` : `${mission.name} · ${mission.program}`,
+    // Los buscadores cortan alrededor de 160 caracteres; mejor cortar por
+    // palabra aquí que dejar que lo hagan a mitad de una.
+    description: texto.length > 160 ? `${texto.slice(0, 157).replace(/\s+\S*$/, "")}…` : texto,
+    // No se reutiliza `mission.image`: es WebP y de proporción libre, y las
+    // previsualizaciones de redes esperan JPEG a 1200×630. `og-missions/`
+    // guarda ese recorte para cada misión.
+    image: `${SITE}/assets/og-missions/${mission.id}.jpg`,
+  });
+}
 
 const STATUS_STYLES: Record<string, string> = {
   active:    "bg-emerald-100/90 text-emerald-700 border border-emerald-200/60",
@@ -157,7 +190,15 @@ export default async function MissionDetailPage({ params }: Props) {
           {/* Historical Audio transcript */}
           {mission.audioClip && (
             <HistoricalAudio
-              audioUrl={mission.audioClip.url}
+              // Los clips se sirven desde `public/`, así que llevan basePath.
+              // Se acepta una URL absoluta por si alguna vez vuelve a apuntar
+              // fuera, igual que hacen `MissionCard` y `AstronautModal` con las
+              // imágenes.
+              audioUrl={
+                mission.audioClip.url.startsWith("http")
+                  ? mission.audioClip.url
+                  : `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/${mission.audioClip.url}`
+              }
               transcripts={mission.audioClip.transcripts}
               missionName={mission.name}
               color={color}
@@ -172,6 +213,8 @@ export default async function MissionDetailPage({ params }: Props) {
           {/* Mission Media & Crew Display */}
           <MissionMediaAndCrew
             missionImage={mission.image}
+            missionImageCredit={mission.imageCredit}
+            missionImageNasaId={mission.imageNasaId}
             missionName={mission.name}
             crewNames={mission.stats?.find((s) => s.label.toLowerCase() === "crew" || s.label.toLowerCase() === "astronaut")?.value}
             color={color}

@@ -2,6 +2,7 @@
 
 import { useEffect, useCallback } from "react";
 import type { MissionImage } from "@/lib/nasa";
+import Icon from "@/components/Icon";
 
 type Props = {
   images: MissionImage[];
@@ -52,7 +53,7 @@ export default function Lightbox({ images, index, onClose, onIndex }: Props) {
         className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-xl text-white/90 transition hover:bg-white/20"
         aria-label="Close"
       >
-        ✕
+        <Icon name="close" />
       </button>
 
       {/* Prev / Next */}

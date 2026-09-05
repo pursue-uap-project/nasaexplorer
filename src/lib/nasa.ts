@@ -9,6 +9,10 @@ export type Mission = {
   launch_details: { date: string; status: MissionStatus };
   description: { es: string; en: string };
   multimedia?: { images?: string[] };
+  /** Autoría de `image`. Toda foto del sitio dice de dónde sale. */
+  imageCredit?: string;
+  /** Identificador en images.nasa.gov, para volver al original. */
+  imageNasaId?: string;
   stats?: { label: string; value: string }[];
   youtubeId?: string;
   imageQuery?: string;
@@ -16,7 +20,10 @@ export type Mission = {
   crewed?: boolean;
   rocketId?: string;
   audioClip?: {
+    /** Ruta relativa dentro de `public/`. Se prefija con el basePath al consumirla. */
     url: string;
+    /** URL original en nasa.gov, para poder rastrear de dónde salió el clip. */
+    source: string;
     transcripts: { time: number; es: string; en: string }[];
   };
   countdownTarget?: string;
@@ -54,6 +61,22 @@ export type ActiveMission = {
   links?: { label: string; url: string }[];
   live?: "iss" | "mars-rover";
   rover?: "perseverance" | "curiosity";
+  /**
+   * Id de la misma misión en `MISSIONS_LIST`, cuando existe en las dos listas.
+   *
+   * `ACTIVE_MISSIONS` y `MISSIONS_LIST` describen tres cosas en común —ISS,
+   * Perseverance y JWST— con su nombre y su programa escritos dos veces. Nada
+   * impedía que se separaran: cambiar uno y olvidar el otro es justo el fallo
+   * que dejó a Artemis II con una fecha inventada durante meses.
+   *
+   * No se fusionan las listas porque no describen lo mismo: `MISSIONS_LIST` es
+   * el archivo (una ficha por lanzamiento) y `ACTIVE_MISSIONS` es el panel de lo
+   * que opera hoy, con objetivos, cronología e instrumentos que el archivo no
+   * tiene. Y `artemis` es un programa entero, no una misión, así que no tiene
+   * pareja. Lo que sí se puede es declarar el vínculo y que
+   * `check-catalog.mjs` compruebe que no divergen.
+   */
+  missionId?: string;
 };
 
 const IMAGES_API = "https://images-api.nasa.gov";
@@ -72,7 +95,11 @@ export const PROGRAM_COLORS: Record<string, string> = {
   "Deep Space":   "#6366f1",
 };
 
-const MISSIONS: Mission[] = [
+/**
+ * El catálogo. Se exporta además de `getMissions()` porque el índice del
+ * buscador se construye a nivel de módulo y no puede esperar a una promesa.
+ */
+export const MISSIONS_LIST: Mission[] = [
   // ── Mercury ─────────────────────────────────────────────────────────────
   {
     id: "freedom-7",
@@ -84,7 +111,9 @@ const MISSIONS: Mission[] = [
       es: "Alan Shepard se convirtió en el primer estadounidense en el espacio a bordo del Freedom 7, completando un vuelo suborbital de 15 minutos a 187 km de altitud, probando los sistemas del Mercury.",
     },
     imageQuery: "Alan Shepard Freedom 7 Mercury astronaut launch",
-    image: "assets/missions/freedom-7.jpg",
+    image: "assets/missions/freedom-7.webp",
+    imageCredit: "NASA/JSC — Astronaut Alan Shepard - U.S.S. Champlain - Post-Recovery Mercury Capsule",
+    imageNasaId: "S61-02727",
     stats: [
       { label: "Astronaut",  value: "Alan Shepard" },
       { label: "Duration",   value: "15 min 22 sec" },
@@ -93,14 +122,9 @@ const MISSIONS: Mission[] = [
     ],
     crewed: true,
     rocketId: "redstone",
-    audioClip: {
-      url: "https://www.nasa.gov/wp-content/uploads/2015/01/590327main_ringtone_shepard_candle.mp3",
-      transcripts: [
-        { time: 0, es: "Alan Shepard: Entendido, recibido.", en: "Alan Shepard: Roger, liftoff." },
-        { time: 2, es: "El temporizador ha comenzado.", en: "The spacecraft timer is started." },
-        { time: 4, es: "¡De acuerdo, encended esta vela!", en: "All right, light this candle!" }
-      ]
-    }
+    // Sin audioClip: el clip de Shepard («light this candle») que había aquí
+    // devolvía 404 desde nasa.gov y no hay equivalente en Historical Sounds.
+    // Antes que servir el audio de otra misión, la ficha va sin reproductor.
   },
   {
     id: "friendship-7",
@@ -112,7 +136,9 @@ const MISSIONS: Mission[] = [
       es: "John Glenn se convirtió en el primer estadounidense en orbitar la Tierra, completando tres órbitas en 4 horas 55 minutos. La misión restauró la confianza nacional en la carrera espacial.",
     },
     imageQuery: "John Glenn Friendship 7 Mercury orbit Earth",
-    image: "assets/missions/friendship-7.jpg",
+    image: "assets/missions/friendship-7.webp",
+    imageCredit: "NASA/JSC — Astronaut John Glenn, Jr. - Insertion - Mercury Spacecraft - Cape",
+    imageNasaId: "S62-00371",
     stats: [
       { label: "Astronaut",  value: "John Glenn" },
       { label: "Orbits",     value: "3" },
@@ -120,7 +146,18 @@ const MISSIONS: Mission[] = [
       { label: "Vehicle",    value: "Mercury-Atlas 6" },
     ],
     crewed: true,
-    rocketId: "atlas"
+    rocketId: "atlas",
+    // Mercury pierde el clip de Freedom 7 (su fichero ya no existe), así que el
+    // programa se queda sin audio. Este sí está en Historical Sounds y es la
+    // frase que se recuerda de la misión: Scott Carpenter despidiendo a Glenn
+    // desde la consola de seguimiento.
+    audioClip: {
+      url: "assets/audio/582368main_Mercury-6_God-Speed.mp3",
+      source: "https://www.nasa.gov/wp-content/uploads/2015/01/582368main_Mercury-6_God-Speed.mp3",
+      transcripts: [
+        { time: 0, es: "Scott Carpenter: Buena suerte, John Glenn.", en: "Scott Carpenter: Godspeed, John Glenn." },
+      ],
+    },
   },
   // ── Gemini ──────────────────────────────────────────────────────────────
   {
@@ -133,7 +170,9 @@ const MISSIONS: Mission[] = [
       es: "La última misión Gemini, tripulada por Jim Lovell y Buzz Aldrin, demostró las técnicas de actividad extravehicular cruciales para el Apolo. Aldrin realizó más de 5 horas de paseos espaciales.",
     },
     imageQuery: "Gemini XII Buzz Aldrin EVA spacewalk orbit",
-    image: "assets/missions/gemini-12.jpg",
+    image: "assets/missions/gemini-12.webp",
+    imageCredit: "NASA/JSC — Gemini 12 spacecraft seen during EVA",
+    imageNasaId: "s66-63007",
     stats: [
       { label: "Crew",       value: "Lovell · Aldrin" },
       { label: "Duration",   value: "3d 22h 34m" },
@@ -154,7 +193,9 @@ const MISSIONS: Mission[] = [
       es: "El primer alunizaje tripulado. Neil Armstrong y Buzz Aldrin aterrizaron en el Mar de la Tranquilidad el 20 de julio de 1969. Los primeros pasos de Armstrong fueron seguidos por 600 millones de personas.",
     },
     imageQuery: "Apollo 11 Moon landing Neil Armstrong Buzz Aldrin lunar surface",
-    image: "assets/missions/apollo-11.jpg",
+    image: "assets/missions/apollo-11.webp",
+    imageCredit: "NASA/JSC — Astronaut Edwin Aldrin walks on lunar surface near leg of Lunar Module",
+    imageNasaId: "as11-40-5902",
     youtubeId: "hZNB5ASBV1k",
     stats: [
       { label: "Crew",       value: "Armstrong · Collins · Aldrin" },
@@ -165,7 +206,8 @@ const MISSIONS: Mission[] = [
     crewed: true,
     rocketId: "saturn-v",
     audioClip: {
-      url: "https://www.nasa.gov/wp-content/uploads/2015/01/590331main_ringtone_smallStep.mp3",
+      url: "assets/audio/590331main_ringtone_smallStep.mp3",
+      source: "https://www.nasa.gov/wp-content/uploads/2015/01/590331main_ringtone_smallStep.mp3",
       transcripts: [
         { time: 0, es: "[Estática de radio y pitido Quindar]", en: "[Radio static and Quindar beep]" },
         { time: 2, es: "Neil Armstrong: Estoy al pie de la escalera.", en: "Neil Armstrong: I'm at the foot of the ladder." },
@@ -186,7 +228,9 @@ const MISSIONS: Mission[] = [
       es: "El alunizaje fue abortado tras la explosión de un tanque de oxígeno. La tripulación usó el Módulo Lunar como bote salvavidas para regresar a la Tierra en una de las mayores historias de supervivencia de la NASA.",
     },
     imageQuery: "Apollo 13 oxygen tank explosion Jim Lovell lifeboat rescue",
-    image: "assets/missions/apollo-13.jpg",
+    image: "assets/missions/apollo-13.webp",
+    imageCredit: "NASA/JSC — View of damaged Apollo 13 Service Module from the Lunar/Command Modules",
+    imageNasaId: "as13-58-8464",
     stats: [
       { label: "Crew",       value: "Lovell · Swigert · Haise" },
       { label: "Failure",    value: "O₂ tank 2 explosion" },
@@ -196,7 +240,8 @@ const MISSIONS: Mission[] = [
     crewed: true,
     rocketId: "saturn-v",
     audioClip: {
-      url: "https://www.nasa.gov/wp-content/uploads/2015/01/617935main_apollo13_problem.mp3",
+      url: "assets/audio/574928main_houston_problem.mp3",
+      source: "https://www.nasa.gov/wp-content/uploads/2015/01/574928main_houston_problem.mp3",
       transcripts: [
         { time: 0, es: "Jack Swigert: Bien, Houston, hemos tenido un problema aquí.", en: "Jack Swigert: Okay, Houston, we've had a problem here." },
         { time: 3, es: "CAPCOM (Jack Lousma): Aquí Houston. Repita, por favor.", en: "CAPCOM (Jack Lousma): This is Houston. Say again, please." },
@@ -215,7 +260,9 @@ const MISSIONS: Mission[] = [
       es: "El último alunizaje Apolo y la última vez que humanos caminaron en la Luna. Gene Cernan y Harrison Schmitt — el único científico en pisar la Luna — recogieron 110.5 kg de muestras en Taurus-Littrow.",
     },
     imageQuery: "Apollo 17 Gene Cernan Harrison Schmitt lunar rover Taurus-Littrow",
-    image: "assets/missions/apollo-17.jpg",
+    image: "assets/missions/apollo-17.webp",
+    imageCredit: "NASA/JSC — Apollo 17,Lunar Roving Vehicle and Astronaut Harrison Schmitt during EVA 3",
+    imageNasaId: "as17-146-22296",
     stats: [
       { label: "Crew",         value: "Cernan · Evans · Schmitt" },
       { label: "Landing site", value: "Taurus-Littrow" },
@@ -236,7 +283,9 @@ const MISSIONS: Mission[] = [
       es: "La primera estación espacial estadounidense alojó tres tripulaciones entre 1973 y 1974. Los astronautas realizaron observaciones solares pioneras y experimentos de recursos terrestres que marcaron el futuro de las estaciones espaciales.",
     },
     imageQuery: "Skylab space station crew solar telescope Earth orbit",
-    image: "assets/missions/skylab.jpg",
+    image: "assets/missions/skylab.webp",
+    imageCredit: "NASA/JSC — View of the Skylab space station cluster photographed against black sky",
+    imageNasaId: "sl3-114-1660",
     stats: [
       { label: "Crews",        value: "3 missions" },
       { label: "Total time",   value: "171 crew-days" },
@@ -257,7 +306,9 @@ const MISSIONS: Mission[] = [
       es: "La primera misión del Transbordador Espacial lanzó Columbia exactamente 20 años después del vuelo de Gagarin. Tripulada por John Young y Robert Crippen, validó el diseño del orbitador durante 2 días en órbita.",
     },
     imageQuery: "Space Shuttle Columbia STS-1 launch John Young Robert Crippen",
-    image: "assets/missions/sts-1.jpg",
+    image: "assets/missions/sts-1.webp",
+    imageCredit: "NASA/KSC — Space Shuttle Columbia on Launch Pad 39A before STS-1",
+    imageNasaId: "KSC-81PC-0136",
     stats: [
       { label: "Crew",       value: "Young · Crippen" },
       { label: "Duration",   value: "2d 6h 20m" },
@@ -278,7 +329,9 @@ const MISSIONS: Mission[] = [
       es: "Desplegado desde el Discovery en 1990, Hubble ha realizado más de 1.5 millones de observaciones. Sus imágenes transformaron la cosmología: determinaron la edad del universo, revelaron la energía oscura y mapearon la formación estelar.",
     },
     imageQuery: "Hubble Space Telescope galaxy nebula deep field stars",
-    image: "assets/missions/hubble.jpg",
+    image: "assets/missions/hubble.webp",
+    imageCredit: "NASA/JSC — View of HST during its release from the Shuttle Atlantis",
+    imageNasaId: "s125e011767",
     stats: [
       { label: "Altitude",       value: "~547 km" },
       { label: "Mirror",         value: "2.4 m" },
@@ -299,7 +352,9 @@ const MISSIONS: Mission[] = [
       es: "La ISS ha estado habitada de forma continua desde el 2 de noviembre de 2000, más de 25 años de presencia humana ininterrumpida. Proyecto conjunto de NASA, Roscosmos, ESA, JAXA y CSA, es el laboratorio de microgravedad más avanzado del mundo.",
     },
     imageQuery: "International Space Station ISS orbit Earth crew cupola",
-    image: "assets/missions/iss.jpg",
+    image: "assets/missions/iss.webp",
+    imageCredit: "NASA/JSC — La ISS fotografiada desde la Crew Dragon Endeavour",
+    imageNasaId: "iss066e081189",
     youtubeId: "jJ7Md2QGRh4",
     stats: [
       { label: "Altitude",      value: "~408 km" },
@@ -321,9 +376,11 @@ const MISSIONS: Mission[] = [
       es: "El objeto creado por humanos más lejano jamás construido, Voyager 1 cruzó al espacio interestelar en agosto de 2012. Lanzado en 1977, realizó históricos sobrevuelos de Júpiter y Saturno antes de dirigirse a la constelación de Ofiuco.",
     },
     imageQuery: "Voyager 1 spacecraft interstellar space NASA probe Jupiter Saturn",
-    image: "assets/missions/voyager-1.jpg",
+    image: "assets/missions/voyager-1.webp",
+    imageCredit: "NASA/JPL-Caltech — Voyager en el espacio profundo (concepto artístico)",
+    imageNasaId: "PIA17049",
     stats: [
-      { label: "Distance",           value: "~165 AU (2025)" },
+      { label: "Distance",           value: "~173 AU (2026)" },
       { label: "Speed",              value: "17 km/s" },
       { label: "Signal delay",       value: "~23 hours" },
       { label: "Crossed heliosphere", value: "Aug 2012" },
@@ -341,9 +398,11 @@ const MISSIONS: Mission[] = [
       es: "La única nave que ha visitado los cuatro planetas exteriores — Júpiter, Saturno, Urano y Neptuno — Voyager 2 entró al espacio interestelar en noviembre de 2018. Es la única sonda que ha sobrevolado Urano y Neptuno.",
     },
     imageQuery: "Voyager 2 spacecraft outer planets Uranus Neptune NASA probe",
-    image: "assets/missions/voyager-2.jpg",
+    image: "assets/missions/voyager-2.webp",
+    imageCredit: "NASA/JPL-Caltech — Triton - Neptune Largest Satellite",
+    imageNasaId: "PIA01994",
     stats: [
-      { label: "Distance",           value: "~137 AU (2025)" },
+      { label: "Moving away",        value: "3.3 AU per year" },
       { label: "Speed",              value: "15.4 km/s" },
       { label: "Signal delay",       value: "~19 hours" },
       { label: "Crossed heliosphere", value: "Nov 2018" },
@@ -361,9 +420,11 @@ const MISSIONS: Mission[] = [
       es: "New Horizons fue la primera nave en explorar Plutón de cerca, revelando su icónica llanura de hielo de nitrógeno en forma de corazón (Regio Tombaugh) en el histórico sobrevuelo del 14 de julio de 2015. Ahora explora el Cinturón de Kuiper.",
     },
     imageQuery: "New Horizons Pluto flyby heart Tombaugh Regio Kuiper Belt",
-    image: "assets/missions/new-horizons.jpg",
+    image: "assets/missions/new-horizons.webp",
+    imageCredit: "NASA/JPL-Caltech — New Horizons Very Best View of Pluto",
+    imageNasaId: "PIA20202",
     stats: [
-      { label: "Distance",    value: "~57 AU (2025)" },
+      { label: "Moving away", value: "3.1 AU per year" },
       { label: "Pluto flyby", value: "Jul 14, 2015" },
       { label: "Speed",       value: "14.5 km/s" },
       { label: "Current zone", value: "Kuiper Belt" },
@@ -381,12 +442,14 @@ const MISSIONS: Mission[] = [
       es: "Juno orbita Júpiter desde el 4 de julio de 2016, estudiando los orígenes del gigante gaseoso, su estructura interior, atmósfera y magnetosfera. Su misión extendida incluye espectaculares sobrevuelos de las lunas Ganímedes, Europa e Io.",
     },
     imageQuery: "Juno spacecraft Jupiter orbit polar vortex storms NASA",
-    image: "assets/missions/juno.jpg",
+    image: "assets/missions/juno.webp",
+    imageCredit: "NASA/JPL-Caltech — Jupiter From Below (Enhanced Color)",
+    imageNasaId: "PIA21381",
     stats: [
       { label: "Target",          value: "Jupiter system" },
       { label: "Orbital period",  value: "~38 days" },
       { label: "Jupiter arrival", value: "Jul 4, 2016" },
-      { label: "Mission end",     value: "Sep 2025 (est.)" },
+      { label: "Mission end",     value: "Extended past Sep 2025" },
     ],
     crewed: false,
     rocketId: "atlas-v"
@@ -402,7 +465,9 @@ const MISSIONS: Mission[] = [
       es: "El rover Curiosity explora el Cráter Gale desde el 6 de agosto de 2012, confirmando que el Marte antiguo tuvo condiciones habitables — agua líquida, moléculas orgánicas y la química correcta. Ha recorrido más de 32 km.",
     },
     imageQuery: "Curiosity rover Mars Gale Crater Mount Sharp science",
-    image: "assets/missions/curiosity.jpg",
+    image: "assets/missions/curiosity.webp",
+    imageCredit: "NASA/JPL-Caltech — Curiosity Self-Portrait at Okoruso Drill Hole",
+    imageNasaId: "PIA20603",
     stats: [
       { label: "Location",    value: "Gale Crater, Mars" },
       { label: "Landed",      value: "Aug 6, 2012" },
@@ -422,7 +487,9 @@ const MISSIONS: Mission[] = [
       es: "El rover Perseverance explora el Cráter Jezero de Marte. Ha recogido más de 23 muestras selladas para retornar a la Tierra, desplegó el helicóptero Ingenuity y está probando MOXIE para producir oxígeno de la atmósfera marciana.",
     },
     imageQuery: "Perseverance rover Mars Jezero Crater Ingenuity helicopter rocks",
-    image: "assets/missions/perseverance.jpg",
+    image: "assets/missions/perseverance.webp",
+    imageCredit: "NASA/JPL-Caltech — Perseverance's Selfie With 'Cheyava Falls'",
+    imageNasaId: "PIA26344",
     youtubeId: "gm0b_ijaYMQ",
     stats: [
       { label: "Location",    value: "Jezero Crater, Mars" },
@@ -444,7 +511,9 @@ const MISSIONS: Mission[] = [
       es: "Desde el punto L2 a 1.5 millones de km de la Tierra, Webb observa en infrarrojo revelando galaxias de hace 13.500 millones de años, atmósferas de exoplanetas y viveros estelares invisibles para el Hubble.",
     },
     imageQuery: "James Webb Space Telescope deep field galaxy infrared nebula",
-    image: "assets/missions/jwst.jpg",
+    image: "assets/missions/jwst.webp",
+    imageCredit: "NASA/ESA/CSA/STScI / ESA CSA STScI — Webb_first_deep_field_SMACS_0723",
+    imageNasaId: "webb_first_deep_field",
     youtubeId: "1dAtGSzLwK8",
     stats: [
       { label: "Location",      value: "L2 · 1.5M km" },
@@ -454,6 +523,136 @@ const MISSIONS: Mission[] = [
     ],
     crewed: false,
     rocketId: "ariane-5"
+  },
+  // ── Ciencia planetaria reciente ───────────────────────────────────────────
+  // El catálogo se cortaba en 2022 salvo Artemis. Estas seis son las misiones
+  // de la última década que faltaban; sus fechas las valida `check-catalog.mjs`
+  // contra Launch Library en cada pasada del cron.
+  {
+    id: "parker-solar-probe",
+    name: "Parker Solar Probe",
+    program: "Deep Space",
+    // Fecha y estado contrastados contra Launch Library 2.
+    launch_details: { date: "2018-08-12", status: "active" },
+    description: {
+      en: "The first spacecraft to fly through the Sun's corona. Parker repeatedly dives into the solar atmosphere behind a carbon-composite heat shield, sampling the plasma and magnetic fields where the solar wind is born — a region no probe had ever entered.",
+      es: "La primera nave que ha volado a través de la corona solar. Parker se sumerge una y otra vez en la atmósfera del Sol tras un escudo térmico de compuesto de carbono, midiendo el plasma y los campos magnéticos en la región donde nace el viento solar, donde nunca había entrado una sonda.",
+    },
+    imageQuery: "Parker Solar Probe Sun corona spacecraft",
+    image: "assets/missions/parker-solar-probe.webp",
+    imageCredit: "NASA / Bill Ingalls — Parker Solar Probe Launch",
+    imageNasaId: "NHQ201808120012",
+    stats: [
+      { label: "Target",      value: "The Sun's corona" },
+      { label: "Launched",    value: "12 Aug 2018 · Delta IV Heavy" },
+      { label: "Shield",      value: "Carbon composite, 11.4 cm" },
+      { label: "Status",      value: "Operating" },
+    ],
+  },
+  {
+    id: "osiris-rex",
+    name: "OSIRIS-REx",
+    program: "Deep Space",
+    // Fecha y estado contrastados contra Launch Library 2.
+    launch_details: { date: "2016-09-08", status: "active" },
+    description: {
+      en: "OSIRIS-REx collected a sample from the asteroid Bennu and returned it to Earth in September 2023 — the first US asteroid sample return. The spacecraft itself did not stop: renamed OSIRIS-APEX, it continues on to the asteroid Apophis.",
+      es: "OSIRIS-REx recogió una muestra del asteroide Bennu y la devolvió a la Tierra en septiembre de 2023: la primera muestra de asteroide traída por Estados Unidos. La nave no se detuvo ahí — rebautizada OSIRIS-APEX, sigue camino del asteroide Apophis.",
+    },
+    imageQuery: "OSIRIS-REx Bennu asteroid sample capsule",
+    image: "assets/missions/osiris-rex.webp",
+    imageCredit: "NASA/JSC / Erika Blumenfeld & Joseph Aebers — OSIRIS-REx sample canister with lid open",
+    imageNasaId: "jsc2024e023024",
+    stats: [
+      { label: "Target",      value: "Asteroid Bennu" },
+      { label: "Launched",    value: "8 Sep 2016 · Atlas V 411" },
+      { label: "Sample returned",value: "24 Sep 2023" },
+      { label: "Now",         value: "OSIRIS-APEX → Apophis" },
+    ],
+  },
+  {
+    id: "lucy",
+    name: "Lucy",
+    program: "Deep Space",
+    // Fecha y estado contrastados contra Launch Library 2.
+    launch_details: { date: "2021-10-16", status: "active" },
+    description: {
+      en: "The first mission to the Trojan asteroids — two swarms of primitive bodies that share Jupiter's orbit, one ahead of the planet and one behind. Lucy will visit more asteroids than any previous spacecraft, using Earth flybys to swing between the two swarms.",
+      es: "La primera misión a los asteroides troyanos: dos enjambres de cuerpos primitivos que comparten la órbita de Júpiter, uno por delante del planeta y otro por detrás. Lucy visitará más asteroides que ninguna nave anterior, usando sobrevuelos de la Tierra para saltar entre los dos enjambres.",
+    },
+    imageQuery: "Lucy spacecraft Trojan asteroids Jupiter",
+    image: "assets/missions/lucy.webp",
+    imageCredit: "NASA/KSC / Glenn Benson — Lucy Spacecraft Rotation",
+    imageNasaId: "KSC-20210901-PH-GEB01_0004",
+    stats: [
+      { label: "Target",      value: "Jupiter Trojan asteroids" },
+      { label: "Launched",    value: "16 Oct 2021 · Atlas V 401" },
+      { label: "Orbit",       value: "Heliocentric" },
+      { label: "Status",      value: "Cruising" },
+    ],
+  },
+  {
+    id: "dart",
+    name: "DART",
+    program: "Deep Space",
+    // Fecha y estado contrastados contra Launch Library 2.
+    launch_details: { date: "2021-11-24", status: "completed" },
+    description: {
+      en: "The first test of planetary defence by kinetic impact. On 26 September 2022 DART deliberately crashed into Dimorphos, a moonlet of the asteroid Didymos, to find out whether hitting a body can measurably change its orbit. It could: the orbital period shortened.",
+      es: "La primera prueba de defensa planetaria por impacto cinético. El 26 de septiembre de 2022 DART se estrelló deliberadamente contra Dimorphos, la luna del asteroide Didymos, para averiguar si golpear un cuerpo puede cambiar su órbita de forma medible. Sí puede: el periodo orbital se acortó.",
+    },
+    imageQuery: "DART Dimorphos Didymos asteroid impact",
+    image: "assets/missions/dart.webp",
+    imageCredit: "NASA/Langley / Dave C. Bowman — NASA’s Double Asteroid Redirection Test (DART) command team at Johns Hopkins University",
+    imageNasaId: "LRC-2022-0926-H1_P_DART-000413",
+    stats: [
+      { label: "Target",      value: "Dimorphos (Didymos system)" },
+      { label: "Launched",    value: "24 Nov 2021 · Falcon 9" },
+      { label: "Impact",      value: "26 Sep 2022" },
+      { label: "Result",      value: "Orbit measurably changed" },
+    ],
+  },
+  {
+    id: "psyche",
+    name: "Psyche",
+    program: "Deep Space",
+    // Fecha y estado contrastados contra Launch Library 2.
+    launch_details: { date: "2023-10-13", status: "active" },
+    description: {
+      en: "Psyche is travelling to 16 Psyche, a metal-rich asteroid in the main belt that may be the exposed core of an early planetesimal. If it is, the mission would be the first look at the kind of interior that every rocky planet hides under its mantle.",
+      es: "Psyche viaja hacia 16 Psyche, un asteroide rico en metal del cinturón principal que podría ser el núcleo desnudo de un planetesimal primitivo. Si lo es, la misión será la primera ocasión de ver el tipo de interior que todo planeta rocoso esconde bajo su manto.",
+    },
+    imageQuery: "Psyche spacecraft metal asteroid mission",
+    image: "assets/missions/psyche.webp",
+    imageCredit: "NASA/JPL-Caltech — Psyche Spacecraft (Artist's Concept)",
+    imageNasaId: "PIA23875",
+    stats: [
+      { label: "Target",      value: "Asteroid 16 Psyche" },
+      { label: "Launched",    value: "13 Oct 2023 · Falcon Heavy" },
+      { label: "Route",       value: "Mars flyby" },
+      { label: "Status",      value: "Cruising" },
+    ],
+  },
+  {
+    id: "europa-clipper",
+    name: "Europa Clipper",
+    program: "Deep Space",
+    // Fecha y estado contrastados contra Launch Library 2.
+    launch_details: { date: "2024-10-14", status: "active" },
+    description: {
+      en: "NASA's largest planetary spacecraft, bound for Jupiter's moon Europa. Rather than orbiting the moon, it will orbit Jupiter and make repeated close flybys, mapping the ice shell and the ocean beneath it to judge whether Europa could support life.",
+      es: "La nave planetaria más grande de la NASA, camino de Europa, la luna de Júpiter. En vez de orbitar la luna, orbitará Júpiter y hará sobrevuelos cercanos repetidos, cartografiando la capa de hielo y el océano que hay debajo para juzgar si Europa podría albergar vida.",
+    },
+    imageQuery: "Europa Clipper Jupiter moon spacecraft",
+    image: "assets/missions/europa-clipper.webp",
+    imageCredit: "NASA/KSC / Kim Shiflett — Europa Clipper Spacecraft Unboxing",
+    imageNasaId: "KSC-20240528-PH-KLS01_0013",
+    stats: [
+      { label: "Target",      value: "Europa (Jupiter)" },
+      { label: "Launched",    value: "14 Oct 2024 · Falcon Heavy" },
+      { label: "Arrival",     value: "2030" },
+      { label: "Status",      value: "Cruising" },
+    ],
   },
   // ── Artemis ──────────────────────────────────────────────────────────────
   {
@@ -466,7 +665,9 @@ const MISSIONS: Mission[] = [
       es: "La primera prueba integrada del SLS y la nave Orion. La misión no tripulada viajó 450.000 km más allá de la Luna, demostrando todos los sistemas necesarios para las futuras misiones tripuladas Artemis.",
     },
     imageQuery: "Artemis I SLS launch Orion Moon uncrewed test NASA Kennedy",
-    image: "assets/missions/artemis-i.jpg",
+    image: "assets/missions/artemis-i.webp",
+    imageCredit: "NASA / TV — Orion con la Tierra y la Luna, día de vuelo 13",
+    imageNasaId: "orion_earth_moon_20221121",
     youtubeId: "H5sLin9Hg_I",
     stats: [
       { label: "Vehicle",       value: "SLS Block 1 + Orion" },
@@ -491,7 +692,9 @@ const MISSIONS: Mission[] = [
       es: "La primera misión Artemis tripulada llevó a Reid Wiseman, Victor Glover, Christina Koch y el canadiense Jeremy Hansen en una trayectoria libre de 10 días alrededor de la Luna: los primeros humanos en alcanzar distancia lunar desde el Apolo 17.",
     },
     imageQuery: "Artemis II crew Reid Wiseman Victor Glover Christina Koch Moon mission",
-    image: "assets/missions/artemis-ii.jpg",
+    image: "assets/missions/artemis-ii.webp",
+    imageCredit: "NASA/JSC / James Blair — Artemis II Crew Recovery",
+    imageNasaId: "JB5_0746",
     stats: [
       { label: "Crew",     value: "Wiseman · Glover · Koch · Hansen" },
       { label: "Duration", value: "~10 days" },
@@ -503,11 +706,11 @@ const MISSIONS: Mission[] = [
 ];
 
 export function getMissionById(id: string): Mission | undefined {
-  return MISSIONS.find((m) => m.id === id);
+  return MISSIONS_LIST.find((m) => m.id === id);
 }
 
 export async function getMissions(): Promise<Mission[]> {
-  return MISSIONS;
+  return MISSIONS_LIST;
 }
 
 export async function getMissionImages(query: string, count = 6): Promise<string[]> {
@@ -654,6 +857,7 @@ export const ACTIVE_MISSIONS: ActiveMission[] = [
   },
   {
     id: "jwst",
+    missionId: "jwst",
     name: "James Webb",
     tagline: { en: "Seeing the Universe's First Light", es: "Viendo la primera luz del universo" },
     program: "JWST",
@@ -695,6 +899,7 @@ export const ACTIVE_MISSIONS: ActiveMission[] = [
   },
   {
     id: "perseverance",
+    missionId: "perseverance",
     name: "Perseverance",
     tagline: { en: "Searching for Ancient Life on Mars", es: "Buscando vida antigua en Marte" },
     program: "Mars",
@@ -738,6 +943,7 @@ export const ACTIVE_MISSIONS: ActiveMission[] = [
   },
   {
     id: "iss",
+    missionId: "iss",
     name: "ISS Expedition",
     tagline: { en: "25 Years of Continuous Human Presence", es: "25 años de presencia humana continua" },
     program: "ISS",

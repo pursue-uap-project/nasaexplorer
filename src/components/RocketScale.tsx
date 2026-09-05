@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import Icon from "@/components/Icon";
 
 type RocketSpec = {
   name: string;
@@ -118,7 +119,7 @@ export default function RocketScale({ rocketId }: Props) {
   return (
     <div className="bg-card border border-card-border rounded-3xl p-6 sm:p-8 mt-8">
       <h3 className="text-ink font-bold text-base mb-2 flex items-center gap-2">
-        <span aria-hidden="true">🚀</span>
+        <Icon name="rocket" className="h-4 w-4 shrink-0" />
         {t("title")}
       </h3>
       <p className="text-muted text-xs mb-6">

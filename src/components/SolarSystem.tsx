@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "@/i18n/routing";
+import Icon from "@/components/Icon";
 
 const TWO_PI = Math.PI * 2;
 const SPEED  = 5;
@@ -579,8 +580,8 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
 
       {/* Camera Instructions Overlay */}
       <div className="absolute top-3 left-3 bg-black/45 backdrop-blur-xs border border-white/5 rounded-lg px-2.5 py-1.5 text-[9px] font-mono text-white/50 pointer-events-none uppercase tracking-wider space-y-0.5 z-10">
-        <div><span aria-hidden="true">🔍</span> Zoom: [Scroll Wheel]</div>
-        <div><span aria-hidden="true">🔄</span> Rotate: [Click & Drag Map]</div>
+        <div className="flex items-center gap-1.5"><Icon name="search" className="h-3.5 w-3.5" /> Zoom: [Scroll Wheel]</div>
+        <div className="flex items-center gap-1.5"><Icon name="refresh" className="h-3.5 w-3.5" /> Rotate: [Click & Drag Map]</div>
       </div>
 
       {/* Hover tooltip */}
@@ -612,7 +613,7 @@ export default function SolarSystem({ locale = "en" }: { locale?: string }) {
               className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-lg bg-white/8 hover:bg-white/15 text-white/50 hover:text-white transition-all text-sm"
               aria-label="Close"
             >
-              ✕
+              <Icon name="close" />
             </button>
 
             {/* Visual header */}

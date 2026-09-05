@@ -24,7 +24,8 @@ export type ChannelVideo = {
 export type LiveChannel = {
   id: string;
   labelKey: string;
-  emoji: string;
+  /** Nombre de icono en `src/components/Icon.tsx`. */
+  icon: string;
   accent: string;
   handle: string;
   channelId: string;

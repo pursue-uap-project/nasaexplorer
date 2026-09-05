@@ -2,6 +2,7 @@
 
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/routing";
+import Icon from "@/components/Icon";
 
 export default function Footer() {
   const locale = useLocale();
@@ -54,7 +55,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 hover:text-white transition-colors"
           >
-            <span aria-hidden="true">☕</span>
+            <Icon name="coffee" className="h-4 w-4" />
             Ko-fi
           </a>
 

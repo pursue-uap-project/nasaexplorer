@@ -2,6 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
+import Icon, { type IconName } from "@/components/Icon";
 
 export default function Navbar() {
   const t = useTranslations("nav");
@@ -9,15 +10,16 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const links = [
+  const links: { href: string; label: string; icon?: IconName }[] = [
     { href: "/missions", label: t("missions") },
     { href: "/launches", label: t("launches") },
     { href: "/active",   label: t("active") },
     { href: "/solar",    label: t("solar") },
+    { href: "/exoplanets", label: t("exoplanets") },
     { href: "/iss",      label: t("iss") },
     { href: "/live",     label: t("live") },
     { href: "/apod",     label: t("apod") },
-    { href: "/search",   label: "🔍 " + t("search") },
+    { href: "/search",   label: t("search"), icon: "search" },
   ];
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
@@ -36,17 +38,18 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop links */}
-        <ul className="hidden md:flex items-center gap-0.5">
-          {links.map(({ href, label }) => (
+        <ul className="hidden lg:flex items-center gap-0.5">
+          {links.map(({ href, label, icon }) => (
             <li key={href}>
               <Link
                 href={href}
-                className={`text-sm px-3 py-1.5 rounded-lg font-medium tracking-[0.03em] transition-all duration-150 ${
+                className={`whitespace-nowrap text-sm px-2.5 py-1.5 rounded-lg font-medium tracking-[0.03em] transition-all duration-150 ${
                   isActive(href)
                     ? "bg-white/12 text-white ring-1 ring-inset ring-white/20"
                     : "text-white/50 hover:text-white hover:bg-white/[0.07]"
                 }`}
               >
+                {icon && <Icon name={icon} className="mr-1 inline h-3.5 w-3.5 align-[-2px]" />}
                 {label}
               </Link>
             </li>
@@ -72,9 +75,9 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile scrollable links */}
-      <div className="md:hidden border-t border-white/6">
+      <div className="lg:hidden border-t border-white/6">
         <ul className="flex overflow-x-auto px-4 gap-1 py-2 scrollbar-none">
-          {links.map(({ href, label }) => (
+          {links.map(({ href, label, icon }) => (
             <li key={href} className="shrink-0">
               <Link
                 href={href}
@@ -84,6 +87,7 @@ export default function Navbar() {
                     : "text-white/45 hover:text-white hover:bg-white/[0.07]"
                 }`}
               >
+                {icon && <Icon name={icon} className="mr-1 inline h-3.5 w-3.5 align-[-2px]" />}
                 {label}
               </Link>
             </li>

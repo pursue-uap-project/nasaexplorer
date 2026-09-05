@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import LaunchFeed from "@/components/LaunchFeed";
 import { routing } from "@/i18n/routing";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -12,7 +13,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "launches" });
-  return { title: t("title"), description: t("subtitle") };
+  return buildMetadata({ locale, path: "launches", title: t("title"), description: t("subtitle") });
 }
 
 export default async function LaunchesPage({ params }: Props) {

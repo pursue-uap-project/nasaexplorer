@@ -2,6 +2,7 @@
 
 import { useRef, useState, useMemo } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import Icon from "@/components/Icon";
 
 type TranscriptLine = {
   time: number;
@@ -77,7 +78,7 @@ export default function HistoricalAudio({ audioUrl, transcripts, missionName, co
   return (
     <div className="bg-card border border-card-border rounded-3xl p-6 sm:p-8 mt-8">
       <h3 className="text-ink font-bold text-base mb-2 flex items-center gap-2">
-        <span aria-hidden="true">🎙️</span>
+        <Icon name="audio" className="h-4 w-4 shrink-0" />
         {t("title", { name: missionName })}
       </h3>
       <p className="text-muted text-xs mb-6">

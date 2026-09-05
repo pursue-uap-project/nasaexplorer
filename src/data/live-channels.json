@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-09-05T13:04:52.507Z",
+  "checkedAt": "2026-09-05T16:08:59.837Z",
   "channels": [
     {
       "id": "nasa",
       "labelKey": "nasa_channel",
-      "emoji": "🛰️",
+      "icon": "satellite",
       "accent": "from-blue-500/40 to-indigo-600/10",
       "handle": "NASA",
       "channelId": "UCLA_DiR1FfKNvjuUpBHmylQ",
@@ -38,7 +38,7 @@
     {
       "id": "nasa-es",
       "labelKey": "nasa_es_channel",
-      "emoji": "🌎",
+      "icon": "antenna",
       "accent": "from-amber-500/40 to-orange-600/10",
       "handle": "nasa_es",
       "channelId": "UC8zqCEvaRwHcfz3IhjhMMxQ",
@@ -72,15 +72,20 @@
     {
       "id": "esa",
       "labelKey": "esa_channel",
-      "emoji": "🇪🇺",
+      "icon": "satellite",
       "accent": "from-emerald-500/40 to-teal-600/10",
       "handle": "ESA",
       "channelId": "UCIBaDdAbGlFDeS33shmlD0A",
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "bjpyiITUR-k",
+      "fallbackVideoId": "Q3eVUc8GlBM",
       "recent": [
+        {
+          "id": "Q3eVUc8GlBM",
+          "title": "Turns out supermassive black holes throw tantrums a lot like our own Sun 🌀",
+          "published": "2026-09-05T16:00:08+00:00"
+        },
         {
           "id": "bjpyiITUR-k",
           "title": "Could Galileo satellites have saved Odysseus 10 years of wandering? 🛰️ 📖",
@@ -95,18 +100,13 @@
           "id": "gF70orCmD1E",
           "title": "200 days in space, 150,000 push-ups later 💪🧑‍🚀",
           "published": "2026-09-04T12:52:53+00:00"
-        },
-        {
-          "id": "oC7lQngNG3o",
-          "title": "BepiColombo’s Mercury arrival begins (Official ESA broadcast)",
-          "published": "2026-09-03T16:53:04+00:00"
         }
       ]
     },
     {
       "id": "spacex",
       "labelKey": "spacex_channel",
-      "emoji": "🚀",
+      "icon": "rocket",
       "accent": "from-slate-400/40 to-slate-600/10",
       "handle": "SpaceX",
       "channelId": "UCtI0Hodo5o5dUb67FeUjDeA",

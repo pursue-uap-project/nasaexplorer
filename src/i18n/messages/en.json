@@ -7,7 +7,8 @@
     "live": "Live",
     "apod": "Photo of the Day",
     "search": "Search",
-    "launches": "Launches"
+    "launches": "Launches",
+    "exoplanets": "Exoplanets"
   },
   "home": {
     "meta_title": "NASA Explorer — missions, launches and discoveries in real time",
@@ -66,7 +67,15 @@
     "sources_images": "historical and mission photography; every image links back to its original record.",
     "sources_ll2": "worldwide launch calendar; refreshed on every visit and baked every 15 days.",
     "sources_iss": "real-time position of the International Space Station.",
-    "sources_note": "This is an independent educational project. It is not affiliated with NASA or any space agency. NASA archive imagery is public domain unless another author is credited; the historical mission files are hand-written and checked against the sources cited in each one."
+    "sources_note": "This is an independent educational project. It is not affiliated with NASA or any space agency. NASA archive imagery is public domain unless another author is credited; the historical mission files are hand-written and checked against the sources cited in each one.",
+    "exo_eyebrow": "What has been found",
+    "exo_title": "Confirmed exoplanets",
+    "exo_all": "See the full breakdown",
+    "exo_lede": "confirmed planets beyond the Solar System. {esteAnio} of them were confirmed so far in {anio}, and the number climbs on its own: nobody types it in here.",
+    "exo_recent": "Latest confirmed in {anio}",
+    "exo_ly": "ly",
+    "index_exoplanets_title": "Exoplanets",
+    "index_exoplanets_text": "How many worlds have been confirmed beyond the Solar System, how they were found and this year's latest."
   },
   "missions": {
     "title": "All Missions",
@@ -89,7 +98,8 @@
     "sort_name_asc": "Name: A-Z",
     "sort_name_desc": "Name: Z-A",
     "view_roadmap": "Roadmap Timeline",
-    "view_grid": "Grid View"
+    "view_grid": "Grid View",
+    "subtitle": "The full NASA mission archive, from Mercury to Artemis, with dates, crew, figures and official archive media."
   },
   "mission_detail": {
     "back": "All Missions",
@@ -229,13 +239,19 @@
   },
   "search": {
     "title": "Unified Search",
-    "placeholder": "Search NASA missions...",
+    "placeholder": "Mission, astronaut, rocket, exoplanet…",
     "all": "All",
-    "nasa_only": "NASA Only",
-    "no_results": "No results found for your query.",
-    "input_hint": "Type at least 2 characters to search the declassified database",
-    "results_count_one": "Found 1 result",
-    "results_count_other": "Found {count} results"
+    "no_results": "Nothing matches “{query}”.",
+    "subtitle": "Search by mission, programme, decade or keyword across everything in the portal.",
+    "clear": "Clear search",
+    "index_hint": "{total} entries indexed · missions, astronauts, launches, exoplanets and sections",
+    "empty_prompt": "Type at least two letters to search.",
+    "kind_mission": "Mission",
+    "kind_active": "In progress",
+    "kind_astronaut": "Astronaut",
+    "kind_launch": "Launch",
+    "kind_exoplanet": "Exoplanet",
+    "kind_section": "Section"
   },
   "analytics": {
     "show_dashboard": "Show Dashboard & Analytics",
@@ -326,5 +342,27 @@
     "hours": "Hours",
     "minutes": "Minutes",
     "seconds": "Seconds"
+  },
+  "exoplanets": {
+    "title": "Exoplanets",
+    "subtitle": "How many planets have been confirmed beyond the Solar System, how they were detected and which are the latest. Data from the NASA Exoplanet Archive.",
+    "lede": "confirmed planets beyond the Solar System. {esteAnio} have been added so far in {anio}.",
+    "methods_title": "How they were detected",
+    "methods_note": "Almost none have been seen directly: most are inferred from the wobble they cause in their star, or from the shadow they cast crossing in front of it.",
+    "per_year_title": "Confirmations per year",
+    "per_year_note": "The last fifteen years. {anio} is still open, so its bar will keep growing.",
+    "recent_title": "Latest confirmed in {anio}",
+    "col_planet": "Planet",
+    "col_method": "Method",
+    "col_distance": "Distance",
+    "col_radius": "Radius",
+    "col_period": "Period",
+    "ly": "ly",
+    "family_rocoso": "rocky",
+    "family_superTierra": "super-Earth",
+    "family_neptuniano": "Neptune-like",
+    "family_gigante": "gas giant",
+    "recent_note": "Radius in Earth radii and orbital period in days. Blanks are values the archive does not have yet: for microlensing, for instance, the period can almost never be measured.",
+    "source_note": "pscomppars table via TAP"
   }
 }

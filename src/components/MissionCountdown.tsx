@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { SlidingNumber } from "@/components/animate-ui/primitives/texts/sliding-number";
+import Icon from "@/components/Icon";
 
 type Props = {
   targetDate: string;
@@ -51,7 +52,7 @@ export default function MissionCountdown({ targetDate, missionName }: Props) {
     return (
       <div className="bg-cyan-950/40 border border-cyan-500/30 backdrop-blur-xl rounded-3xl p-6 text-center max-w-xl mx-auto my-8 shadow-xl">
         <div className="flex items-center justify-center gap-2 mb-2">
-          <span aria-hidden="true" className="text-2xl animate-pulse">🛰️</span>
+          <Icon name="satellite" className="h-6 w-6 animate-pulse" />
           <span className="bg-cyan-500/20 text-cyan-300 text-xs font-semibold px-2.5 py-0.5 rounded-full border border-cyan-500/30">
             Misión Activa en Órbita
           </span>

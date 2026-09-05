@@ -6,9 +6,14 @@ import { motion } from "framer-motion";
 import type { Mission } from "@/lib/nasa";
 import AstronautModal from "./AstronautModal";
 import astronautsData from "@/data/astronauts.json";
+import Icon from "@/components/Icon";
 
 type Props = {
   missionImage?: string;
+  /** Autoría de `missionImage`; se pinta bajo la foto. */
+  missionImageCredit?: string;
+  /** Id en images.nasa.gov, para enlazar al original. */
+  missionImageNasaId?: string;
   missionName: string;
   crewNames?: string;
   color: string;
@@ -48,6 +53,8 @@ const ASTRONAUT_MAP: Record<string, string> = {
 
 export default function MissionMediaAndCrew({
   missionImage,
+  missionImageCredit,
+  missionImageNasaId,
   missionName,
   crewNames,
   color,
@@ -122,6 +129,25 @@ export default function MissionMediaAndCrew({
                 style={{ backgroundColor: color }}
               />
             </div>
+
+            {/* Autoría. Sin ella no se distingue una foto del archivo de una
+                ilustración, que es exactamente el problema que tenía el sitio. */}
+            {missionImageCredit && (
+              <p className="text-faint text-2xs leading-snug">
+                {missionImageNasaId ? (
+                  <a
+                    href={`https://images.nasa.gov/details/${missionImageNasaId}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline decoration-card-border underline-offset-2 hover:text-muted hover:decoration-muted"
+                  >
+                    {missionImageCredit}
+                  </a>
+                ) : (
+                  missionImageCredit
+                )}
+              </p>
+            )}
           </div>
         )}
 
@@ -189,7 +215,7 @@ export default function MissionMediaAndCrew({
 
                     {isClickable && (
                       <div className="text-faint group-hover:text-muted transition-colors pr-1 text-xs">
-                        ➔
+                        <Icon name="arrowRight" className="h-4 w-4" />
                       </div>
                     )}
                   </motion.div>

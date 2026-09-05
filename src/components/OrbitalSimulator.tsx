@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import Icon from "@/components/Icon";
 
 type Props = {
   missionName: string;
@@ -198,7 +199,7 @@ export default function OrbitalSimulator({ missionName, color }: Props) {
   return (
     <div className="bg-card border border-card-border rounded-3xl p-6 sm:p-8 mt-8">
       <h3 className="text-ink font-bold text-base mb-2 flex items-center gap-2">
-        <span aria-hidden="true">🛰️</span>
+        <Icon name="satellite" className="h-4 w-4 shrink-0" />
         {t("title", { name: missionName })}
       </h3>
       <p className="text-muted text-xs mb-6 leading-relaxed">
@@ -214,7 +215,7 @@ export default function OrbitalSimulator({ missionName, color }: Props) {
           {/* Simulation Overlay Alerts */}
           {status === "crashed" && (
             <div className="absolute inset-0 bg-red-950/70 backdrop-blur-xs flex flex-col items-center justify-center text-center p-4">
-              <span aria-hidden="true" className="text-3xl mb-2">💥</span>
+              <Icon name="burst" className="mb-2 h-8 w-8" />
               <h4 className="text-white font-bold text-sm">{t("crashed_title")}</h4>
               <p className="text-white/60 text-xs mt-1 max-w-[240px]">{t("crashed_desc")}</p>
               <button onClick={handleReset} className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-xl text-xs font-bold transition-all shadow-md">
@@ -225,7 +226,7 @@ export default function OrbitalSimulator({ missionName, color }: Props) {
 
           {status === "escape" && (
             <div className="absolute inset-0 bg-amber-950/70 backdrop-blur-xs flex flex-col items-center justify-center text-center p-4">
-              <span aria-hidden="true" className="text-3xl mb-2">☄️</span>
+              <Icon name="comet" className="mb-2 h-8 w-8" />
               <h4 className="text-white font-bold text-sm">{t("escape_title")}</h4>
               <p className="text-white/60 text-xs mt-1 max-w-[240px]">{t("escape_desc")}</p>
               <button onClick={handleReset} className="mt-4 px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold transition-all shadow-md">
@@ -293,7 +294,7 @@ export default function OrbitalSimulator({ missionName, color }: Props) {
                   disabled={!isRunning}
                   className="px-5 py-2.5 rounded-xl bg-orange-500 text-white font-bold text-xs hover:bg-orange-600 disabled:opacity-40 transition-all shadow-md select-none shrink-0"
                 >
-                  🔥 BOOST
+                  <Icon name="flame" className="h-4 w-4" /> BOOST
                 </button>
               </div>
             </div>
@@ -302,7 +303,7 @@ export default function OrbitalSimulator({ missionName, color }: Props) {
             <div className="pt-2">
               {!isRunning ? (
                 <button onClick={handleReset} className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm rounded-xl transition-all shadow-lg">
-                  🚀 {t("launch")}
+                  <Icon name="rocket" className="h-4 w-4" /> {t("launch")}
                 </button>
               ) : (
                 <button onClick={() => setIsRunning(false)} className="w-full py-3 bg-slate-600 hover:bg-slate-500 text-white font-bold text-sm rounded-xl transition-all shadow-md">

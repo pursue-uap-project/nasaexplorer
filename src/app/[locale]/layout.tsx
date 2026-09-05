@@ -22,7 +22,10 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", images: ["https://pursue-uap-project.github.io/nasaexplorer/og.png"] },
   title: "NASA Explorer",
   description: "Interactive explorer of NASA missions, the solar system, and the cosmos",
-  manifest: "/manifest.json",
+  // Con basePath, Next NO prefija este valor: sin `/nasaexplorer` el
+  // navegador pedía /manifest.json y recibía un 404, así que la web no era
+  // instalable aunque el manifest existiera.
+  manifest: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/manifest.json`,
 };
 
 type Props = {

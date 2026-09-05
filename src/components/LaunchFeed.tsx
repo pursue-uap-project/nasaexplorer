@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useFormatter, useTranslations } from "next-intl";
+import Icon from "@/components/Icon";
 import {
   BAKED_LAUNCHES,
   fetchLaunches,
@@ -52,7 +53,7 @@ function LaunchImage({ launch }: { launch: Launch }) {
   if (!launch.image || broken) {
     return (
       <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-indigo-500/20 to-slate-800/40 text-3xl">
-        <span aria-hidden>🚀</span>
+        <Icon name="rocket" className="h-7 w-7 text-white/40" />
       </div>
     );
   }

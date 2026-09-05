@@ -66,62 +66,64 @@ export function scoreMatch(query: string, text: string): number {
   return totalScore / queryTokens.length;
 }
 
-export type SearchResult = {
-  type: "nasa";
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  url: string;
-  tags?: string[];
-  score: number;
+import type { SearchDoc, SearchKind } from "@/lib/search-index";
+
+export type SearchResult = SearchDoc & { score: number };
+
+/**
+ * Puntúa un documento contra la consulta.
+ *
+ * Los pesos dicen qué significa «acertar»: el nombre pesa más que la
+ * descripción porque quien escribe «Glenn» busca a Glenn, no un párrafo que lo
+ * mencione. Las etiquetas van en medio: son términos exactos (un programa, un
+ * año, un instrumento) y un acierto ahí es intencionado.
+ */
+function scoreDoc(query: string, doc: SearchDoc): number {
+  const titulo = scoreMatch(query, doc.title) * 2.5;
+  const subtitulo = scoreMatch(query, doc.subtitle) * 1.2;
+  const descripcion = scoreMatch(query, doc.description) * 1.0;
+  const etiquetas = doc.tags.length
+    ? Math.max(...doc.tags.map((t) => scoreMatch(query, t))) * 1.5
+    : 0;
+
+  return Math.max(titulo, subtitulo, descripcion, etiquetas);
+}
+
+/**
+ * Cuando dos cosas puntúan igual, decide qué se enseña antes. Una sección es
+ * más útil que un lanzamiento suelto con el mismo nombre, porque lleva a un
+ * sitio donde seguir buscando.
+ */
+const PRIORIDAD: Record<SearchKind, number> = {
+  section: 6,
+  mission: 5,
+  active: 4,
+  astronaut: 3,
+  exoplanet: 2,
+  launch: 1,
 };
 
-export interface NasaMission {
-  id: string;
-  name: string;
-  program: string;
-  description: { es: string; en: string };
-  launch_details: { date: string };
-}
+const UMBRAL = 0.15;
 
 export function performUnifiedSearch(
   query: string,
-  nasaMissions: NasaMission[],
-  locale: "en" | "es"
+  docs: SearchDoc[],
+  /** Filtra por tipo; `null` los devuelve todos. */
+  kind: SearchKind | null = null,
 ): SearchResult[] {
   if (!query.trim()) return [];
 
-  const results: SearchResult[] = [];
-
-  // Search NASA Missions
-  for (const mission of nasaMissions) {
-    const title = mission.name;
-    const desc = locale === "es" ? mission.description.es : mission.description.en;
-    const program = mission.program;
-    const launchYear = mission.launch_details.date?.slice(0, 4) || "";
-
-    const titleScore = scoreMatch(query, title) * 2.5; // weight title matches higher
-    const descScore = scoreMatch(query, desc) * 1.0;
-    const progScore = scoreMatch(query, program) * 1.5;
-    const yearScore = scoreMatch(query, launchYear) * 1.0;
-
-    const maxScore = Math.max(titleScore, descScore, progScore, yearScore);
-
-    if (maxScore > 0.15) {
-      results.push({
-        type: "nasa",
-        id: mission.id,
-        title,
-        subtitle: `NASA Mission · ${program} (${launchYear})`,
-        description: desc,
-        url: `/missions/${mission.id}`,
-        tags: [program, launchYear].filter(Boolean),
-        score: maxScore,
-      });
-    }
+  const resultados: SearchResult[] = [];
+  for (const doc of docs) {
+    if (kind && doc.kind !== kind) continue;
+    const score = scoreDoc(query, doc);
+    if (score > UMBRAL) resultados.push({ ...doc, score });
   }
 
-  // Sort by score descending, then by title
-  return results.sort((a, b) => b.score - a.score || a.title.localeCompare(b.title));
+  return resultados.sort(
+    (a, b) =>
+      b.score - a.score ||
+      PRIORIDAD[b.kind] - PRIORIDAD[a.kind] ||
+      a.title.localeCompare(b.title),
+  );
 }

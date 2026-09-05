@@ -33,7 +33,7 @@ Follow these steps to run the portal on your local machine:
 
 1. **Install Dependencies**:
    ```bash
-   npm install
+   pnpm install                 # desde la raíz del monorepo
    ```
 
 2. **Run the Development Server**:

@@ -1,26 +1,18 @@
 {
   "name": "NASA Explorer",
   "short_name": "NASA Explorer",
-  "description": "Interactive explorer of NASA missions and the solar system.",
-  "start_url": "/en",
-  "scope": "/en",
+  "description": "Lanzamientos, misiones, exoplanetas y la ISS en directo, con datos reales de la NASA.",
+  "lang": "es",
+  "start_url": "/nasaexplorer/es/",
+  "scope": "/nasaexplorer/",
+  "id": "/nasaexplorer/",
   "display": "standalone",
-  "orientation": "portrait-primary",
   "background_color": "#020813",
   "theme_color": "#0B3D91",
   "categories": ["education", "science"],
   "icons": [
-    {
-      "src": "/nasaexplorer/nasa-logo.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/nasaexplorer/nasa-logo.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "/nasaexplorer/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/nasaexplorer/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/nasaexplorer/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }

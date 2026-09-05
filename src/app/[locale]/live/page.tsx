@@ -1,7 +1,20 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import LiveStreams from "@/components/LiveStreams";
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "live" });
+  return buildMetadata({
+    locale,
+    path: "live",
+    title: t("title"),
+    description: t("subtitle"),
+  });
+}
 
 export default async function LivePage({ params }: Props) {
   const { locale } = await params;

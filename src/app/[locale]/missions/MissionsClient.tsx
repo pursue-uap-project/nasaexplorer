@@ -8,6 +8,7 @@ import MissionAnalytics from "@/components/MissionAnalytics";
 import MissionsRoadmap from "@/components/MissionsRoadmap";
 import MissionsQuiz from "@/components/MissionsQuiz";
 import type { Mission } from "@/lib/nasa";
+import Icon from "@/components/Icon";
 
 export default function MissionsClient({ missions }: { missions: Mission[] }) {
   const t = useTranslations("missions");
@@ -141,7 +142,7 @@ export default function MissionsClient({ missions }: { missions: Mission[] }) {
                 onClick={() => setViewMode(viewMode === "grid" ? "roadmap" : "grid")}
                 className="rounded-xl border border-white/15 px-3.5 py-2 text-xs bg-white/5 hover:bg-white/10 text-white font-medium transition-all flex items-center gap-1.5 shadow-xs"
               >
-                <span aria-hidden="true">{viewMode === "grid" ? "🗺️" : "🔲"}</span>
+                <Icon name={viewMode === "grid" ? "map" : "grid"} className="h-3.5 w-3.5" />
                 <span>{viewMode === "grid" ? t("view_roadmap") : t("view_grid")}</span>
               </button>
             </div>

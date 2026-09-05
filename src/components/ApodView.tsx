@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -139,10 +138,16 @@ export default function ApodView() {
   const isToday = selectedDate === today;
 
   useEffect(() => {
+    // Reset al cambiar de fecha. Lo correcto sería derivar el estado del render
+    // o remontar con `key`, pero eso es rehacer un componente de 477 líneas y no
+    // toca ahora. El disable se acota a estas cuatro líneas en vez de dejarlo
+    // apagado para todo el fichero, que era lo que había.
+    /* eslint-disable react-hooks/set-state-in-effect */
     setLoadState("loading");
     setApod(null);
     setExpanded(false);
     setIsFallback(false);
+    /* eslint-enable react-hooks/set-state-in-effect */
 
     // For today: try localStorage first to save API quota
     if (isToday) {

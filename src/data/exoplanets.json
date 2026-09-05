@@ -1,0 +1,249 @@
+{
+  "checkedAt": "2026-09-05T15:06:55.295Z",
+  "source": "NASA Exoplanet Archive (pscomppars, TAP)",
+  "total": 6360,
+  "esteAnio": 271,
+  "anio": 2026,
+  "metodos": [
+    {
+      "metodo": "Transit",
+      "n": 4706
+    },
+    {
+      "metodo": "Radial Velocity",
+      "n": 1200
+    },
+    {
+      "metodo": "Microlensing",
+      "n": 285
+    },
+    {
+      "metodo": "Imaging",
+      "n": 97
+    },
+    {
+      "metodo": "Transit Timing Variations",
+      "n": 29
+    },
+    {
+      "metodo": "Eclipse Timing Variations",
+      "n": 17
+    },
+    {
+      "metodo": "Orbital Brightness Modulation",
+      "n": 9
+    },
+    {
+      "metodo": "Pulsar Timing",
+      "n": 8
+    },
+    {
+      "metodo": "Astrometry",
+      "n": 6
+    },
+    {
+      "metodo": "Pulsation Timing Variations",
+      "n": 2
+    },
+    {
+      "metodo": "Disk Kinematics",
+      "n": 1
+    }
+  ],
+  "porAnio": [
+    {
+      "anio": 2026,
+      "n": 271
+    },
+    {
+      "anio": 2025,
+      "n": 245
+    },
+    {
+      "anio": 2024,
+      "n": 260
+    },
+    {
+      "anio": 2023,
+      "n": 323
+    },
+    {
+      "anio": 2022,
+      "n": 367
+    },
+    {
+      "anio": 2021,
+      "n": 564
+    },
+    {
+      "anio": 2020,
+      "n": 234
+    },
+    {
+      "anio": 2019,
+      "n": 194
+    },
+    {
+      "anio": 2018,
+      "n": 308
+    },
+    {
+      "anio": 2017,
+      "n": 152
+    },
+    {
+      "anio": 2016,
+      "n": 1504
+    },
+    {
+      "anio": 2015,
+      "n": 155
+    },
+    {
+      "anio": 2014,
+      "n": 872
+    },
+    {
+      "anio": 2013,
+      "n": 128
+    },
+    {
+      "anio": 2012,
+      "n": 144
+    }
+  ],
+  "recientes": [
+    {
+      "nombre": "TOI-5789 c",
+      "estrella": "TOI-5789",
+      "metodo": "Transit",
+      "anio": 2026,
+      "instalacion": "Transiting Exoplanet Survey Satellite (TESS)",
+      "distanciaAl": 67,
+      "radioTierras": 2.86,
+      "masaTierras": 5,
+      "periodoDias": 12.93
+    },
+    {
+      "nombre": "TOI-4336 A c",
+      "estrella": "TOI-4336 A",
+      "metodo": "Transit",
+      "anio": 2026,
+      "instalacion": "Multiple Observatories",
+      "distanciaAl": 74,
+      "radioTierras": 1.25,
+      "masaTierras": 1.55,
+      "periodoDias": 7.59
+    },
+    {
+      "nombre": "TOI-3053 b",
+      "estrella": "TOI-3053",
+      "metodo": "Transit",
+      "anio": 2026,
+      "instalacion": "Transiting Exoplanet Survey Satellite (TESS)",
+      "distanciaAl": 1101,
+      "radioTierras": 13.56,
+      "masaTierras": 270.15,
+      "periodoDias": 2.99
+    },
+    {
+      "nombre": "TOI-2431 b",
+      "estrella": "TOI-2431",
+      "metodo": "Transit",
+      "anio": 2026,
+      "instalacion": "Transiting Exoplanet Survey Satellite (TESS)",
+      "distanciaAl": 118,
+      "radioTierras": 1.53,
+      "masaTierras": 6.2,
+      "periodoDias": 0.22
+    },
+    {
+      "nombre": "KMT-2025-BLG-1616L b",
+      "estrella": "KMT-2025-BLG-1616L",
+      "metodo": "Microlensing",
+      "anio": 2026,
+      "instalacion": "KMTNet",
+      "distanciaAl": 24462,
+      "radioTierras": 7.34,
+      "masaTierras": 42.32,
+      "periodoDias": null
+    },
+    {
+      "nombre": "KMT-2023-BLG-1592L b",
+      "estrella": "KMT-2023-BLG-1592L",
+      "metodo": "Microlensing",
+      "anio": 2026,
+      "instalacion": "KMTNet",
+      "distanciaAl": 23483,
+      "radioTierras": 14.1,
+      "masaTierras": 184.34,
+      "periodoDias": null
+    },
+    {
+      "nombre": "KMT-2022-BLG-1818L c",
+      "estrella": "KMT-2022-BLG-1818L",
+      "metodo": "Microlensing",
+      "anio": 2026,
+      "instalacion": "KMTNet",
+      "distanciaAl": 17286,
+      "radioTierras": 13.2,
+      "masaTierras": 114.42,
+      "periodoDias": null
+    },
+    {
+      "nombre": "HD 50554 d",
+      "estrella": "HD 50554",
+      "metodo": "Transit",
+      "anio": 2026,
+      "instalacion": "Transiting Exoplanet Survey Satellite (TESS)",
+      "distanciaAl": 102,
+      "radioTierras": 1.41,
+      "masaTierras": 10.4,
+      "periodoDias": 28.07
+    },
+    {
+      "nombre": "HD 50554 c",
+      "estrella": "HD 50554",
+      "metodo": "Transit",
+      "anio": 2026,
+      "instalacion": "Transiting Exoplanet Survey Satellite (TESS)",
+      "distanciaAl": 102,
+      "radioTierras": 1.31,
+      "masaTierras": 5.3,
+      "periodoDias": 5.97
+    },
+    {
+      "nombre": "GJ 3090 c",
+      "estrella": "GJ 3090",
+      "metodo": "Radial Velocity",
+      "anio": 2026,
+      "instalacion": "Multiple Facilities",
+      "distanciaAl": 73,
+      "radioTierras": 3.14,
+      "masaTierras": 10,
+      "periodoDias": 15.94
+    },
+    {
+      "nombre": "DMPP-2 c",
+      "estrella": "DMPP-2",
+      "metodo": "Radial Velocity",
+      "anio": 2026,
+      "instalacion": "Multiple Observatories",
+      "distanciaAl": 450,
+      "radioTierras": 8.26,
+      "masaTierras": 51.79,
+      "periodoDias": 3.17
+    },
+    {
+      "nombre": "CD-35 2722 B b",
+      "estrella": "CD-35 2722 B",
+      "metodo": "Radial Velocity",
+      "anio": 2026,
+      "instalacion": "Paranal Observatory",
+      "distanciaAl": null,
+      "radioTierras": 13.9,
+      "masaTierras": 292.4,
+      "periodoDias": 171.11
+    }
+  ]
+}

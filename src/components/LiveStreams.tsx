@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import { useFormatter, useTranslations } from "next-intl";
+import Icon, { type IconName } from "@/components/Icon";
 import {
   LIVE_SNAPSHOT,
   embedUrl,
@@ -71,7 +72,7 @@ export default function LiveStreams() {
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-center">
             <span className="text-3xl" aria-hidden>
-              📡
+              <Icon name="antenna" className="h-6 w-6" />
             </span>
             <p className="text-sm font-semibold text-white/70">{t("offline")}</p>
             {active && (
@@ -90,7 +91,7 @@ export default function LiveStreams() {
         {/* Barra de control */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center gap-2 bg-linear-to-t from-black/80 to-transparent px-4 pb-3 pt-10">
           <span className="pointer-events-auto flex min-w-0 items-center gap-2 text-sm font-semibold text-white/90">
-            <span aria-hidden>{active?.emoji}</span>
+            <Icon name={(active?.icon ?? "satellite") as IconName} className="h-4 w-4" />
             <span className="truncate">{currentTitle}</span>
           </span>
           <span className="ml-auto flex shrink-0 items-center gap-2">
@@ -102,18 +103,22 @@ export default function LiveStreams() {
                 title={t("watch_youtube")}
                 className={ctrlBtn}
               >
-                ↗
+                <Icon name="arrowUpRight" label={t("open_youtube")} />
               </a>
             )}
             <button onClick={toggleFullscreen} title={t("fullscreen")} className={ctrlBtn}>
-              ⛶
+              <Icon name="expand" label={t("fullscreen")} />
             </button>
             <button
               onClick={() => setTheater((v) => !v)}
               title={theater ? t("exit_theater") : t("theater")}
               className={ctrlBtn}
             >
-              {theater ? "✕" : "🎬"}
+              {theater ? (
+                <Icon name="close" label={t("exit_theater")} />
+              ) : (
+                <Icon name="film" label={t("theater")} />
+              )}
             </button>
           </span>
         </div>
@@ -175,7 +180,7 @@ export default function LiveStreams() {
                       <span
                         className={`flex h-12 w-16 shrink-0 items-center justify-center rounded-lg bg-linear-to-br ${c.accent} text-xl`}
                       >
-                        {c.emoji}
+                        <Icon name={(c.icon ?? "satellite") as IconName} className="h-4 w-4" />
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-semibold text-white/90">

@@ -1,297 +1,205 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
+
+/**
+ * Buscador del portal.
+ *
+ * Se llamaba «unificado» pero solo miraba en `MISSIONS`: 19 fichas. Buscar
+ * «Glenn», «TESS» o «Starlink» no devolvía nada aunque las tres cosas
+ * estuvieran escritas en el sitio. Y el filtro ofrecía dos botones, «todo» y
+ * «NASA», que devolvían exactamente lo mismo.
+ *
+ * Ahora indexa las seis fuentes que hay (`src/lib/search-index.ts`) y los
+ * filtros son por tipo, con su recuento. El índice se construye en memoria a
+ * partir de datos estáticos u horneados, así que no hay ninguna petición.
+ */
 
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@/i18n/routing";
-import { getMissions, Mission } from "@/lib/nasa";
 import { performUnifiedSearch } from "@/lib/fuzzy";
+import { buildSearchIndex, type SearchKind } from "@/lib/search-index";
 
 interface SearchClientProps {
   locale: "en" | "es";
 }
+
+/** Orden de los filtros; el color distingue el tipo de un vistazo. */
+const TIPOS: { kind: SearchKind; tono: string }[] = [
+  { kind: "mission", tono: "text-sky-300 bg-sky-500/12 ring-sky-500/30" },
+  { kind: "active", tono: "text-emerald-300 bg-emerald-500/12 ring-emerald-500/30" },
+  { kind: "astronaut", tono: "text-amber-300 bg-amber-500/12 ring-amber-500/30" },
+  { kind: "launch", tono: "text-indigo-300 bg-indigo-500/12 ring-indigo-500/30" },
+  { kind: "exoplanet", tono: "text-fuchsia-300 bg-fuchsia-500/12 ring-fuchsia-500/30" },
+  { kind: "section", tono: "text-white/70 bg-white/10 ring-white/20" },
+];
+
+const TONO = Object.fromEntries(TIPOS.map((t) => [t.kind, t.tono])) as Record<SearchKind, string>;
 
 export default function SearchClient({ locale }: SearchClientProps) {
   const t = useTranslations("search");
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Get initial query from URL
-  const urlQuery = searchParams.get("q") || "";
+  const urlQuery = searchParams.get("q") ?? "";
   const [query, setQuery] = useState(urlQuery);
-  const [activeFilter, setActiveFilter] = useState<"all" | "nasa">("all");
-  const [nasaMissions, setNasaMissions] = useState<Mission[]>([]);
+  const [filtro, setFiltro] = useState<SearchKind | null>(null);
 
-  // Load NASA missions on mount
-  useEffect(() => {
-    getMissions().then(setNasaMissions).catch(() => {});
-  }, []);
+  // El índice no depende de la consulta: se construye una vez por idioma.
+  const docs = useMemo(() => buildSearchIndex(locale), [locale]);
 
-  // Update URL on query change (debounced slightly to prevent excessive history entries)
+  // Refleja la consulta en la URL, para poder compartir una búsqueda.
   useEffect(() => {
-    const delayDebounce = setTimeout(() => {
+    const id = setTimeout(() => {
       const params = new URLSearchParams(window.location.search);
-      if (query.trim()) {
-        params.set("q", query);
-      } else {
-        params.delete("q");
-      }
-      router.replace(`/${locale}/search?${params.toString()}`);
+      if (query.trim()) params.set("q", query);
+      else params.delete("q");
+      const qs = params.toString();
+      router.replace(`/${locale}/search${qs ? `?${qs}` : ""}`);
     }, 300);
-
-    return () => clearTimeout(delayDebounce);
+    return () => clearTimeout(id);
   }, [query, router, locale]);
 
-  // Sync state if URL query parameter changes
+  // Navegación atrás/adelante: la URL manda. Va en un timeout porque
+  // `react-hooks/set-state-in-effect` marca el setState síncrono y el CI del
+  // monorepo trata los warnings como fatales.
   useEffect(() => {
-    setQuery(urlQuery);
+    const id = setTimeout(() => setQuery((actual) => (actual === urlQuery ? actual : urlQuery)), 0);
+    return () => clearTimeout(id);
   }, [urlQuery]);
 
-  // Perform the search
-  const allResults = useMemo(() => {
-    return performUnifiedSearch(query, nasaMissions, locale);
-  }, [query, nasaMissions, locale]);
+  const todos = useMemo(() => performUnifiedSearch(query, docs), [query, docs]);
+  const resultados = useMemo(
+    () => (filtro ? todos.filter((r) => r.kind === filtro) : todos),
+    [todos, filtro],
+  );
 
-  // Filter the results
-  const filteredResults = useMemo(() => {
-    if (activeFilter === "all") return allResults;
-    return allResults.filter((r) => r.type === activeFilter);
-  }, [allResults, activeFilter]);
+  const recuentos = useMemo(() => {
+    const acc = {} as Record<SearchKind, number>;
+    for (const r of todos) acc[r.kind] = (acc[r.kind] ?? 0) + 1;
+    return acc;
+  }, [todos]);
 
-  // Counts for filters
-  const counts = useMemo(() => {
-    const nasa = allResults.filter((r) => r.type === "nasa").length;
-    return {
-      all: allResults.length,
-      nasa,
-    };
-  }, [allResults]);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 15 },
-    show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 300, damping: 24 } },
-  };
+  const conConsulta = query.trim().length >= 2;
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] bg-slate-950 text-white relative overflow-hidden flex flex-col pb-20">
-      {/* ── Background Cosmic Ambience ── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] bg-blue-900/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] bg-emerald-950/20 rounded-full blur-[100px]" />
-        <div className="absolute inset-0 opacity-15"
-          style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-      </div>
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{t("title")}</h1>
+        <p className="mt-2 text-white/55">{t("subtitle")}</p>
+      </header>
 
-      <div className="max-w-4xl w-full mx-auto px-4 sm:px-6 relative z-10 pt-12">
-        {/* Title */}
-        <div className="text-center mb-8">
-          <motion.h1
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-blue-400 via-indigo-200 to-emerald-400"
+      {/* ── Campo de búsqueda ── */}
+      <div className="rounded-lg border border-white/12 bg-surface-dark focus-within:border-white/35">
+        <div className="flex items-center gap-3 px-4">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            className="h-5 w-5 shrink-0 text-white/40"
+            aria-hidden
           >
-            {t("title")}
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.15 }}
-            className="text-white/40 text-xs sm:text-sm font-mono tracking-widest mt-2 uppercase"
-          >
-            NASA MISSION DATABASE INDEX
-          </motion.p>
-        </div>
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" strokeLinecap="round" />
+          </svg>
 
-        {/* Search Input Area */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 20 }}
-          className="relative max-w-2xl mx-auto mb-10"
-        >
-          <div className="relative rounded-2xl bg-white/4 border border-white/10 backdrop-blur-xl p-2 shadow-2xl focus-within:border-indigo-500/50 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all duration-300">
-            <div className="flex items-center gap-3 px-3">
-              {/* Search icon */}
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 text-white/40 shrink-0">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m21-21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-              </svg>
-              
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={t("placeholder")}
-                className="w-full bg-transparent border-0 text-white placeholder-white/30 focus:ring-0 outline-hidden text-base py-2 font-sans"
-              />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("placeholder")}
+            aria-label={t("title")}
+            autoComplete="off"
+            className="w-full border-0 bg-transparent py-3.5 text-base text-white outline-hidden placeholder:text-white/35"
+          />
 
-              {/* Clear button */}
-              {query && (
-                <button
-                  onClick={() => setQuery("")}
-                  className="p-1.5 rounded-full bg-white/10 text-white/60 hover:bg-white/20 hover:text-white transition-colors"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              )}
-            </div>
-          </div>
-          
-          <p className="text-center text-white/30 text-xs mt-2 font-mono">
-            {t("input_hint")}
-          </p>
-        </motion.div>
-
-        {/* Filters and Stats Bar */}
-        {query.trim().length >= 2 && (
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-white/10 pb-4 mb-6">
-            {/* Filter buttons */}
-            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-white/3 border border-white/5">
-              <button
-                onClick={() => setActiveFilter("all")}
-                className={`px-4 py-1.5 rounded-lg text-xs font-bold font-mono uppercase tracking-wide transition-all ${
-                  activeFilter === "all"
-                    ? "bg-linear-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-indigo-900/30"
-                    : "text-white/50 hover:text-white hover:bg-white/5"
-                }`}
-              >
-                {t("all")} ({counts.all})
-              </button>
-              <button
-                onClick={() => setActiveFilter("nasa")}
-                className={`px-4 py-1.5 rounded-lg text-xs font-bold font-mono uppercase tracking-wide transition-all ${
-                  activeFilter === "nasa"
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-900/30"
-                    : "text-white/50 hover:text-blue-400 hover:bg-blue-950/20"
-                }`}
-              >
-                {t("nasa_only")} ({counts.nasa})
-              </button>
-            </div>
-
-            {/* Results count text */}
-            <div className="text-white/40 text-xs font-mono uppercase tracking-wider">
-              {filteredResults.length === 1
-                ? t("results_count_one")
-                : t("results_count_other", { count: filteredResults.length })}
-            </div>
-          </div>
-        )}
-
-        {/* Results List */}
-        <div className="relative min-h-[200px]">
-          {query.trim().length < 2 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center text-white/30 border border-dashed border-white/10 rounded-2xl bg-white/1">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 mb-3 text-white/20">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25-3v13.5m0-13.5L10.5 6m1.5-1.5L13.5 6M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-              </svg>
-              <p className="text-sm font-mono tracking-wide">
-                AWAITING SEARCH INPUT QUERY...
-              </p>
-            </div>
-          ) : filteredResults.length > 0 ? (
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="show"
-              className="flex flex-col gap-4"
+          {query && (
+            <button
+              type="button"
+              onClick={() => setQuery("")}
+              aria-label={t("clear")}
+              className="rounded p-1.5 text-white/50 transition hover:bg-white/10 hover:text-white"
             >
-              <AnimatePresence mode="popLayout">
-                {filteredResults.map((result) => {
-                  const isNasa = result.type === "nasa";
-                  return (
-                    <motion.div
-                      key={`${result.type}-${result.id}`}
-                      variants={itemVariants}
-                      layout
-                      exit={{ opacity: 0, y: -10 }}
-                      className={`relative rounded-xl overflow-hidden backdrop-blur-md transition-all duration-300 ${
-                        isNasa
-                          ? "bg-slate-900/40 border border-blue-900/30 hover:border-blue-500/40 hover:bg-slate-900/60 shadow-lg shadow-blue-950/10"
-                          : "bg-emerald-950/10 border border-emerald-900/30 hover:border-emerald-500/40 hover:bg-emerald-950/20 shadow-lg shadow-emerald-950/10"
-                      }`}
-                    >
-                      <Link href={result.url} className="block p-5 relative z-10">
-                        {/* Source Tag Badge */}
-                        <div className="flex items-center justify-between gap-4 mb-2.5">
-                          <span className={`text-[10px] font-bold font-mono px-2 py-0.5 rounded uppercase tracking-wider ${
-                            isNasa 
-                              ? "bg-blue-950/80 text-blue-300 border border-blue-800/40"
-                              : "bg-emerald-950/80 text-emerald-300 border border-emerald-800/40"
-                          }`}>
-                            {result.subtitle}
-                          </span>
-                          
-                          {/* Score indicator for debug / quality indexing */}
-                          <span className="text-[10px] font-mono text-white/20">
-                            Match: {(result.score * 100).toFixed(0)}%
-                          </span>
-                        </div>
-
-                        {/* Title */}
-                        <h3 className={`text-lg font-bold leading-snug mb-1.5 transition-colors ${
-                          isNasa ? "text-blue-100 hover:text-white" : "text-emerald-100 hover:text-white font-mono"
-                        }`}>
-                          {result.title}
-                        </h3>
-
-                        {/* Description snippet */}
-                        <p className="text-white/60 text-sm leading-relaxed mb-3 line-clamp-2">
-                          {result.description}
-                        </p>
-
-                        {/* Tags / Metadata list */}
-                        {result.tags && result.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5">
-                            {result.tags.slice(0, 4).map((tag, idx) => (
-                              <span
-                                key={idx}
-                                className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${
-                                  isNasa
-                                    ? "bg-blue-900/20 text-blue-400"
-                                    : "bg-emerald-900/20 text-emerald-400"
-                                }`}
-                              >
-                                #{tag}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </Link>
-                    </motion.div>
-                  );
-                })}
-              </AnimatePresence>
-            </motion.div>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex flex-col items-center justify-center py-16 text-center text-white/30 border border-dashed border-white/10 rounded-2xl bg-white/1"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 mb-3 text-white/20">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="h-4 w-4" aria-hidden>
+                <path strokeLinecap="round" d="M6 18 18 6M6 6l12 12" />
               </svg>
-              <p className="text-sm font-mono tracking-wide max-w-xs mx-auto">
-                {t("no_results")}
-              </p>
-            </motion.div>
+            </button>
           )}
         </div>
       </div>
-    </main>
+      <p className="mt-2 font-mono text-2xs uppercase tracking-[0.16em] text-white/35">
+        {t("index_hint", { total: docs.length })}
+      </p>
+
+      {/* ── Filtros por tipo ── */}
+      {conConsulta && (
+        <div className="mt-8 flex flex-wrap items-center gap-2 border-b border-white/10 pb-5">
+          <button
+            type="button"
+            onClick={() => setFiltro(null)}
+            aria-pressed={filtro === null}
+            className={`rounded px-3 py-1.5 font-mono text-2xs uppercase tracking-wider ring-1 ring-inset transition ${
+              filtro === null ? "bg-white text-background ring-white" : "text-white/60 ring-white/15 hover:text-white"
+            }`}
+          >
+            {t("all")} ({todos.length})
+          </button>
+
+          {TIPOS.filter(({ kind }) => recuentos[kind]).map(({ kind, tono }) => (
+            <button
+              key={kind}
+              type="button"
+              onClick={() => setFiltro(filtro === kind ? null : kind)}
+              aria-pressed={filtro === kind}
+              className={`rounded px-3 py-1.5 font-mono text-2xs uppercase tracking-wider ring-1 ring-inset transition ${
+                filtro === kind ? tono : "text-white/60 ring-white/15 hover:text-white"
+              }`}
+            >
+              {t(`kind_${kind}`)} ({recuentos[kind]})
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* ── Resultados ── */}
+      <div className="mt-6">
+        {!conConsulta ? (
+          <p className="rounded-lg border border-dashed border-white/12 px-6 py-14 text-center text-sm text-white/40">
+            {t("empty_prompt")}
+          </p>
+        ) : resultados.length === 0 ? (
+          <p className="rounded-lg border border-dashed border-white/12 px-6 py-14 text-center text-sm text-white/40">
+            {t("no_results", { query })}
+          </p>
+        ) : (
+          <ul className="space-y-2">
+            {resultados.map((r) => (
+              <li key={`${r.kind}-${r.id}`}>
+                <Link
+                  href={r.url}
+                  className="group block rounded-lg border border-white/10 bg-surface-dark p-4 transition hover:border-white/30 hover:bg-surface-dark-hi"
+                >
+                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <span
+                      className={`rounded px-1.5 py-0.5 font-mono text-2xs uppercase tracking-wider ring-1 ring-inset ${TONO[r.kind]}`}
+                    >
+                      {t(`kind_${r.kind}`)}
+                    </span>
+                    <h2 className="font-semibold text-white group-hover:underline group-hover:underline-offset-4">
+                      {r.title}
+                    </h2>
+                    <span className="text-sm text-white/45">{r.subtitle}</span>
+                  </div>
+                  <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-white/60">
+                    {r.description}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
   );
 }

@@ -6,8 +6,21 @@ import {
   getMarsLatest,
 } from "@/lib/nasa";
 import ActiveMissions from "@/components/ActiveMissions";
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "active" });
+  return buildMetadata({
+    locale,
+    path: "active",
+    title: t("title"),
+    description: t("subtitle"),
+  });
+}
 
 export default async function ActivePage({ params }: Props) {
   const { locale } = await params;

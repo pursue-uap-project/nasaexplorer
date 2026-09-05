@@ -21,6 +21,7 @@ const SECTIONS = [
   { href: "/launches", key: "launches" },
   { href: "/active", key: "active" },
   { href: "/solar", key: "solar" },
+  { href: "/exoplanets", key: "exoplanets" },
   { href: "/iss", key: "iss" },
   { href: "/live", key: "live" },
   { href: "/apod", key: "apod" },
