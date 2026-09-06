@@ -172,6 +172,27 @@ había apuntaban a un tamaño `~medium` que varios de esos assets no tienen — 
 cinco fallaban — y una apuntaba a `PIA14421`, que no son los Pilares de la Creación sino
 un cráter lunar.
 
+## Ficha de misión
+La **foto es el hero**, a sangre y con su crédito: antes era un degradado vacío y la
+fotografía quedaba enterrada a media página. Orden del cuerpo: tripulación → audio →
+cohete → galería, y al pie `MissionNav` (anterior/siguiente cronológico, hermanas del
+programa y secciones relacionadas).
+
+La galería llama a `getMissionImages`, que **acota por año si la misión terminó**. Sin
+eso, la búsqueda por texto libre devolvía actos conmemorativos modernos: la galería de
+Apollo 11 mostraba a Mike Pence en un acto de 2019. En misiones activas no se acota,
+porque sus fotos buenas llegan décadas después del lanzamiento.
+
+**Etiquetas y programas se traducen en `src/lib/labels.ts`**, con el inglés como clave y
+el original como respaldo. Los `label` de `stats` y `program` se escriben en inglés en el
+catálogo porque son parte del dato; traducirlos ahí obligaría a duplicar 56 cadenas.
+Pendiente: los **valores** de `stats` siguen en inglés («32+ km driven»); traducirlos
+exige convertir `stats` a bilingüe, que es un cambio de esquema.
+
+Cuando un nombre de misión es ambiguo en Launch Library, se declara `ll2Query`. Buscar
+«DART» devuelve una misión de 2005 con las mismas siglas, y el guardia fallaba en rojo
+por un dato correcto.
+
 ## Iconos
 `src/components/Icon.tsx`: SVG inline, sin dependencias. **Nada de emoji en la interfaz**
 — renderizan distinto en cada sistema y un lector de pantalla los lee con su nombre

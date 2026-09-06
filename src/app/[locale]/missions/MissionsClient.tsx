@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import MissionCard from "@/components/MissionCard";
@@ -9,23 +10,36 @@ import MissionsRoadmap from "@/components/MissionsRoadmap";
 import MissionsQuiz from "@/components/MissionsQuiz";
 import type { Mission } from "@/lib/nasa";
 import Icon from "@/components/Icon";
+import { nombrePrograma } from "@/lib/labels";
 
 export default function MissionsClient({ missions }: { missions: Mission[] }) {
   const t = useTranslations("missions");
-  const [filter, setFilter] = useState<string>("all");
+  const tPrograma = useTranslations("mission_program");
+  const searchParams = useSearchParams();
+  // Las migas de una ficha y `MissionNav` enlazan aquí con `?program=Apollo`.
+  // Sin leerlo, esos enlaces caían en el listado completo sin filtrar.
+  const [filter, setFilter] = useState<string>(() => searchParams.get("program") ?? "all");
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<string>("launch-desc");
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [viewMode, setViewMode] = useState<"grid" | "roadmap">("grid");
 
-  const chips = [
-    { key: "all",         label: t("filter_all") },
-    { key: "active",      label: t("filter_active") },
-    { key: "Apollo",      label: "Apollo" },
-    { key: "Mars",        label: "Mars" },
-    { key: "Deep Space",  label: t("filter_deep_space") },
-  ];
+  // Los chips salían cableados a tres programas de los once que hay: Skylab,
+  // Gemini, Hubble o JWST no tenían forma de filtrarse. Ahora se generan del
+  // propio catálogo, ordenados por número de misiones.
+  const chips = useMemo(() => {
+    const cuenta = new Map<string, number>();
+    for (const m of missions) cuenta.set(m.program, (cuenta.get(m.program) ?? 0) + 1);
+    const programas = [...cuenta.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .map(([programa]) => ({ key: programa, label: nombrePrograma(tPrograma, programa) }));
+    return [
+      { key: "all", label: t("filter_all") },
+      { key: "active", label: t("filter_active") },
+      ...programas,
+    ];
+  }, [missions, t, tPrograma]);
 
   const displayed = useMemo(() => {
     let result = [...missions];

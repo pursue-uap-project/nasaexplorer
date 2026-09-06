@@ -9,7 +9,9 @@ import HistoricalAudio from "@/components/HistoricalAudio";
 import MissionMediaAndCrew from "@/components/MissionMediaAndCrew";
 import RocketScale from "@/components/RocketScale";
 import MissionCountdown from "@/components/MissionCountdown";
+import MissionNav from "@/components/MissionNav";
 import { buildMetadata, SITE } from "@/lib/seo";
+import { nombrePrograma } from "@/lib/labels";
 
 type Props = { params: Promise<{ locale: string; id: string }> };
 
@@ -68,66 +70,103 @@ export default async function MissionDetailPage({ params }: Props) {
 
   const t = await getTranslations("mission_detail");
   const tMission = await getTranslations("mission");
+  const tPrograma = await getTranslations("mission_program");
 
   const color = PROGRAM_COLORS[mission.program] ?? "#0B3D91";
   const loc = locale as "en" | "es";
   const year = mission.launch_details.date?.slice(0, 4);
 
+  // Solo se acota por año si la misión terminó: en una activa las fotos buenas
+  // llegan años después del lanzamiento.
+  const anioBusqueda =
+    mission.launch_details.status === "completed" && year ? Number(year) : null;
   const images = await getMissionImages(
     mission.imageQuery ?? mission.name,
-    8
+    8,
+    anioBusqueda,
   ).catch(() => [] as string[]);
 
   return (
     <main className="min-h-screen">
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <div
-        className="relative h-72 sm:h-96 overflow-hidden"
-        style={{ background: `linear-gradient(135deg, ${color}33 0%, ${color}15 50%, #0B3D9110 100%)` }}
-      >
-        {/* Decorative blobs */}
-        <div
-          className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full blur-3xl opacity-30"
-          style={{ background: color }}
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-background/80 via-transparent to-transparent" />
+      {/* Antes eran 320 px de degradado vacío mientras la fotografía de la
+          misión quedaba enterrada a media página. La foto ES la portada. */}
+      <div className="relative h-80 overflow-hidden pt-2 sm:h-[26rem]">
+        {mission.image ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/${mission.image}`}
+              alt={mission.name}
+              fetchPriority="high"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            {/* Velo: el título tiene que leerse sobre cualquier foto. */}
+            <div className="absolute inset-0 bg-linear-to-t from-background via-background/55 to-background/25" />
+          </>
+        ) : (
+          <div
+            className="absolute inset-0"
+            style={{ background: `linear-gradient(135deg, ${color}33 0%, ${color}15 50%, #0B3D9110 100%)` }}
+          />
+        )}
 
-        {/* Back link */}
-        <div className="absolute top-5 left-5 sm:left-8">
-          <Link
-            href="/missions"
-            className="flex items-center gap-1.5 text-sm font-medium text-muted hover:text-primary transition-colors bg-card px-3 py-1.5 rounded-full border border-card-border shadow-xs"
-          >
-            <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-              <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
-            </svg>
-            {t("back")}
-          </Link>
+        {/* Migas: antes solo había un botón «atrás» flotando, sin decir de
+            dónde se venía ni a qué programa pertenece la misión. */}
+        <div className="absolute inset-x-0 top-0">
+          <nav aria-label={t("breadcrumb")} className="mx-auto max-w-5xl px-6 pt-6 pb-5 sm:px-8">
+            <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-2xs uppercase tracking-[0.16em] text-white/55">
+              <li>
+                <Link href="/missions" className="hover:text-white">
+                  {t("back")}
+                </Link>
+              </li>
+              <li aria-hidden className="text-white/25">/</li>
+              <li>
+                <Link href={`/missions?program=${encodeURIComponent(mission.program)}`} className="hover:text-white">
+                  {nombrePrograma(tPrograma, mission.program)}
+                </Link>
+              </li>
+              <li aria-hidden className="text-white/25">/</li>
+              <li className="text-white/80">{mission.name}</li>
+            </ol>
+          </nav>
         </div>
 
-        {/* Title area */}
-        <div className="absolute bottom-0 left-0 right-0 pb-7">
+        <div className="absolute inset-x-0 bottom-0 pb-7">
           <div className="mx-auto max-w-5xl px-6 sm:px-8">
-            <div className="flex items-center gap-2 mb-3">
+            <div className="mb-3 flex flex-wrap items-center gap-2">
               <span
-                className="text-xs font-bold px-3 py-1 rounded-full text-white shadow-xs"
+                className="rounded-full px-3 py-1 text-xs font-bold text-white shadow-xs"
                 style={{ background: `${color}dd` }}
               >
-                {mission.program}
+                {nombrePrograma(tPrograma, mission.program)}
               </span>
-              <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${STATUS_STYLES[mission.launch_details.status] ?? ""}`}>
+              <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${STATUS_STYLES[mission.launch_details.status] ?? ""}`}>
                 {tMission(`status_${mission.launch_details.status}`)}
               </span>
-              {year && (
-                <span className="text-xs font-mono text-white/50">{year}</span>
-              )}
+              {year && <span className="font-mono text-xs text-white/60">{year}</span>}
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight tracking-[0.02em]">
+            <h1 className="text-3xl font-bold leading-tight tracking-[0.02em] text-white drop-shadow-lg sm:text-5xl">
               {mission.name}
             </h1>
           </div>
         </div>
+
+        {mission.imageCredit && (
+          <p className="pointer-events-none absolute right-4 top-6 hidden max-w-[45%] truncate text-right font-mono text-2xs text-white/70 [text-shadow:0_1px_3px_rgb(0_0_0/0.9)] sm:block">
+            <a
+              href={`https://images.nasa.gov/details/${mission.imageNasaId ?? ""}`}
+              target="_blank"
+              rel="noreferrer"
+              className="pointer-events-auto hover:text-white/70"
+            >
+              {mission.imageCredit}
+            </a>
+          </p>
+        )}
       </div>
 
       {/* ── BODY ─────────────────────────────────────────────────────────── */}
@@ -164,7 +203,7 @@ export default async function MissionDetailPage({ params }: Props) {
                 <span className="font-mono uppercase tracking-wide text-faint mr-1.5">
                   {tMission("program")}
                 </span>
-                {mission.program}
+                {nombrePrograma(tPrograma, mission.program)}
               </span>
             </div>
           </div>
@@ -180,20 +219,28 @@ export default async function MissionDetailPage({ params }: Props) {
           )}
         </div>
 
-        {/* Additional Interactive Section Containers */}
-        <div className="px-6 sm:px-8 pb-8 space-y-6">
-          {/* Mission Countdown */}
+        {/* Orden: primero quién voló y qué pasó, después los módulos
+            interactivos. Antes el audio y el comparador de cohetes iban por
+            delante de la tripulación. */}
+        <div className="space-y-6 px-6 pb-8 sm:px-8">
           {mission.countdownTarget && (
             <MissionCountdown targetDate={mission.countdownTarget} missionName={mission.name} />
           )}
 
-          {/* Historical Audio transcript */}
+          {/* La foto ya es el hero, así que este bloque se queda con la
+              tripulación y no la repite. */}
+          <MissionMediaAndCrew
+            missionName={mission.name}
+            crewNames={mission.stats?.find((s) => s.label.toLowerCase() === "crew" || s.label.toLowerCase() === "astronaut")?.value}
+            color={color}
+            allMissions={allMissions}
+          />
+
           {mission.audioClip && (
             <HistoricalAudio
               // Los clips se sirven desde `public/`, así que llevan basePath.
               // Se acepta una URL absoluta por si alguna vez vuelve a apuntar
-              // fuera, igual que hacen `MissionCard` y `AstronautModal` con las
-              // imágenes.
+              // fuera, igual que hacen `MissionCard` y `AstronautModal`.
               audioUrl={
                 mission.audioClip.url.startsWith("http")
                   ? mission.audioClip.url
@@ -205,21 +252,7 @@ export default async function MissionDetailPage({ params }: Props) {
             />
           )}
 
-          {/* Rocket Scale silhouette */}
-          {mission.rocketId && (
-            <RocketScale rocketId={mission.rocketId} />
-          )}
-
-          {/* Mission Media & Crew Display */}
-          <MissionMediaAndCrew
-            missionImage={mission.image}
-            missionImageCredit={mission.imageCredit}
-            missionImageNasaId={mission.imageNasaId}
-            missionName={mission.name}
-            crewNames={mission.stats?.find((s) => s.label.toLowerCase() === "crew" || s.label.toLowerCase() === "astronaut")?.value}
-            color={color}
-            allMissions={allMissions}
-          />
+          {mission.rocketId && <RocketScale rocketId={mission.rocketId} />}
         </div>
 
         {/* Gallery */}
@@ -231,6 +264,8 @@ export default async function MissionDetailPage({ params }: Props) {
           galleryTitle={t("gallery_title")}
         />
       </div>
+
+      <MissionNav actual={mission} todas={allMissions} />
 
       <div className="pb-16" />
     </main>

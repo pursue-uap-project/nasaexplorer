@@ -111,3 +111,16 @@ test("un missionId inventado se detecta", () => {
   assert.equal(errores.length, 1);
   assert.match(errores[0], /no-existe/);
 });
+
+test("el parser recoge el alias de búsqueda en LL2", () => {
+  // DART hizo fallar el guardia en rojo por un dato correcto: buscar su nombre
+  // en Launch Library devuelve una misión de 2005 con las mismas siglas.
+  const dart = extraerMisiones(fuente).find((m) => m.id === "dart");
+  assert.ok(dart, "dart tiene que estar en el catálogo");
+  assert.equal(dart.ll2Query, "Double Asteroid Redirection");
+});
+
+test("una misión sin alias deja ll2Query en null", () => {
+  const apolo = extraerMisiones(fuente).find((m) => m.id === "apollo-11");
+  assert.equal(apolo.ll2Query, null, "solo los nombres ambiguos llevan alias");
+});

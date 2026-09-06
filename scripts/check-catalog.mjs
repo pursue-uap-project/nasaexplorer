@@ -110,7 +110,16 @@ export function extraerMisiones(fuente) {
     const siguiente = fuente.indexOf('\n    id: "', desde);
     const resto = fuente.slice(desde, siguiente === -1 ? undefined : siguiente);
     const cd = resto.match(/countdownTarget:\s*"([^"]+)"/);
-    misiones.push({ id, name, date, status, countdownTarget: cd?.[1] ?? null });
+    // Alias de búsqueda para nombres ambiguos en LL2 (ver `ll2Query` en nasa.ts).
+    const ll2 = resto.match(/ll2Query:\s*"([^"]+)"/);
+    misiones.push({
+      id,
+      name,
+      date,
+      status,
+      countdownTarget: cd?.[1] ?? null,
+      ll2Query: ll2?.[1] ?? null,
+    });
   }
   return misiones;
 }
@@ -203,7 +212,9 @@ async function revisarContraLL2(misiones) {
   for (const m of modernas) {
     let hit;
     try {
-      hit = await buscarEnLL2(m.name);
+      // `ll2Query` gana cuando el nombre de la misión es ambiguo: buscar
+      // «DART» devuelve una misión de 2005 con las mismas siglas.
+      hit = await buscarEnLL2(m.ll2Query ?? m.name);
     } catch (e) {
       // Que LL2 no conteste no es un fallo del catálogo: se avisa y se sigue.
       avisa(`${m.id}: no se pudo consultar LL2 (${e.message}).`);

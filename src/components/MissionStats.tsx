@@ -3,6 +3,8 @@
 import { useState } from "react";
 import AstronautModal from "./AstronautModal";
 import type { Mission } from "@/lib/nasa";
+import { useTranslations } from "next-intl";
+import { etiquetaStat } from "@/lib/labels";
 
 type StatItem = {
   label: string;
@@ -37,6 +39,7 @@ const ASTRONAUT_MAP: Record<string, string> = {
 };
 
 export default function MissionStats({ stats, color, allMissions, statsTitle }: Props) {
+  const tStat = useTranslations("mission");
   const [selectedAstronaut, setSelectedAstronaut] = useState<string | null>(null);
 
   // Helper to check if a name belongs to our astronaut registry
@@ -65,7 +68,7 @@ export default function MissionStats({ stats, color, allMissions, statsTitle }: 
               className="flex items-start justify-between gap-4 py-2.5 border-b border-card-border last:border-0"
             >
               <dt className="text-muted text-xs uppercase tracking-wide shrink-0">
-                {label}
+                {etiquetaStat(tStat, label)}
               </dt>
               <dd
                 className="font-semibold text-sm text-right leading-tight"

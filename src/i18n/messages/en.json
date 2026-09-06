@@ -8,7 +8,9 @@
     "apod": "Photo of the Day",
     "search": "Search",
     "launches": "Launches",
-    "exoplanets": "Exoplanets"
+    "exoplanets": "Exoplanets",
+    "group_explore": "Explore",
+    "group_live": "Live"
   },
   "home": {
     "meta_title": "NASA Explorer — missions, launches and discoveries in real time",
@@ -109,7 +111,14 @@
     "crew_section_title": "Mission Crew",
     "crew_section_subtitle": "Click on an astronaut to view their profile and full biography",
     "mission_image_title": "Featured Mission Photograph",
-    "mission_image_subtitle": "Photographic record from official NASA archives"
+    "mission_image_subtitle": "Photographic record from official NASA archives",
+    "breadcrumb": "Breadcrumb",
+    "more_missions": "More missions",
+    "previous_mission": "Previous",
+    "next_mission": "Next",
+    "same_program": "More from {program}",
+    "see_all_program": "See all {program} missions",
+    "keep_exploring": "Keep exploring"
   },
   "mission": {
     "launch_date": "Date",
@@ -118,7 +127,8 @@
     "learn_more": "Learn more",
     "status_active": "Active",
     "status_completed": "Completed",
-    "status_planned": "Planned"
+    "status_planned": "Planned",
+    "stat": {}
   },
   "active": {
     "title": "Active Missions",
@@ -365,5 +375,18 @@
     "family_gigante": "gas giant",
     "recent_note": "Radius in Earth radii and orbital period in days. Blanks are values the archive does not have yet: for microlensing, for instance, the period can almost never be measured.",
     "source_note": "pscomppars table via TAP"
+  },
+  "mission_program": {
+    "Apollo": "Apollo",
+    "Artemis": "Artemis",
+    "Deep Space": "Deep Space",
+    "Gemini": "Gemini",
+    "Hubble": "Hubble",
+    "ISS": "ISS",
+    "JWST": "JWST",
+    "Mars": "Mars",
+    "Mercury": "Mercury",
+    "Skylab": "Skylab",
+    "Space Shuttle": "Space Shuttle"
   }
 }

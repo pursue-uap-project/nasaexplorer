@@ -7,6 +7,7 @@ import TrajectoryMap from "./TrajectoryMap";
 import MissionLive from "./MissionLive";
 import Lightbox from "./Lightbox";
 import type { ActiveMission, MissionImage, MarsLatest } from "@/lib/nasa";
+import { etiquetaStat } from "@/lib/labels";
 
 type Props = {
   missions: ActiveMission[];
@@ -49,6 +50,7 @@ const LOCAL_HEROES: Record<string, { src: string; credit: string; nasaId: string
 
 export default function ActiveMissions({ missions, images, videoIds, mars }: Props) {
   const t = useTranslations("active");
+  const tStat = useTranslations("mission");
   const locale = useLocale() as "en" | "es";
   const [current, setCurrent] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -231,7 +233,7 @@ export default function ActiveMissions({ missions, images, videoIds, mars }: Pro
                 <dl>
                   {m.stats.map(({ label, value }) => (
                     <div key={label} className="flex items-start justify-between gap-4 border-b border-white/8 py-2.5 last:border-0">
-                      <dt className="shrink-0 text-xs uppercase tracking-wide text-white/45">{label}</dt>
+                      <dt className="shrink-0 text-xs uppercase tracking-wide text-white/45">{etiquetaStat(tStat, label)}</dt>
                       <dd className="text-right text-sm font-semibold leading-tight" style={{ color: m.color }}>{value}</dd>
                     </div>
                   ))}

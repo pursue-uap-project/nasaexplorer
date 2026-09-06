@@ -27,6 +27,15 @@ export type Mission = {
     transcripts: { time: number; es: string; en: string }[];
   };
   countdownTarget?: string;
+  /**
+   * Cómo buscar esta misión en Launch Library, cuando su nombre es ambiguo.
+   *
+   * Buscar «DART» devuelve primero `Demonstration for Autonomous Rendezvous
+   * Technology (DART)`, de 2005 — otra misión con las mismas siglas, dieciséis
+   * años antes. Lo detecté al escribir la ficha, pero el guardia seguía cayendo
+   * en la misma trampa y fallaba en rojo por un dato correcto.
+   */
+  ll2Query?: string;
 };
 
 export type Bilingual = { en: string; es: string };
@@ -602,6 +611,8 @@ export const MISSIONS_LIST: Mission[] = [
       es: "La primera prueba de defensa planetaria por impacto cinético. El 26 de septiembre de 2022 DART se estrelló deliberadamente contra Dimorphos, la luna del asteroide Didymos, para averiguar si golpear un cuerpo puede cambiar su órbita de forma medible. Sí puede: el periodo orbital se acortó.",
     },
     imageQuery: "DART Dimorphos Didymos asteroid impact",
+    // Sin esto el guardia encuentra la DART de 2005 y da un falso positivo.
+    ll2Query: "Double Asteroid Redirection",
     image: "assets/missions/dart.webp",
     imageCredit: "NASA/Langley / Dave C. Bowman — NASA’s Double Asteroid Redirection Test (DART) command team at Johns Hopkins University",
     imageNasaId: "LRC-2022-0926-H1_P_DART-000413",
@@ -713,17 +724,39 @@ export async function getMissions(): Promise<Mission[]> {
   return MISSIONS_LIST;
 }
 
-export async function getMissionImages(query: string, count = 6): Promise<string[]> {
+/**
+ * Fotos para la galería de una ficha.
+ *
+ * `anio` acota la búsqueda a la época de la misión, y no es un detalle: sin él,
+ * la galería de Apollo 11 se llenaba de «Vice President Pence at Kennedy for
+ * Apollo 11 Landing 50th» — un acto conmemorativo de 2019. La búsqueda por
+ * texto libre puntúa más alto los actos protocolarios modernos que las
+ * fotografías históricas, porque llevan el nombre de la misión en el título.
+ *
+ * Solo se acota para misiones terminadas. En una activa (ISS, Voyager) las
+ * fotos buenas son posteriores al lanzamiento, a veces por décadas.
+ */
+export async function getMissionImages(
+  query: string,
+  count = 6,
+  anio?: number | null,
+): Promise<string[]> {
   try {
+    const ventana =
+      anio ? `&year_start=${anio - 1}&year_end=${anio + 2}` : "";
     const res = await fetch(
-      `${IMAGES_API}/search?q=${encodeURIComponent(query)}&media_type=image&page_size=${count}`,
+      `${IMAGES_API}/search?q=${encodeURIComponent(query)}&media_type=image&page_size=${count}${ventana}`,
       { next: { revalidate: 86400 } }
     );
     if (!res.ok) return [];
     const data = await res.json();
     type NasaSearchItem = { links?: { href: string }[] };
+    // Una imagen por resultado, no `flatMap`: cada `item.links` son **tamaños
+    // del mismo asset** (thumb, small, medium). Aplanarlos hacía que la galería
+    // pintara cuatro veces la primera foto creyendo que eran cuatro distintas.
     return (data.collection?.items ?? [])
-      .flatMap((item: NasaSearchItem) => item.links?.map((l) => l.href).filter(Boolean) ?? [])
+      .map((item: NasaSearchItem) => item.links?.[0]?.href)
+      .filter((url: string | undefined): url is string => Boolean(url))
       .map((url: string) => url.replace(/~orig/g, "~medium").replace(/~large/g, "~medium"))
       .slice(0, count);
   } catch {

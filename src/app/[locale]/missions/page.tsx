@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getMissions } from "@/lib/nasa";
 import MissionsClient from "./MissionsClient";
@@ -29,7 +30,9 @@ export default async function MissionsPage({ params }: Props) {
         <h1 className="text-3xl font-bold text-white tracking-[0.02em]">{t("title")}</h1>
         <p className="text-white/45 mt-1 text-sm">{missions.length} {t("count_suffix")}</p>
       </div>
-      <MissionsClient missions={missions} />
+      <Suspense fallback={null}>
+        <MissionsClient missions={missions} />
+      </Suspense>
     </main>
   );
 }

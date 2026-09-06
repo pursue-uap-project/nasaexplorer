@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { nombrePrograma } from "@/lib/labels";
 import type { Mission } from "@/lib/nasa";
 import { PROGRAM_COLORS } from "@/lib/nasa";
 
@@ -13,6 +14,10 @@ const STATUS_STYLES: Record<string, string> = {
 
 export default function MissionCard({ mission }: Props) {
   const t = useTranslations("mission");
+  const tPrograma = useTranslations("mission_program");
+  // Iba cableado a `description.en`: las 25 tarjetas del listado salían en
+  // inglés en la versión española, teniendo el texto en español escrito.
+  const locale = useLocale() === "es" ? "es" : "en";
   const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   const thumb = mission.image ? `${BASE}/${mission.image}` : mission.multimedia?.images?.[0];
   const color = PROGRAM_COLORS[mission.program] ?? "#0B3D91";
@@ -36,7 +41,7 @@ export default function MissionCard({ mission }: Props) {
           className="absolute top-3 left-3 text-xs font-bold px-2.5 py-1 rounded-full text-white shadow-xs backdrop-blur-xs"
           style={{ background: `${color}dd` }}
         >
-          {mission.program}
+          {nombrePrograma(tPrograma, mission.program)}
         </span>
       </div>
 
@@ -51,9 +56,9 @@ export default function MissionCard({ mission }: Props) {
           </span>
           {year && <span className="text-xs text-faint ml-auto font-mono">{year}</span>}
         </div>
-        {mission.description.en && (
+        {mission.description[locale] && (
           <p className="text-xs text-muted line-clamp-3 leading-relaxed mt-1">
-            {mission.description.en}
+            {mission.description[locale]}
           </p>
         )}
       </div>
