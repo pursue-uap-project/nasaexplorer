@@ -176,7 +176,8 @@
     "no_live_now": "SIN EMISIÓN",
     "offline_short": "offline",
     "recent_title": "Últimos vídeos",
-    "checked_at": "Comprobado: {time}"
+    "checked_at": "Comprobado: {time}",
+    "open_youtube": "Abrir en YouTube"
   },
   "launches": {
     "title": "Lanzamientos",

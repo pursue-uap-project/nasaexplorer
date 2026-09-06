@@ -176,7 +176,8 @@
     "no_live_now": "OFF AIR",
     "offline_short": "offline",
     "recent_title": "Latest videos",
-    "checked_at": "Checked: {time}"
+    "checked_at": "Checked: {time}",
+    "open_youtube": "Open on YouTube"
   },
   "launches": {
     "title": "Launches",

@@ -3,104 +3,34 @@
 import { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import horneada from "@/data/apod.json";
+import {
+  MIN_DATE,
+  todayStr,
+  shiftDate,
+  randomApodDate,
+  respaldoPara,
+  respaldoUrl,
+  type ApodData,
+} from "@/lib/apod-dates";
 
-type ApodData = {
-  title: string;
-  url: string;
-  hdurl?: string;
-  media_type: string;
-  explanation: string;
-  date: string;
-  copyright?: string;
-};
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
-type LoadState = "idle" | "loading" | "ok" | "error";
+/**
+ * Resultado de una fecha concreta.
+ *
+ * Va emparejado con su fecha a propósito. Antes eran cuatro `useState` sueltos
+ * que el efecto reseteaba a mano al cambiar de día — un `setState` síncrono
+ * dentro de un efecto, que es lo que obligaba a un `eslint-disable`. Guardando
+ * a qué fecha pertenece el resultado, «cargando» se **deriva**: si lo que
+ * tenemos no es de la fecha pedida, es que aún no ha llegado. No hay nada que
+ * resetear.
+ */
+type Resultado =
+  | { estado: "loading" }
+  | { estado: "ok"; data: ApodData; respaldo: boolean }
+  | { estado: "error" };
 
-const MIN_DATE = "1995-06-16";
 const CACHE_KEY = "nasaexplorer_apod_today";
-
-const FALLBACK_APODS = [
-  {
-    title: "Pillars of Creation (Hubble Space Telescope)",
-    title_es: "Pilares de la Creación (Telescopio Espacial Hubble)",
-    url: "https://images-assets.nasa.gov/image/PIA14421/PIA14421~medium.jpg",
-    media_type: "image",
-    explanation: "This Hubble Space Telescope image reveals the Pillars of Creation, three giant columns of cold gas bathed in the scorching ultraviolet light of a cluster of young stars. They represent a stellar nursery where new stars are forming inside dense pockets of dust.",
-    explanation_es: "Esta imagen del telescopio espacial Hubble revela los Pilares de la Creación, tres columnas gigantes de gas frío bañadas en la abrasadora luz ultravioleta de un cúmulo de estrellas jóvenes. Representan una guardería estelar donde se forman nuevas estrellas.",
-    date: "1995-11-02",
-    copyright: "NASA, ESA, STScI"
-  },
-  {
-    title: "The Blue Marble (Apollo 17)",
-    title_es: "La Canica Azul (Apolo 17)",
-    url: "https://images-assets.nasa.gov/image/as17-148-22727/as17-148-22727~medium.jpg",
-    media_type: "image",
-    explanation: "The famous 'Blue Marble' photograph of Earth was taken on December 7, 1972, by the crew of the Apollo 17 spacecraft at a distance of about 29,000 kilometers from the surface. It shows the Mediterranean Sea area to the Antarctica, highlighting the atmospheric cycles.",
-    explanation_es: "La famosa fotografía de la Tierra 'Canica Azul' fue tomada el 7 de diciembre de 1972 por la tripulación del Apolo 17 a una distancia de unos 29.000 kilómetros. Muestra desde el Mar Mediterráneo hasta la Antártida, destacando los ciclos atmosféricos.",
-    date: "1972-12-07",
-    copyright: "NASA"
-  },
-  {
-    title: "Hubble Extreme Deep Field (XDF)",
-    title_es: "Campo Ultra Profundo del Hubble (XDF)",
-    url: "https://images-assets.nasa.gov/image/hubble-extreme-deep-field-xdf-full-resolution/hubble-extreme-deep-field-xdf-full-resolution~medium.jpg",
-    media_type: "image",
-    explanation: "The Hubble Extreme Deep Field (XDF) is an image of a small part of space in the constellation Fornax. It combines 10 years of Hubble photographs, revealing thousands of extremely distant galaxies dating back 13.2 billion years, shortly after the Big Bang.",
-    explanation_es: "El Campo Ultra Profundo del Hubble (XDF) es una imagen de una pequeña parte del espacio en la constelación de Fornax. Combina 10 años de fotografías del Hubble, revelando miles de galaxias distantes que se remontan a hace 13.200 millones de años.",
-    date: "2012-09-25",
-    copyright: "NASA, ESA, GDST"
-  },
-  {
-    title: "Perseverance Selfie with Ingenuity on Mars",
-    title_es: "Selfie de Perseverance con Ingenuity en Marte",
-    url: "https://images-assets.nasa.gov/image/PIA24542/PIA PIA24542~medium.jpg",
-    media_type: "image",
-    explanation: "NASA's Perseverance Mars rover took a selfie with the Ingenuity helicopter on April 6, 2021. The rover's robotic arm holds the WATSON camera to capture this historic shot in the Jezero Crater, highlighting humanity's first powered flight on another planet.",
-    explanation_es: "El rover Perseverance de la NASA se tomó un selfie con el helicóptero Ingenuity el 6 de abril de 2021. El brazo robótico del rover sostiene la cámara WATSON para capturar esta foto histórica en el Cráter Jezero, marcando el primer vuelo motorizado en otro planeta.",
-    date: "2021-04-06",
-    copyright: "NASA/JPL-Caltech"
-  },
-  {
-    title: "James Webb Space Telescope First Deep Field",
-    title_es: "Primer Campo Profundo del Telescopio James Webb",
-    url: "https://images-assets.nasa.gov/image/NASA%20Webb%20First%20Deep%20Field/NASA%20Webb%20First%20Deep%20Field~medium.jpg",
-    media_type: "image",
-    explanation: "James Webb Space Telescope's first deep field image, SMACS 0723, is the deepest and sharpest infrared image of the distant universe to date. It shows a cluster of galaxies acting as a gravitational lens, magnifying the light of extremely distant background galaxies.",
-    explanation_es: "La primera imagen de campo profundo del Telescopio James Webb, SMACS 0723, es la imagen infrarroja más profunda y nítida del universo distante hasta la fecha. Muestra un cúmulo de galaxias actuando como lente gravitacional magnificando galaxias lejanas.",
-    date: "2022-07-12",
-    copyright: "NASA, ESA, CSA, STScI"
-  }
-];
-
-function todayStr(): string {
-  const d = new Date();
-  return [
-    d.getFullYear(),
-    String(d.getMonth() + 1).padStart(2, "0"),
-    String(d.getDate()).padStart(2, "0"),
-  ].join("-");
-}
-
-function shiftDate(dateStr: string, n: number): string {
-  const [y, m, d] = dateStr.split("-").map(Number);
-  const date = new Date(y, m - 1, d + n);
-  return [
-    date.getFullYear(),
-    String(date.getMonth() + 1).padStart(2, "0"),
-    String(date.getDate()).padStart(2, "0"),
-  ].join("-");
-}
-
-function randomApodDate(): string {
-  const start = new Date(MIN_DATE).getTime();
-  const end = Date.now();
-  const rand = new Date(start + Math.random() * (end - start));
-  return [
-    rand.getFullYear(),
-    String(rand.getMonth() + 1).padStart(2, "0"),
-    String(rand.getDate()).padStart(2, "0"),
-  ].join("-");
-}
 
 function readCache(): ApodData | null {
   try {
@@ -127,10 +57,20 @@ export default function ApodView() {
   const locale = useLocale();
 
   const [selectedDate, setSelectedDate] = useState(todayStr);
-  const [apod, setApod] = useState<ApodData | null>(null);
-  const [loadState, setLoadState] = useState<LoadState>("loading");
-  const [expanded, setExpanded] = useState(false);
-  const [isFallback, setIsFallback] = useState(false);
+  const [cargado, setCargado] = useState<{ fecha: string; r: Resultado }>({
+    fecha: todayStr(),
+    r: { estado: "loading" },
+  });
+  const [expandidoPara, setExpandidoPara] = useState<string | null>(null);
+
+  // Todo lo que antes se reseteaba en el efecto sale de aquí.
+  const resultado: Resultado =
+    cargado.fecha === selectedDate ? cargado.r : { estado: "loading" };
+  const apod = resultado.estado === "ok" ? resultado.data : null;
+  const loadState = resultado.estado;
+  const isFallback = resultado.estado === "ok" && resultado.respaldo;
+  const expanded = expandidoPara === selectedDate;
+  const setExpanded = (v: boolean) => setExpandidoPara(v ? selectedDate : null);
 
   const today = todayStr();
   const isPrevDisabled = selectedDate <= MIN_DATE;
@@ -138,87 +78,79 @@ export default function ApodView() {
   const isToday = selectedDate === today;
 
   useEffect(() => {
-    // Reset al cambiar de fecha. Lo correcto sería derivar el estado del render
-    // o remontar con `key`, pero eso es rehacer un componente de 477 líneas y no
-    // toca ahora. El disable se acota a estas cuatro líneas en vez de dejarlo
-    // apagado para todo el fichero, que era lo que había.
-    /* eslint-disable react-hooks/set-state-in-effect */
-    setLoadState("loading");
-    setApod(null);
-    setExpanded(false);
-    setIsFallback(false);
-    /* eslint-enable react-hooks/set-state-in-effect */
+    const fecha = selectedDate;
+    const esHoy = fecha === todayStr();
+    let vivo = true;
+    // Cada respuesta se publica junto a la fecha que pidió, así que una que
+    // llegue tarde tras cambiar de día no pisa a la buena.
+    const publicar = (r: Resultado) => vivo && setCargado({ fecha, r });
 
-    // For today: try localStorage first to save API quota
-    if (isToday) {
-      const cached = readCache();
-      if (cached) {
-        setApod(cached);
-        setLoadState("ok");
+    if (esHoy) {
+      const cache = readCache();
+      if (cache) {
+        publicar({ estado: "ok", data: cache, respaldo: false });
         return;
       }
     }
 
-    // Fetch from NASA API
     // `||`, no `??`: cuando el workflow declara la variable pero el secret no
-    // existe, Next incrusta la cadena vacía, y `?? ` solo cubre null/undefined.
+    // existe, Next incrusta la cadena vacía, y `??` solo cubre null/undefined.
     // El resultado era `api_key=` a secas, que la API rechaza siempre.
     const key = process.env.NEXT_PUBLIC_NASA_API_KEY || "DEMO_KEY";
-    fetch(`https://api.nasa.gov/planetary/apod?api_key=${key}&date=${selectedDate}`)
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
+    fetch(`https://api.nasa.gov/planetary/apod?api_key=${key}&date=${fecha}`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then((data: ApodData) => {
-        if (isToday) writeCache(data);
-        setApod(data);
-        setLoadState("ok");
+        if (esHoy) writeCache(data);
+        publicar({ estado: "ok", data, respaldo: false });
       })
       .catch(() => {
-        // Respaldo SOLO con la foto que de verdad corresponde a esta fecha.
-        //
-        // Antes, si no había coincidencia se elegía una de las cinco fijas con
-        // `selectedDate.split("-")…% FALLBACK_APODS.length` y se pintaba con
-        // `date: selectedDate`: pedías el 3 de marzo de 2015 y salía una foto de
-        // 1972 rotulada como de ese día, `<time datetime>` incluido. Con cinco
-        // imágenes para treinta años de archivo, eso era lo que pasaba casi
-        // siempre. El badge «Respaldo Local» no arregla una fecha falsa.
-        //
-        // Si hoy no hay respuesta de la API, queda la foto horneada por el cron;
-        // para cualquier otra fecha se dice que no se pudo cargar, que es la
-        // verdad, y se enlaza el archivo oficial.
-        const propia = FALLBACK_APODS.find((f) => f.date === selectedDate);
-        if (propia) {
-          setApod({
-            title: locale === "es" ? propia.title_es : propia.title,
-            url: propia.url,
-            hdurl: propia.url,
-            media_type: propia.media_type,
-            explanation: locale === "es" ? propia.explanation_es : propia.explanation,
-            date: propia.date,
-            copyright: propia.copyright,
+        // Respaldo SOLO con la foto que de verdad corresponde a esta fecha; ver
+        // `respaldoPara` en `@/lib/apod-dates`. Servir la de otro día rotulada
+        // con esta sería mentir, y el badge «Respaldo Local» no lo arregla.
+        const propio = respaldoPara(fecha);
+        if (propio) {
+          publicar({
+            estado: "ok",
+            respaldo: true,
+            data: {
+              title: locale === "es" ? propio.title_es : propio.title,
+              url: respaldoUrl(propio, BASE),
+              hdurl: respaldoUrl(propio, BASE),
+              media_type: "image",
+              explanation: locale === "es" ? propio.explanation_es : propio.explanation,
+              date: propio.date,
+              copyright: propio.credit,
+            },
           });
-          setIsFallback(true);
-          setLoadState("ok");
           return;
         }
 
-        if (isToday && horneada?.url) {
-          setApod({
-            title: horneada.title,
-            url: horneada.url,
-            hdurl: horneada.hdurl ?? horneada.url,
-            media_type: horneada.media_type === "video" ? "video" : "image",
-            explanation: horneada.explanation,
-            date: horneada.date,
-            copyright: horneada.copyright ?? undefined,
+        // Para hoy queda la foto que hornea el cron. Para cualquier otra fecha
+        // se dice que no se pudo cargar, que es la verdad.
+        if (esHoy && horneada?.url) {
+          publicar({
+            estado: "ok",
+            respaldo: true,
+            data: {
+              title: horneada.title,
+              url: horneada.url,
+              hdurl: horneada.hdurl ?? horneada.url,
+              media_type: horneada.media_type === "video" ? "video" : "image",
+              explanation: horneada.explanation,
+              date: horneada.date,
+              copyright: horneada.copyright ?? undefined,
+            },
           });
-          setIsFallback(true);
-          setLoadState("ok");
           return;
         }
 
-        setLoadState("error");
+        publicar({ estado: "error" });
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDate]);
+
+    return () => {
+      vivo = false;
+    };
+  }, [selectedDate, locale]);
 
   const formattedDate = (() => {
     const [y, m, d] = selectedDate.split("-").map(Number);
@@ -451,7 +383,7 @@ export default function ApodView() {
 
             {isLong && (
               <button
-                onClick={() => setExpanded((e) => !e)}
+                onClick={() => setExpanded(!expanded)}
                 className="mt-3 text-sm text-primary hover:underline font-medium transition-colors"
               >
                 {expanded ? t("show_less") : t("show_more")}

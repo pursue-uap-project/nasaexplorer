@@ -28,7 +28,13 @@ del monorepo, que necesita el secret `PAGES_KEY_NASAEXPLORER`.
 - `npm run dev` · `npm run build` (genera `out/`) · `npm run lint` · `npx tsc --noEmit`
 - `npm test` — runner de Node, sin dependencias. Cubre el parser del guardia
   (que lee TypeScript con expresión regular y puede quedarse ciego en un
-  refactor) y la forma de los JSON horneados. Corre en el CI del monorepo.
+  refactor), la forma de los JSON horneados y la lógica de fechas de la APOD.
+  Corre en el CI del monorepo.
+
+  **Cómo se prueba TypeScript sin vitest:** Node 22 hace type stripping, así que
+  puede importar un `.ts` **que no importe nada**. Por eso `src/lib/apod-dates.ts`
+  no tiene imports: en cuanto tenga uno con alias `@/`, dejará de poder probarse
+  así. Es el patrón a seguir para sacar lógica de un componente y cubrirla.
 - El CI trata los **warnings de ESLint como fatales** (regla del monorepo). Ojo con
   `react-hooks/set-state-in-effect`: si el `setState` en un efecto es inevitable, va
   dentro de un `setTimeout(…, 0)`.
@@ -154,6 +160,17 @@ Los iconos (`icon-192.png`, `icon-512.png`) son cuadrados y se generan desde
 no tiene. Tres coinciden —ISS, Perseverance y JWST— y lo declaran con `missionId`, que el
 guardia comprueba. No se fusionan a propósito: describen cosas distintas, y `artemis` es un
 programa entero sin ficha equivalente. Al tocar una de las tres, **mirar las dos listas**.
+
+## Imagen del día
+Tres capas, en este orden: la API en vivo, el JSON horneado por el cron (solo para hoy)
+y el respaldo local de `public/assets/apod/`. El respaldo **solo se sirve para su propia
+fecha**: servir la foto de otro día rotulada con la pedida sería mentir, y el badge
+«Respaldo Local» no lo arregla.
+
+Las imágenes del respaldo se sirven desde `public/`, no enlazadas al archivo. Las que
+había apuntaban a un tamaño `~medium` que varios de esos assets no tienen — cuatro de las
+cinco fallaban — y una apuntaba a `PIA14421`, que no son los Pilares de la Creación sino
+un cráter lunar.
 
 ## Iconos
 `src/components/Icon.tsx`: SVG inline, sin dependencias. **Nada de emoji en la interfaz**
