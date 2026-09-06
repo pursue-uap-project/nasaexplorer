@@ -6,9 +6,20 @@ en curso, seguimiento de la ISS, imagen astronómica del día y archivo históri
 misiones de la NASA.
 
 **La web pública NO se sirve desde este repo.** Sale de `pursue-uap-project/nasaexplorer`
-→ https://pursue-uap-project.github.io/nasaexplorer/. Commitear aquí **no despliega nada**
-por sí solo: el espejo lo hace el job `mirror` de `.github/workflows/nasaexplorer-sync.yml`
-del monorepo, que necesita el secret `PAGES_KEY_NASAEXPLORER`.
+→ https://pursue-uap-project.github.io/nasaexplorer/. Lo publica el job `mirror` de
+`.github/workflows/nasaexplorer-sync.yml`, que necesita el secret `PAGES_KEY_NASAEXPLORER`.
+
+> **Ojo al escribir mensajes de commit o cuerpos de PR:** GitHub salta **todos** los
+> workflows de un push si el mensaje contiene la directiva de omisión de CI en cualquier
+> parte, aunque sea dentro de una frase que la explica. Pasó con el PR #95: su mensaje
+> documentaba que los commits del cron la llevan, y el propio merge se quedó sin ningún
+> run — ni CI, ni espejo. Si hay que mencionarla, escribirla partida o entre comillas
+> tipográficas, nunca entre corchetes rectos.
+
+**Un push a `main` que toque `apps/web/nasaexplorer/**` dispara el espejo.** Antes no:
+solo se abría en el cron quincenal y a mano, así que cada PR se quedaba sin llegar a la
+web hasta que alguien lanzaba el workflow — pasó tres veces el 2026-09-06. Los commits de
+datos del propio cron llevan `[skip ci]`, así que no hay bucle.
 
 ## Stack
 - **Next.js 16 (App Router) + React 19 + TypeScript**, con `output: "export"`
