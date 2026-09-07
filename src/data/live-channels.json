@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-07T12:48:55.082Z",
+  "checkedAt": "2026-09-07T17:58:41.599Z",
   "channels": [
     {
       "id": "nasa",
@@ -79,8 +79,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "y3rfnOhaCYo",
+      "fallbackVideoId": "Dgfv64iMvm8",
       "recent": [
+        {
+          "id": "Dgfv64iMvm8",
+          "title": "BepiColombo says goodbye to its transfer module",
+          "published": "2026-09-07T14:55:34+00:00"
+        },
         {
           "id": "y3rfnOhaCYo",
           "title": "What role does Europe want to play in the next era of space exploration?",
@@ -95,11 +100,6 @@
           "id": "CWb2nFayvjY",
           "title": "Zoom into N44 ✨",
           "published": "2026-09-06T16:00:38+00:00"
-        },
-        {
-          "id": "zS98sVEJaKw",
-          "title": "A few highlights from a very busy few weeks 🚀",
-          "published": "2026-09-06T09:50:14+00:00"
         }
       ]
     },
