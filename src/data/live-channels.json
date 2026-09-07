@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-06T17:49:37.753Z",
+  "checkedAt": "2026-09-07T06:14:29.499Z",
   "channels": [
     {
       "id": "nasa",
@@ -45,29 +45,8 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "ASlHjrJeJpI",
-      "recent": [
-        {
-          "id": "ASlHjrJeJpI",
-          "title": "Despegue: El telescopio espacial Nancy Grace Roman de la #NASA",
-          "published": "2026-08-30T12:27:26+00:00"
-        },
-        {
-          "id": "152HMZ2OuJM",
-          "title": "El telescopio espacial Nancy Grace Roman de la #NASA",
-          "published": "2026-08-29T16:33:44+00:00"
-        },
-        {
-          "id": "s9jvm4MLQeo",
-          "title": "#NASA: El telescopio espacial Nancy Grace Roman y la energía oscura",
-          "published": "2026-08-24T14:04:21+00:00"
-        },
-        {
-          "id": "FgemIiYSeoc",
-          "title": "#NASA: Cómo el telescopio espacial Nancy Grace Roman buscará exoplanetas",
-          "published": "2026-08-21T14:38:35+00:00"
-        }
-      ]
+      "fallbackVideoId": null,
+      "recent": []
     },
     {
       "id": "esa",
@@ -79,29 +58,8 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "CWb2nFayvjY",
-      "recent": [
-        {
-          "id": "CWb2nFayvjY",
-          "title": "Zoom into N44 ✨",
-          "published": "2026-09-06T16:00:38+00:00"
-        },
-        {
-          "id": "zS98sVEJaKw",
-          "title": "A few highlights from a very busy few weeks 🚀",
-          "published": "2026-09-06T09:50:14+00:00"
-        },
-        {
-          "id": "Q3eVUc8GlBM",
-          "title": "Turns out supermassive black holes throw tantrums a lot like our own Sun 🌀",
-          "published": "2026-09-05T16:00:08+00:00"
-        },
-        {
-          "id": "bjpyiITUR-k",
-          "title": "Could Galileo satellites have saved Odysseus 10 years of wandering? 🛰️ 📖",
-          "published": "2026-09-05T09:50:01+00:00"
-        }
-      ]
+      "fallbackVideoId": null,
+      "recent": []
     },
     {
       "id": "spacex",
