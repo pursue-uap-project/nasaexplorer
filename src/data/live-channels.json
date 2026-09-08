@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-08T15:30:17.999Z",
+  "checkedAt": "2026-09-08T19:03:50.720Z",
   "channels": [
     {
       "id": "nasa",
@@ -11,8 +11,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "90Kgw_SvK4w",
+      "fallbackVideoId": "IwZVXmQdX1E",
       "recent": [
+        {
+          "id": "IwZVXmQdX1E",
+          "title": "NASA Moon Base: The First Six Months",
+          "published": "2026-09-08T18:33:06+00:00"
+        },
         {
           "id": "90Kgw_SvK4w",
           "title": "What It Takes",
@@ -27,11 +32,6 @@
           "id": "MVt2139voxk",
           "title": "For Earth, With Love: Artemis II",
           "published": "2026-09-03T17:14:03+00:00"
-        },
-        {
-          "id": "_oXt3-YDih4",
-          "title": "Artemis Origins: Humanity's Return to the Moon",
-          "published": "2026-09-02T17:23:04+00:00"
         }
       ]
     },
