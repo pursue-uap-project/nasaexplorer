@@ -68,13 +68,22 @@ test("launches.json tiene la forma que espera el tablero", async () => {
   assert.deepEqual(fechas, [...fechas].sort((a, b) => a - b), "upcoming no viene ordenado por NET");
 });
 
-test("apod.json trae una imagen utilizable", async () => {
+test("apod.json trae algo que enseñar", async () => {
   const d = await leer("apod.json");
 
-  assert.ok(d.url, "sin url");
   assert.match(d.date, /^\d{4}-\d{2}-\d{2}$/);
   assert.ok(["image", "video"].includes(d.media_type), `media_type raro: ${d.media_type}`);
   assert.ok(d.title, "sin título");
+
+  if (d.media_type === "image") {
+    assert.ok(d.url, "una imagen sin url no se puede pintar");
+  } else {
+    // Un vídeo puede no traer miniatura: para los .mp4 que aloja la propia NASA,
+    // `thumbs=true` devuelve cadena vacía. Lo que NO puede faltar es a dónde
+    // mandar al lector, que es el botón «verlo en la web de la NASA».
+    assert.ok(d.pageUrl || d.videoUrl, "un vídeo sin pageUrl ni videoUrl no lleva a ninguna parte");
+    assert.ok(d.url === null || d.url, "url debe ser null o una miniatura, nunca cadena vacía");
+  }
 });
 
 test("live-channels.json lista canales con id resoluble", async () => {

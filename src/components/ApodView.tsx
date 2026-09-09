@@ -11,6 +11,7 @@ import {
   respaldoPara,
   respaldoUrl,
   type ApodData,
+  paginaApod,
 } from "@/lib/apod-dates";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -127,14 +128,15 @@ export default function ApodView() {
 
         // Para hoy queda la foto que hornea el cron. Para cualquier otra fecha
         // se dice que no se pudo cargar, que es la verdad.
-        if (esHoy && horneada?.url) {
+        if (esHoy && horneada?.title) {
           publicar({
             estado: "ok",
             respaldo: true,
             data: {
               title: horneada.title,
-              url: horneada.url,
-              hdurl: horneada.hdurl ?? horneada.url,
+              url: horneada.url ?? null,
+              hdurl: horneada.hdurl ?? horneada.url ?? undefined,
+              pageUrl: horneada.pageUrl ?? undefined,
               media_type: horneada.media_type === "video" ? "video" : "image",
               explanation: horneada.explanation,
               date: horneada.date,
@@ -311,23 +313,50 @@ export default function ApodView() {
         <div className="bg-card border border-card-border rounded-3xl shadow-2xl overflow-hidden">
 
           {/* Media */}
-          {apod.media_type === "image" ? (
+          {apod.media_type === "image" && (apod.hdurl ?? apod.url) ? (
             <div className="bg-gray-950 flex items-center justify-center" style={{ minHeight: "40vh" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img loading="lazy" decoding="async"
-                src={apod.hdurl ?? apod.url}
+                src={(apod.hdurl ?? apod.url) as string}
                 alt={apod.title}
                 className="w-full max-h-[72vh] object-contain"
               />
             </div>
           ) : (
-            <div className="aspect-video bg-gray-950">
-              <iframe
-                src={apod.url}
-                title={apod.title}
-                className="w-full h-full"
-                allowFullScreen
-              />
+            // Un <iframe> solo vale para YouTube o Vimeo. Cuando la NASA aloja el
+            // vídeo como .mp4 propio, incrustarlo daba un marco en blanco — y si
+            // encima no hay miniatura, `src` iba vacío. Ahí se enseña lo que haya
+            // y un botón a la página del día, que es donde se ve de verdad.
+            <div className="relative aspect-video bg-gray-950">
+              {/^https?:\/\/(www\.)?(youtube\.com|youtu\.be|player\.vimeo\.com|vimeo\.com)\//.test(apod.url ?? "") ? (
+                <iframe
+                  src={apod.url ?? undefined}
+                  title={apod.title}
+                  className="w-full h-full"
+                  allowFullScreen
+                />
+              ) : (
+                <>
+                  {apod.url && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img loading="lazy" decoding="async"
+                      src={apod.url}
+                      alt={apod.title}
+                      className="absolute inset-0 h-full w-full object-cover opacity-60"
+                    />
+                  )}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <a
+                      href={apod.pageUrl ?? paginaApod(apod.date)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full border border-white/25 bg-black/50 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/50 hover:bg-white/10"
+                    >
+                      ▶ {t("watch_on_nasa")}
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
           )}
 

@@ -77,7 +77,8 @@
     "exo_recent": "Últimos confirmados en {anio}",
     "exo_ly": "al",
     "index_exoplanets_title": "Exoplanetas",
-    "index_exoplanets_text": "Cuántos mundos se han confirmado fuera del Sistema Solar, cómo se detectaron y los últimos de este año."
+    "index_exoplanets_text": "Cuántos mundos se han confirmado fuera del Sistema Solar, cómo se detectaron y los últimos de este año.",
+    "apod_watch_on_nasa": "Verlo en la web de la NASA"
   },
   "missions": {
     "title": "Todas las misiones",
@@ -296,7 +297,8 @@
     "random": "Aleatoria",
     "view_hd": "HD",
     "cached": "En caché",
-    "official_archive": "Archivo oficial"
+    "official_archive": "Archivo oficial",
+    "watch_on_nasa": "Verlo en la web de la NASA"
   },
   "search": {
     "title": "Buscador Unificado",

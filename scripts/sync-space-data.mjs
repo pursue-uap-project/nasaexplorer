@@ -358,17 +358,34 @@ async function syncApod() {
     d._fuente = APOD_PAGE;
   }
 
-  // `media_type` puede ser "video": con `thumbs=true` la API devuelve además una
-  // miniatura, que es lo que se pinta en la tarjeta en vez de un <img> roto.
+  // `media_type` puede ser "video". Con `thumbs=true` la API suele devolver una
+  // miniatura, pero NO siempre: para los vídeos que la propia NASA aloja como
+  // .mp4 (no YouTube ni Vimeo) devuelve `thumbnail_url: ""`. Cadena vacía, no
+  // null, así que el `??` de antes la dejaba pasar y el JSON acababa con
+  // `url: ""`. El 2026-09-09 fue el primero en darse y tumbó el test de datos.
+  const vacio = (v) => (typeof v === "string" ? v.trim() || null : (v ?? null));
+  const esVideo = d.media_type === "video";
+
+  // Página del día en apod.nasa.gov. Es el destino del botón «verlo en la NASA»
+  // cuando el vídeo no se puede incrustar, y sirve de red para cualquier día:
+  // el formato apAAMMDD.html lleva sin cambiar desde 1995.
+  const paginaDelDia = (iso) => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso ?? "");
+    return m ? `https://apod.nasa.gov/apod/ap${m[1].slice(2)}${m[2]}${m[3]}.html` : APOD_PAGE;
+  };
+
   const payload = {
     checkedAt: new Date().toISOString(),
     source: d._fuente ?? "NASA APOD (api.nasa.gov/planetary/apod)",
     date: d.date,
     title: d.title,
     explanation: d.explanation ?? "",
-    media_type: d.media_type === "video" ? "video" : "image",
-    url: d.media_type === "video" ? (d.thumbnail_url ?? null) : (d.url ?? null),
-    hdurl: d.hdurl ?? null,
+    media_type: esVideo ? "video" : "image",
+    url: esVideo ? vacio(d.thumbnail_url) : vacio(d.url),
+    hdurl: vacio(d.hdurl),
+    // Dónde está el vídeo de verdad, y dónde verlo si no se puede incrustar.
+    videoUrl: esVideo ? vacio(d.url) : null,
+    pageUrl: paginaDelDia(d.date),
     copyright: d.copyright ? d.copyright.trim() : null,
   };
 

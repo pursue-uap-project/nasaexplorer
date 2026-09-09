@@ -77,7 +77,8 @@
     "exo_recent": "Latest confirmed in {anio}",
     "exo_ly": "ly",
     "index_exoplanets_title": "Exoplanets",
-    "index_exoplanets_text": "How many worlds have been confirmed beyond the Solar System, how they were found and this year's latest."
+    "index_exoplanets_text": "How many worlds have been confirmed beyond the Solar System, how they were found and this year's latest.",
+    "apod_watch_on_nasa": "Watch it on NASA's site"
   },
   "missions": {
     "title": "All Missions",
@@ -246,7 +247,8 @@
     "random": "Random",
     "view_hd": "HD",
     "cached": "Cached",
-    "official_archive": "Official Archive"
+    "official_archive": "Official Archive",
+    "watch_on_nasa": "Watch it on NASA's site"
   },
   "search": {
     "title": "Unified Search",

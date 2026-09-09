@@ -14,13 +14,24 @@ export const MIN_DATE = "1995-06-16";
 
 export type ApodData = {
   title: string;
-  url: string;
+  /** Puede faltar: los vídeos que la NASA aloja como .mp4 no traen miniatura. */
+  url: string | null;
   hdurl?: string;
   media_type: string;
   explanation: string;
   date: string;
   copyright?: string;
+  /** Página del día en apod.nasa.gov, destino del botón cuando es un vídeo. */
+  pageUrl?: string;
 };
+
+/** El formato apAAMMDD.html de apod.nasa.gov no cambia desde 1995. */
+export function paginaApod(iso: string): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  return m
+    ? `https://apod.nasa.gov/apod/ap${m[1].slice(2)}${m[2]}${m[3]}.html`
+    : "https://apod.nasa.gov/apod/astropix.html";
+}
 
 /** `YYYY-MM-DD` en hora local, que es la que ve quien mira la página. */
 export function aIso(d: Date): string {
