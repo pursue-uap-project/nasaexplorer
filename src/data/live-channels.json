@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-10T09:19:05.947Z",
+  "checkedAt": "2026-09-10T13:42:32.896Z",
   "channels": [
     {
       "id": "nasa",
@@ -79,8 +79,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "bhi8-eEnmeI",
+      "fallbackVideoId": "9JePjgTw0ao",
       "recent": [
+        {
+          "id": "9JePjgTw0ao",
+          "title": "Meet FLEX: The satellite that sees photosynthesis",
+          "published": "2026-09-10T13:23:04+00:00"
+        },
         {
           "id": "bhi8-eEnmeI",
           "title": "How do you change a vacuum cleaner bag in space? 🧹",
@@ -95,11 +100,6 @@
           "id": "fmrgyh5s-is",
           "title": "FLEX and Sentinel-3C launch (Official broadcast)",
           "published": "2026-09-08T12:17:47+00:00"
-        },
-        {
-          "id": "Dgfv64iMvm8",
-          "title": "BepiColombo says goodbye to its transfer module",
-          "published": "2026-09-07T14:55:34+00:00"
         }
       ]
     },
