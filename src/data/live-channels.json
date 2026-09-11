@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-11T17:23:06.212Z",
+  "checkedAt": "2026-09-11T22:03:44.817Z",
   "channels": [
     {
       "id": "nasa",
@@ -11,8 +11,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "IwZVXmQdX1E",
+      "fallbackVideoId": "aujP8wuMTMI",
       "recent": [
+        {
+          "id": "aujP8wuMTMI",
+          "title": "NASA’s SpaceX Crew-12 Pre-Departure News Conference (Sept. 16, 2026)",
+          "published": "2026-09-09T21:07:30+00:00"
+        },
         {
           "id": "IwZVXmQdX1E",
           "title": "NASA Moon Base: The First Six Months",
@@ -27,11 +32,6 @@
           "id": "jHKf1eHp3eQ",
           "title": "Artemis III: Our Next Step Back to the Moon",
           "published": "2026-09-03T18:49:04+00:00"
-        },
-        {
-          "id": "MVt2139voxk",
-          "title": "For Earth, With Love: Artemis II",
-          "published": "2026-09-03T17:14:03+00:00"
         }
       ]
     },
