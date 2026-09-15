@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-15T10:34:56.725Z",
+  "checkedAt": "2026-09-15T19:06:59.778Z",
   "channels": [
     {
       "id": "nasa",
@@ -79,17 +79,17 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "fmrgyh5s-is",
+      "fallbackVideoId": "XaQ6CPIi38A",
       "recent": [
+        {
+          "id": "XaQ6CPIi38A",
+          "title": "Zoom into IC 348 ✨",
+          "published": "2026-09-15T15:15:10+00:00"
+        },
         {
           "id": "fmrgyh5s-is",
           "title": "FLEX and Sentinel-3C launch (Official broadcast)",
           "published": "2026-09-15T03:50:25+00:00"
-        },
-        {
-          "id": "G94-ApUEvio",
-          "title": "Launch of Vega-C with FLEX and Sentinel-3C 🚀",
-          "published": "2026-09-15T02:14:50+00:00"
         },
         {
           "id": "NQQz3wlC1mg",
