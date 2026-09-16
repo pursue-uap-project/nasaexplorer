@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-16T18:57:22.125Z",
+  "checkedAt": "2026-09-16T21:50:07.523Z",
   "channels": [
     {
       "id": "nasa",
@@ -11,17 +11,17 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "cCpf0BOjlLE",
+      "fallbackVideoId": "aujP8wuMTMI",
       "recent": [
+        {
+          "id": "aujP8wuMTMI",
+          "title": "NASA’s SpaceX Crew-12 Pre-Departure News Conference (Sept. 16, 2026)",
+          "published": "2026-09-16T19:17:40+00:00"
+        },
         {
           "id": "cCpf0BOjlLE",
           "title": "Progress 96 Cargo Ship Launch",
           "published": "2026-09-16T13:49:16+00:00"
-        },
-        {
-          "id": "aujP8wuMTMI",
-          "title": "NASA’s SpaceX Crew-12 Pre-Departure News Conference (Sept. 16, 2026)",
-          "published": "2026-09-09T21:07:30+00:00"
         },
         {
           "id": "IwZVXmQdX1E",
