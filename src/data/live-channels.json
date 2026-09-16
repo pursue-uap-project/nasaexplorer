@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-16T09:45:01.150Z",
+  "checkedAt": "2026-09-16T15:03:39.186Z",
   "channels": [
     {
       "id": "nasa",
@@ -11,8 +11,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "aujP8wuMTMI",
+      "fallbackVideoId": "cCpf0BOjlLE",
       "recent": [
+        {
+          "id": "cCpf0BOjlLE",
+          "title": "Progress 96 Cargo Ship Launch",
+          "published": "2026-09-16T13:49:16+00:00"
+        },
         {
           "id": "aujP8wuMTMI",
           "title": "NASA’s SpaceX Crew-12 Pre-Departure News Conference (Sept. 16, 2026)",
@@ -27,11 +32,6 @@
           "id": "90Kgw_SvK4w",
           "title": "What It Takes",
           "published": "2026-09-04T18:01:42+00:00"
-        },
-        {
-          "id": "jHKf1eHp3eQ",
-          "title": "Artemis III: Our Next Step Back to the Moon",
-          "published": "2026-09-03T18:49:04+00:00"
         }
       ]
     },
@@ -45,8 +45,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "mCB2TgfNVb4",
+      "fallbackVideoId": "w_c7xdtIqrA",
       "recent": [
+        {
+          "id": "w_c7xdtIqrA",
+          "title": "Observa la Luna junto a la NASA",
+          "published": "2026-09-16T14:09:20+00:00"
+        },
         {
           "id": "mCB2TgfNVb4",
           "title": "#NASA: Observa la Luna",
@@ -61,11 +66,6 @@
           "id": "152HMZ2OuJM",
           "title": "El telescopio espacial Nancy Grace Roman de la #NASA",
           "published": "2026-08-29T16:33:44+00:00"
-        },
-        {
-          "id": "s9jvm4MLQeo",
-          "title": "#NASA: El telescopio espacial Nancy Grace Roman y la energía oscura",
-          "published": "2026-08-24T14:04:21+00:00"
         }
       ]
     },
