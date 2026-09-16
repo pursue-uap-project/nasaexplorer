@@ -1,13 +1,13 @@
 {
-  "checkedAt": "2026-09-05T15:06:55.295Z",
+  "checkedAt": "2026-09-16T09:45:21.861Z",
   "source": "NASA Exoplanet Archive (pscomppars, TAP)",
-  "total": 6360,
-  "esteAnio": 271,
+  "total": 6366,
+  "esteAnio": 277,
   "anio": 2026,
   "metodos": [
     {
       "metodo": "Transit",
-      "n": 4706
+      "n": 4708
     },
     {
       "metodo": "Radial Velocity",
@@ -15,7 +15,7 @@
     },
     {
       "metodo": "Microlensing",
-      "n": 285
+      "n": 289
     },
     {
       "metodo": "Imaging",
@@ -53,7 +53,7 @@
   "porAnio": [
     {
       "anio": 2026,
-      "n": 271
+      "n": 277
     },
     {
       "anio": 2025,
@@ -125,37 +125,70 @@
       "periodoDias": 12.93
     },
     {
-      "nombre": "TOI-4336 A c",
-      "estrella": "TOI-4336 A",
-      "metodo": "Transit",
+      "nombre": "TOI-5624 f",
+      "estrella": "TOI-5624",
+      "metodo": "Transit Timing Variations",
       "anio": 2026,
       "instalacion": "Multiple Observatories",
-      "distanciaAl": 74,
-      "radioTierras": 1.25,
-      "masaTierras": 1.55,
-      "periodoDias": 7.59
+      "distanciaAl": 332,
+      "radioTierras": 3.66,
+      "masaTierras": 13,
+      "periodoDias": 45.37
     },
     {
-      "nombre": "TOI-3053 b",
-      "estrella": "TOI-3053",
+      "nombre": "TOI-4898 b",
+      "estrella": "TOI-4898",
       "metodo": "Transit",
       "anio": 2026,
       "instalacion": "Transiting Exoplanet Survey Satellite (TESS)",
-      "distanciaAl": 1101,
-      "radioTierras": 13.56,
-      "masaTierras": 270.15,
-      "periodoDias": 2.99
+      "distanciaAl": 322,
+      "radioTierras": 3.72,
+      "masaTierras": 13.4,
+      "periodoDias": 2.77
     },
     {
-      "nombre": "TOI-2431 b",
-      "estrella": "TOI-2431",
+      "nombre": "TOI-4492 b",
+      "estrella": "TOI-4492",
       "metodo": "Transit",
       "anio": 2026,
       "instalacion": "Transiting Exoplanet Survey Satellite (TESS)",
-      "distanciaAl": 118,
-      "radioTierras": 1.53,
-      "masaTierras": 6.2,
-      "periodoDias": 0.22
+      "distanciaAl": 467,
+      "radioTierras": 11.78,
+      "masaTierras": 1881.54,
+      "periodoDias": 4.43
+    },
+    {
+      "nombre": "TOI-3278 b",
+      "estrella": "TOI-3278",
+      "metodo": "Transit",
+      "anio": 2026,
+      "instalacion": "Transiting Exoplanet Survey Satellite (TESS)",
+      "distanciaAl": 2951,
+      "radioTierras": 13.9,
+      "masaTierras": 95.35,
+      "periodoDias": 3.25
+    },
+    {
+      "nombre": "TOI-1105 b",
+      "estrella": "TOI-1105",
+      "metodo": "Transit",
+      "anio": 2026,
+      "instalacion": "Transiting Exoplanet Survey Satellite (TESS)",
+      "distanciaAl": 259,
+      "radioTierras": 3.06,
+      "masaTierras": 9.58,
+      "periodoDias": 10.87
+    },
+    {
+      "nombre": "TIC 320419023 b",
+      "estrella": "TIC 320419023",
+      "metodo": "Transit",
+      "anio": 2026,
+      "instalacion": "Transiting Exoplanet Survey Satellite (TESS)",
+      "distanciaAl": 942,
+      "radioTierras": 2.77,
+      "masaTierras": 8.11,
+      "periodoDias": 5.26
     },
     {
       "nombre": "KMT-2025-BLG-1616L b",
@@ -189,39 +222,6 @@
       "radioTierras": 13.2,
       "masaTierras": 114.42,
       "periodoDias": null
-    },
-    {
-      "nombre": "HD 50554 d",
-      "estrella": "HD 50554",
-      "metodo": "Transit",
-      "anio": 2026,
-      "instalacion": "Transiting Exoplanet Survey Satellite (TESS)",
-      "distanciaAl": 102,
-      "radioTierras": 1.41,
-      "masaTierras": 10.4,
-      "periodoDias": 28.07
-    },
-    {
-      "nombre": "HD 50554 c",
-      "estrella": "HD 50554",
-      "metodo": "Transit",
-      "anio": 2026,
-      "instalacion": "Transiting Exoplanet Survey Satellite (TESS)",
-      "distanciaAl": 102,
-      "radioTierras": 1.31,
-      "masaTierras": 5.3,
-      "periodoDias": 5.97
-    },
-    {
-      "nombre": "GJ 3090 c",
-      "estrella": "GJ 3090",
-      "metodo": "Radial Velocity",
-      "anio": 2026,
-      "instalacion": "Multiple Facilities",
-      "distanciaAl": 73,
-      "radioTierras": 3.14,
-      "masaTierras": 10,
-      "periodoDias": 15.94
     },
     {
       "nombre": "DMPP-2 c",
