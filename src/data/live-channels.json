@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-16T21:50:07.523Z",
+  "checkedAt": "2026-09-17T02:40:41.620Z",
   "channels": [
     {
       "id": "nasa",
@@ -11,29 +11,8 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "aujP8wuMTMI",
-      "recent": [
-        {
-          "id": "aujP8wuMTMI",
-          "title": "NASA’s SpaceX Crew-12 Pre-Departure News Conference (Sept. 16, 2026)",
-          "published": "2026-09-16T19:17:40+00:00"
-        },
-        {
-          "id": "cCpf0BOjlLE",
-          "title": "Progress 96 Cargo Ship Launch",
-          "published": "2026-09-16T13:49:16+00:00"
-        },
-        {
-          "id": "IwZVXmQdX1E",
-          "title": "NASA Moon Base: The First Six Months",
-          "published": "2026-09-08T18:33:06+00:00"
-        },
-        {
-          "id": "90Kgw_SvK4w",
-          "title": "What It Takes",
-          "published": "2026-09-04T18:01:42+00:00"
-        }
-      ]
+      "fallbackVideoId": null,
+      "recent": []
     },
     {
       "id": "nasa-es",
@@ -79,29 +58,8 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "2rz4lldFbYs",
-      "recent": [
-        {
-          "id": "2rz4lldFbYs",
-          "title": "How FLEX measures Earth’s secret glow from space",
-          "published": "2026-09-16T15:06:39+00:00"
-        },
-        {
-          "id": "XaQ6CPIi38A",
-          "title": "Zoom into IC 348 ✨",
-          "published": "2026-09-15T15:15:10+00:00"
-        },
-        {
-          "id": "fmrgyh5s-is",
-          "title": "FLEX and Sentinel-3C launch (Official broadcast)",
-          "published": "2026-09-15T03:50:25+00:00"
-        },
-        {
-          "id": "NQQz3wlC1mg",
-          "title": "Launch of FLEX and Sentinel-3C on Vega-C",
-          "published": "2026-09-15T01:44:16+00:00"
-        }
-      ]
+      "fallbackVideoId": null,
+      "recent": []
     },
     {
       "id": "spacex",
@@ -113,29 +71,8 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "-a0ecQMq-rM",
-      "recent": [
-        {
-          "id": "-a0ecQMq-rM",
-          "title": "Starship - Critical Path",
-          "published": "2026-07-13T20:13:37+00:00"
-        },
-        {
-          "id": "ANe_HW4X8oc",
-          "title": "Starship - Test Like You Fly",
-          "published": "2026-04-27T22:33:28+00:00"
-        },
-        {
-          "id": "rcd_SQZDlnk",
-          "title": "Starship's Tenth Flight Test",
-          "published": "2025-09-29T22:53:54+00:00"
-        },
-        {
-          "id": "BYTE4MtR0do",
-          "title": "Fram2 Polar Orbit Views",
-          "published": "2025-05-04T23:29:11+00:00"
-        }
-      ]
+      "fallbackVideoId": null,
+      "recent": []
     }
   ]
 }
