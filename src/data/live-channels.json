@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-19T11:14:29.171Z",
+  "checkedAt": "2026-09-19T14:32:49.187Z",
   "channels": [
     {
       "id": "nasa",
@@ -11,8 +11,13 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "aujP8wuMTMI",
+      "fallbackVideoId": "v03RjDNwG1o",
       "recent": [
+        {
+          "id": "v03RjDNwG1o",
+          "title": "Progress 96 Cargo Ship Docking",
+          "published": "2026-09-19T13:54:40+00:00"
+        },
         {
           "id": "aujP8wuMTMI",
           "title": "NASA’s SpaceX Crew-12 Pre-Departure News Conference (Sept. 16, 2026)",
@@ -27,11 +32,6 @@
           "id": "IwZVXmQdX1E",
           "title": "NASA Moon Base: The First Six Months",
           "published": "2026-09-08T18:33:06+00:00"
-        },
-        {
-          "id": "90Kgw_SvK4w",
-          "title": "What It Takes",
-          "published": "2026-09-04T18:01:42+00:00"
         }
       ]
     },
