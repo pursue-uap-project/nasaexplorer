@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "test": "node --test scripts/*.test.mjs"
+    "lint": "eslint --max-warnings=0",
+    "test": "node --test scripts/*.test.mjs",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",
