@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-24T05:36:17.676Z",
+  "checkedAt": "2026-09-24T10:38:27.286Z",
   "channels": [
     {
       "id": "nasa",
@@ -11,8 +11,29 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": null,
-      "recent": []
+      "fallbackVideoId": "v03RjDNwG1o",
+      "recent": [
+        {
+          "id": "v03RjDNwG1o",
+          "title": "Progress 96 Cargo Ship Docking",
+          "published": "2026-09-19T13:54:40+00:00"
+        },
+        {
+          "id": "aujP8wuMTMI",
+          "title": "NASA’s SpaceX Crew-12 Pre-Departure News Conference (Sept. 16, 2026)",
+          "published": "2026-09-16T19:17:40+00:00"
+        },
+        {
+          "id": "cCpf0BOjlLE",
+          "title": "Progress 96 Cargo Ship Launch",
+          "published": "2026-09-16T13:49:16+00:00"
+        },
+        {
+          "id": "IwZVXmQdX1E",
+          "title": "NASA Moon Base: The First Six Months",
+          "published": "2026-09-08T18:33:06+00:00"
+        }
+      ]
     },
     {
       "id": "nasa-es",
@@ -24,8 +45,29 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": null,
-      "recent": []
+      "fallbackVideoId": "yhSMKFOtuFU",
+      "recent": [
+        {
+          "id": "yhSMKFOtuFU",
+          "title": "¿Por qué el universo se expande cada vez más rápido? #NASA:",
+          "published": "2026-09-23T16:30:38+00:00"
+        },
+        {
+          "id": "ANIlAwlq3qE",
+          "title": "#NASA: La Luna, vista de cerca",
+          "published": "2026-09-16T16:30:57+00:00"
+        },
+        {
+          "id": "w_c7xdtIqrA",
+          "title": "Observa la Luna junto a la NASA",
+          "published": "2026-09-16T14:09:20+00:00"
+        },
+        {
+          "id": "mCB2TgfNVb4",
+          "title": "#NASA: Observa la Luna",
+          "published": "2026-09-14T18:15:49+00:00"
+        }
+      ]
     },
     {
       "id": "esa",
@@ -37,8 +79,29 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": null,
-      "recent": []
+      "fallbackVideoId": "27hy4RGoAyc",
+      "recent": [
+        {
+          "id": "27hy4RGoAyc",
+          "title": "Who is ready for a change of season? 🍂🌱",
+          "published": "2026-09-23T10:30:05+00:00"
+        },
+        {
+          "id": "gHFNARBn76U",
+          "title": "We've been getting the size of our own galaxy slightly wrong 📏",
+          "published": "2026-09-19T09:50:36+00:00"
+        },
+        {
+          "id": "AI4Vp3C08pc",
+          "title": "What’s for lunch in space? 🥩🥦🍄 (Part 2)",
+          "published": "2026-09-18T08:46:00+00:00"
+        },
+        {
+          "id": "zD-gGHw83Lw",
+          "title": "From cleanroom to space: MTG-I2 satellite",
+          "published": "2026-09-17T15:03:48+00:00"
+        }
+      ]
     },
     {
       "id": "spacex",
@@ -50,8 +113,29 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": null,
-      "recent": []
+      "fallbackVideoId": "EthkNLasUa8",
+      "recent": [
+        {
+          "id": "EthkNLasUa8",
+          "title": "Starship - The Holy Grail of Rocketry",
+          "published": "2026-09-18T18:10:39+00:00"
+        },
+        {
+          "id": "-a0ecQMq-rM",
+          "title": "Starship - Critical Path",
+          "published": "2026-07-13T20:13:37+00:00"
+        },
+        {
+          "id": "ANe_HW4X8oc",
+          "title": "Starship - Test Like You Fly",
+          "published": "2026-04-27T22:33:28+00:00"
+        },
+        {
+          "id": "rcd_SQZDlnk",
+          "title": "Starship's Tenth Flight Test",
+          "published": "2025-09-29T22:53:54+00:00"
+        }
+      ]
     }
   ]
 }
