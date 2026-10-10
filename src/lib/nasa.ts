@@ -1019,15 +1019,6 @@ export const ACTIVE_MISSIONS: ActiveMission[] = [
   },
 ];
 
-export async function getApod(apiKey: string) {
-  const res = await fetch(
-    `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`,
-    { next: { revalidate: 43200 } }
-  );
-  if (!res.ok) throw new Error("APOD API error");
-  return res.json();
-}
-
 // `fetchLiveUpcomingLaunches` vivía aquí: código muerto (nunca se importó),
 // contra Launch Library 2.2.0 (obsoleta) y con `next.revalidate`, que en un
 // `output: "export"` no hace nada — los datos quedaban congelados en el build.

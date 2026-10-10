@@ -8,19 +8,14 @@
  * render —también para un rastreador, que no ejecuta el efecto—. Después
  * intenta la API en vivo y, si contesta, sustituye el dato horneado.
  *
- * Por qué no basta con pedirla en vivo: el sitio es un export estático, así que
- * la petición sale del navegador con `DEMO_KEY` cuando no hay clave propia. Esa
- * clave la comparte todo el mundo y devuelve 429 buena parte del día, que es por
- * lo que la portada pública enseñaba «no se ha podido cargar». Ahora un fallo de
- * la API no se ve: se queda lo horneado.
+ * Por qué no basta con pedirla en vivo: la API puede fallar o tardar, y el
+ * dato horneado garantiza que la tarjeta nunca enseña «no se ha podido cargar».
+ * Desde 2026-09-29 la fuente es el WordPress de science.nasa.gov (ver
+ * `src/lib/apod-fuente.ts`): api.nasa.gov devolvía un relleno con el logo.
  *
- * `media_type` puede ser `video`. Antes eso era un callejón sin salida: se
- * pintaba «la imagen de hoy es un vídeo» y ahí acababa la cosa. Ahora hay un
- * botón que lleva a la página del día en apod.nasa.gov, que es donde se ve.
- *
- * Y no siempre hay miniatura: para los vídeos que la NASA aloja como .mp4
- * propio, `thumbs=true` devuelve cadena vacía. Por eso la tarjeta no depende de
- * `url` para saber que hay algo que enseñar.
+ * `media_type` puede ser `video`. La API nueva no da la URL del vídeo, solo un
+ * fotograma (y a veces ni eso), así que la tarjeta pinta el fotograma si lo hay
+ * y un botón a la página del día en science.nasa.gov, que es donde se ve.
  */
 
 import { useEffect, useState } from "react";
@@ -28,6 +23,7 @@ import { useFormatter, useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import horneada from "@/data/apod.json";
 import { paginaApod } from "@/lib/apod-dates";
+import { normalizarApod, urlApod } from "@/lib/apod-fuente";
 
 type Apod = {
   title: string;
@@ -62,15 +58,17 @@ export default function HomeApodCard() {
   const [apod, setApod] = useState<Apod | null>(semilla);
 
   useEffect(() => {
-    // `||`, no `??`: cuando el workflow declara la variable pero el secret no
-    // existe, Next incrusta la cadena vacía, y `?? ` solo cubre null/undefined.
-    // El resultado era `api_key=` a secas, que la API rechaza siempre.
-    const key = process.env.NEXT_PUBLIC_NASA_API_KEY || "DEMO_KEY";
     let alive = true;
-    fetch(`https://api.nasa.gov/planetary/apod?api_key=${key}`)
+    fetch(urlApod())
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-      // Un fallo aquí no se pinta: se queda la foto horneada, que es de hoy.
-      .then((d: Apod) => alive && d?.title && setApod(d))
+      .then((crudo: unknown) => {
+        const d = normalizarApod(crudo);
+        if (!alive) return;
+        // Una imagen sin foto no mejora lo horneado: se queda lo que hay.
+        if (d.media_type === "image" && !d.url) return;
+        setApod({ ...d, hdurl: d.hdurl ?? undefined, copyright: d.copyright ?? undefined });
+      })
+      // Un fallo aquí no se pinta: se queda la foto horneada.
       .catch(() => {});
     return () => {
       alive = false;

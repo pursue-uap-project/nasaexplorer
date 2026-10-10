@@ -70,7 +70,7 @@ Seis bloques, todos alimentados por datos reales:
 | `HomeLaunchBoard` | próximos 6 lanzamientos | Launch Library 2 (vivo + horneado) |
 | `HomeMissionGrid` | las 4 misiones de `ACTIVE_MISSIONS` | `src/lib/nasa.ts` |
 | `HomeExoplanets` | recuento y últimos confirmados | `src/data/exoplanets.json` |
-| `HomeApodCard` | imagen astronómica de hoy | `src/data/apod.json` + `api.nasa.gov` en vivo |
+| `HomeApodCard` | imagen astronómica de hoy | `src/data/apod.json` + science.nasa.gov en vivo |
 | `HomeIndex` | índice de secciones + procedencia de datos | — |
 
 `useLaunchFeed()` (`src/lib/use-launch-feed.ts`) comparte **una sola** petición a LL2
@@ -101,11 +101,19 @@ hidratación del export estático).
 `scripts/sync-space-data.mjs` (lo lanza `nasaexplorer-sync.yml` en el monorepo) hornea:
 - `src/data/launches.json` — cada 15 días. LL2 manda CORS, así que además se refresca en
   el navegador en cada visita; el JSON es la foto inicial (pinta al instante, indexable).
-- `src/data/apod.json` — **cada día a las 06:00 UTC**. La portada y `/apod` piden la
-  imagen en vivo, pero sin clave propia esa petición sale con `DEMO_KEY`, compartida
-  por todo el mundo y en 429 buena parte del día. El JSON horneado es lo que se pinta
-  en el primer render; el fetch del navegador solo lo mejora. Si `api.nasa.gov` falla,
-  el script cae a `apod.nasa.gov/apod/astropix.html`, que no pide clave.
+- `src/data/apod.json` — **cada día a las 06:00 UTC**. El JSON horneado es lo que se
+  pinta en el primer render; el fetch del navegador solo lo mejora. Si la API falla,
+  se conserva el anterior durante 48 h y después el job falla.
+
+  **Fuente: `science.nasa.gov/wp-json/wp/v2/apod-basic`**, sin clave y con CORS. El
+  2026-09-29 APOD se mudó a science.nasa.gov y `api.nasa.gov/planetary/apod` empezó a
+  contestar 200 con un relleno (título «NASA Science», el logo como foto) para cualquier
+  fecha; la NASA la archiva el 2026-12-01. El endpoint nuevo no está documentado como
+  API pública: la fecha va en la ruta (`/AAMMDD`, `?date=` se ignora), la foto está en
+  `hdurl`, el texto llega en HTML y los vídeos solo traen un fotograma. Todo eso lo
+  traduce `src/lib/apod-fuente.ts`, que comparten el cron y los dos componentes, con
+  tests sobre respuestas reales en `scripts/fixtures/`. Las páginas `apAAMMDD.html` de
+  apod.nasa.gov redirigen a la portada; la del día es `science.nasa.gov/apod/?date=AAMMDD`.
 - `src/data/exoplanets.json` — **cada 15 días**. El NASA Exoplanet Archive **no manda
   CORS** (comprobado mandando `Origin:`: la respuesta llega sin
   `access-control-allow-origin`), así que esto no se puede pedir desde el navegador. Se
@@ -246,6 +254,6 @@ public/assets/      → fotos reales del archivo NASA en WebP
 ```
 
 ## Claves de API
-No hay servidor: lo que se consulta desde el navegador usa
-`NEXT_PUBLIC_NASA_API_KEY` con `DEMO_KEY` como respaldo (APOD). `NASA_API_KEY` solo
-existe en build (fotos de róveres marcianos). Nunca subir claves al repo.
+No hay servidor. APOD ya no necesita clave (ver «Datos volátiles»), así que
+`NEXT_PUBLIC_NASA_API_KEY` no la usa nadie. `NASA_API_KEY` solo existe en build (fotos
+de róveres marcianos). Nunca subir claves al repo.

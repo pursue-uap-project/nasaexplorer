@@ -31,6 +31,8 @@
 import { writeFile, readFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { comprobarPayload } from "./guardas.mjs";
+import { normalizarApod, urlApod } from "../src/lib/apod-fuente.ts";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA_DIR = resolve(ROOT, "src/data");
@@ -302,91 +304,51 @@ async function syncLaunches() {
 
 // ── Imagen astronómica del día (APOD) ──────────────────────────────────────
 
-// La portada y /apod la piden en vivo desde el navegador, pero `DEMO_KEY` es una
-// clave compartida por todo el mundo y vive permanentemente al borde de su cuota:
-// la portada pública llevaba días enseñando «no se ha podido cargar» porque la
-// API contestaba 429. Horneando la foto aquí, la tarjeta siempre pinta algo real
-// aunque la API rechace al visitante; el fetch del cliente ya solo la mejora.
-const APOD_PAGE = "https://apod.nasa.gov/apod/astropix.html";
+// La portada y /apod la piden en vivo desde el navegador. Horneando la foto
+// aquí, la tarjeta pinta algo real en el primer render (y para un rastreador)
+// aunque la petición del visitante falle; el fetch del cliente solo la mejora.
+//
+// Desde 2026-09-29 la fuente es el WordPress de science.nasa.gov, no
+// api.nasa.gov/planetary/apod, que contesta 200 con un relleno para cualquier
+// fecha. La traducción de su respuesta vive en src/lib/apod-fuente.ts, que
+// comparten este script y los dos componentes.
 
-/**
- * Respaldo cuando api.nasa.gov rechaza la petición. `DEMO_KEY` la comparte todo
- * el mundo y devuelve 429 buena parte del día, así que sin esto el horneado
- * dependería de la suerte. La página pública no pide clave y lleva décadas con
- * el mismo formato: título en el primer <b>, imagen en <IMG SRC="image/…">, el
- * enlace de alrededor a la versión grande, y la explicación tras «Explanation:».
- */
-async function apodDesdeLaPagina() {
-  const html = await fetchText(APOD_PAGE);
-  const abs = (p) => (p ? new URL(p, "https://apod.nasa.gov/apod/").href : null);
-  const limpia = (s) =>
-    decodeEntities(s.replace(/<[^>]+>/g, " "))
-      .replace(/\s+/g, " ")
-      .trim();
+// Cuánto puede envejecer el apod.json horneado antes de que un fallo de la API
+// haga fallar el job. Dos días de margen cubren caídas sueltas sin dejar que la
+// foto se quede semanas parada sin que nadie se entere.
+const APOD_MARGEN_MS = 48 * 3600 * 1000;
 
-  const titulo = html.match(/<b>\s*([\s\S]*?)\s*<\/b>/i);
-  const img = html.match(/<img\s+src="(image\/[^"]+)"/i);
-  const grande = html.match(/<a\s+href="(image\/[^"]+)"/i);
-  const expl = html.match(/Explanation:\s*<\/b>([\s\S]*?)<p>/i);
-  const credito = html.match(/(?:Image|Video|Illustration)\s+Credit[^<]*(?:<[^>]+>)*\s*([\s\S]*?)<p>/i);
-
-  if (!titulo || !img) throw new Error("no se pudo leer astropix.html");
-
-  const hoy = new Date().toISOString().slice(0, 10);
-  return {
-    date: hoy,
-    title: limpia(titulo[1]),
-    explanation: expl ? limpia(expl[1]) : "",
-    media_type: "image",
-    url: abs(img[1]),
-    hdurl: abs(grande?.[1] ?? img[1]),
-    copyright: credito ? limpia(credito[1]).slice(0, 200) || null : null,
-  };
+/** Si la API falla, se conserva el apod.json anterior si es reciente. */
+async function apodAnteriorSiEsReciente(err) {
+  let previo;
+  try {
+    previo = JSON.parse(await readFile(resolve(DATA_DIR, "apod.json"), "utf8"));
+  } catch {
+    throw err;
+  }
+  const edad = Date.now() - Date.parse(previo?.checkedAt ?? "");
+  if (!(edad < APOD_MARGEN_MS)) throw err;
+  console.log(`  · la API falló (${err.message}); se conserva el APOD del ${previo.date}`);
+  return previo;
 }
 
 async function syncApod() {
-  const key = process.env.NASA_API_KEY || "DEMO_KEY";
-  let d;
+  let apod;
   try {
-    d = JSON.parse(
-      await fetchText(`https://api.nasa.gov/planetary/apod?api_key=${key}&thumbs=true`),
-    );
-    if (!d?.date || !d?.title) throw new Error("respuesta sin date/title");
+    apod = normalizarApod(JSON.parse(await fetchText(urlApod(), { tries: 5 })));
+    // Una imagen sin foto (la API pone una miniatura genérica) no se puede
+    // pintar en la portada; mejor quedarse con la de ayer un rato.
+    if (apod.media_type === "image" && !apod.url) {
+      throw new Error(`el APOD del ${apod.date} no trae imagen`);
+    }
   } catch (err) {
-    console.log(`  · la API falló (${err.message}); leyendo la página pública`);
-    d = await apodDesdeLaPagina();
-    d._fuente = APOD_PAGE;
+    return apodAnteriorSiEsReciente(err);
   }
-
-  // `media_type` puede ser "video". Con `thumbs=true` la API suele devolver una
-  // miniatura, pero NO siempre: para los vídeos que la propia NASA aloja como
-  // .mp4 (no YouTube ni Vimeo) devuelve `thumbnail_url: ""`. Cadena vacía, no
-  // null, así que el `??` de antes la dejaba pasar y el JSON acababa con
-  // `url: ""`. El 2026-09-09 fue el primero en darse y tumbó el test de datos.
-  const vacio = (v) => (typeof v === "string" ? v.trim() || null : (v ?? null));
-  const esVideo = d.media_type === "video";
-
-  // Página del día en apod.nasa.gov. Es el destino del botón «verlo en la NASA»
-  // cuando el vídeo no se puede incrustar, y sirve de red para cualquier día:
-  // el formato apAAMMDD.html lleva sin cambiar desde 1995.
-  const paginaDelDia = (iso) => {
-    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso ?? "");
-    return m ? `https://apod.nasa.gov/apod/ap${m[1].slice(2)}${m[2]}${m[3]}.html` : APOD_PAGE;
-  };
 
   const payload = {
     checkedAt: new Date().toISOString(),
-    source: d._fuente ?? "NASA APOD (api.nasa.gov/planetary/apod)",
-    date: d.date,
-    title: d.title,
-    explanation: d.explanation ?? "",
-    media_type: esVideo ? "video" : "image",
-    url: esVideo ? vacio(d.thumbnail_url) : vacio(d.url),
-    hdurl: vacio(d.hdurl),
-    // Dónde está el vídeo de verdad, y dónde verlo si no se puede incrustar.
-    videoUrl: esVideo ? vacio(d.url) : null,
-    pageUrl: paginaDelDia(d.date),
-    copyright: d.copyright ? d.copyright.trim() : null,
+    source: "NASA APOD (science.nasa.gov/wp-json/wp/v2/apod-basic)",
+    ...apod,
   };
 
   console.log(`  ✓ APOD ${payload.date}: ${payload.title}`);
@@ -467,6 +429,7 @@ async function syncExoplanets() {
 // ── Escritura ──────────────────────────────────────────────────────────────
 
 async function writeJson(name, payload) {
+  comprobarPayload(name, payload);
   await mkdir(DATA_DIR, { recursive: true });
   const target = resolve(DATA_DIR, name);
   const next = JSON.stringify(payload, null, 2) + "\n";

@@ -13,6 +13,7 @@ import {
   type ApodData,
   paginaApod,
 } from "@/lib/apod-dates";
+import { APOD_PORTADA, normalizarApod, urlApod } from "@/lib/apod-fuente";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -31,7 +32,8 @@ type Resultado =
   | { estado: "ok"; data: ApodData; respaldo: boolean }
   | { estado: "error" };
 
-const CACHE_KEY = "nasaexplorer_apod_today";
+// v2: la caché anterior podía guardar el relleno de api.nasa.gov.
+const CACHE_KEY = "nasaexplorer_apod_today_v2";
 
 function readCache(): ApodData | null {
   try {
@@ -94,13 +96,18 @@ export default function ApodView() {
       }
     }
 
-    // `||`, no `??`: cuando el workflow declara la variable pero el secret no
-    // existe, Next incrusta la cadena vacía, y `??` solo cubre null/undefined.
-    // El resultado era `api_key=` a secas, que la API rechaza siempre.
-    const key = process.env.NEXT_PUBLIC_NASA_API_KEY || "DEMO_KEY";
-    fetch(`https://api.nasa.gov/planetary/apod?api_key=${key}&date=${fecha}`)
+    // Fuente: el WordPress de science.nasa.gov, sin clave (ver
+    // `@/lib/apod-fuente`). La fecha va en la ruta; una sin APOD da 404 y cae
+    // al respaldo como cualquier otro fallo.
+    fetch(urlApod(fecha))
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-      .then((data: ApodData) => {
+      .then((crudo: unknown) => {
+        const d = normalizarApod(crudo);
+        const data: ApodData = {
+          ...d,
+          hdurl: d.hdurl ?? undefined,
+          copyright: d.copyright ?? undefined,
+        };
         if (esHoy) writeCache(data);
         publicar({ estado: "ok", data, respaldo: false });
       })
@@ -294,7 +301,7 @@ export default function ApodView() {
             {t("error_body")}
           </p>
           <a
-            href="https://apod.nasa.gov/apod/astropix.html"
+            href={APOD_PORTADA}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-xl shadow-md hover:bg-primary/90 transition-colors"
@@ -423,7 +430,7 @@ export default function ApodView() {
             <div className="mt-6 pt-5 border-t border-card-border flex items-center justify-between flex-wrap gap-3">
               <span className="text-xs text-faint font-mono">NASA · APOD</span>
               <a
-                href="https://apod.nasa.gov/apod/astropix.html"
+                href={APOD_PORTADA}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs text-muted hover:text-primary transition-colors border border-card-border bg-card hover:bg-white px-3 py-1.5 rounded-lg"

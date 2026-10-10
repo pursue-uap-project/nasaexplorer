@@ -21,16 +21,19 @@ export type ApodData = {
   explanation: string;
   date: string;
   copyright?: string;
-  /** Página del día en apod.nasa.gov, destino del botón cuando es un vídeo. */
+  /** Página del día en science.nasa.gov, destino del botón cuando es un vídeo. */
   pageUrl?: string;
 };
 
-/** El formato apAAMMDD.html de apod.nasa.gov no cambia desde 1995. */
+/**
+ * Página del día en science.nasa.gov. Las de apod.nasa.gov (`apAAMMDD.html`)
+ * redirigen a la portada desde la mudanza de 2026-09-29, sea cual sea la fecha.
+ */
 export function paginaApod(iso: string): string {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
   return m
-    ? `https://apod.nasa.gov/apod/ap${m[1].slice(2)}${m[2]}${m[3]}.html`
-    : "https://apod.nasa.gov/apod/astropix.html";
+    ? `https://science.nasa.gov/apod/?date=${m[1].slice(2)}${m[2]}${m[3]}`
+    : "https://science.nasa.gov/apod/";
 }
 
 /** `YYYY-MM-DD` en hora local, que es la que ve quien mira la página. */
