@@ -16,10 +16,16 @@ misiones de la NASA.
 > run — ni CI, ni espejo. Si hay que mencionarla, escribirla partida o entre comillas
 > tipográficas, nunca entre corchetes rectos.
 
-**Un push a `main` que toque `apps/web/nasaexplorer/**` dispara el espejo.** Antes no:
-solo se abría en el cron quincenal y a mano, así que cada PR se quedaba sin llegar a la
-web hasta que alguien lanzaba el workflow — pasó tres veces el 2026-09-06. Los commits de
-datos del propio cron llevan `[skip ci]`, así que no hay bucle.
+**El espejo solo publica los días 1 y 16 (05:00 UTC) o a mano.** Un push a `main` que
+toque `apps/web/nasaexplorer/**` lanza el workflow, pero los tres jobs salen saltados:
+la cadencia se recortó a propósito en el PR #206. Consecuencia: **mergear no publica**, y
+los datos que el cron refresca a diario (APOD, directos) llegan al monorepo pero no a la
+web hasta el siguiente espejo. Para publicar ya: Actions → «nasaexplorer · sincronizar
+datos espaciales» → Run workflow (`target: apod` es la pasada más corta).
+
+**No se puede publicar con act desde el panel local:** el job `mirror` necesita
+`PAGES_KEY_NASAEXPLORER`, que está en los secrets de GitHub y no en el `.secrets` local,
+y falla en «Comprobar que hay deploy key». Hay que lanzarlo en GitHub.
 
 ## Stack
 - **Next.js 16 (App Router) + React 19 + TypeScript**, con `output: "export"`

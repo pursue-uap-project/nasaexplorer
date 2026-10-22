@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-10T11:01:03.875Z",
+  "checkedAt": "2026-10-22T13:50:25.064Z",
   "channels": [
     {
       "id": "nasa",
@@ -11,27 +11,27 @@
       "isLive": true,
       "liveVideoId": "M3HKLzjvKPc",
       "liveTitle": "Live Video from the International Space Station (Official NASA Stream)",
-      "fallbackVideoId": "IoL51xLkMSY",
+      "fallbackVideoId": "UleiRdWFG7o",
       "recent": [
         {
-          "id": "IoL51xLkMSY",
-          "title": "NASA's Northrop Grumman Commercial Resupply Services 24 Departure",
-          "published": "2026-10-09T17:14:27+00:00"
+          "id": "UleiRdWFG7o",
+          "title": "U.S. Spacewalk Preview News Conference (Oct. 20, 2026)",
+          "published": "2026-10-20T18:30:12+00:00"
         },
         {
-          "id": "f8FE2R7esZ0",
-          "title": "NASA's SpaceX 35th Commercial Resupply Services Launch",
-          "published": "2026-10-09T14:36:38+00:00"
+          "id": "hv867HnY4j4",
+          "title": "U.S. Spacewalk 100",
+          "published": "2026-10-20T16:54:06+00:00"
         },
         {
-          "id": "x6p9Ri0DlNE",
-          "title": "NASA's SpaceX Crew-12 Re-Entry & Splashdown",
-          "published": "2026-10-08T16:52:21+00:00"
+          "id": "Zezt6EsG9WE",
+          "title": "NASA Moon Base: Rovers and Lunar Terrain Vehicles (October 2026 Update)",
+          "published": "2026-10-20T15:02:15+00:00"
         },
         {
-          "id": "-jPQmjMWy9I",
-          "title": "NASA's SpaceX 35th Commercial Resupply Services Rendezvous and Docking",
-          "published": "2026-10-08T16:38:15+00:00"
+          "id": "ivng4U5xeYM",
+          "title": "NASA's SpaceX Crew-12 Postflight News Conference (Oct. 15, 2026)",
+          "published": "2026-10-15T20:12:26+00:00"
         }
       ]
     },
@@ -79,27 +79,27 @@
       "isLive": false,
       "liveVideoId": null,
       "liveTitle": null,
-      "fallbackVideoId": "vw1Re30cPZI",
+      "fallbackVideoId": "OUyYPzytdNU",
       "recent": [
         {
-          "id": "vw1Re30cPZI",
-          "title": "Catch it while you can! ⚡",
-          "published": "2026-10-09T14:50:07+00:00"
+          "id": "OUyYPzytdNU",
+          "title": "ESA Open Days 2026",
+          "published": "2026-10-22T09:55:30+00:00"
         },
         {
-          "id": "v-HVEZ_WRBY",
-          "title": "Splashdown complete 🌊",
-          "published": "2026-10-08T17:49:52+00:00"
+          "id": "Ga3YV1Njves",
+          "title": "Happy launch-versary, BepiColombo! 🚀 ✨",
+          "published": "2026-10-20T14:15:16+00:00"
         },
         {
-          "id": "dqI0Ds4F2nA",
-          "title": "Crew-12 Splashdown with Sophie Adenot | εpsilon mission (Official broadcast)",
-          "published": "2026-10-08T16:46:57+00:00"
+          "id": "sYtbbRtc50A",
+          "title": "Imagine this: a deadly asteroid is heading straight for Earth. ☄️",
+          "published": "2026-10-19T15:22:58+00:00"
         },
         {
-          "id": "d-3zJUrE32o",
-          "title": "Time to head home 🌍",
-          "published": "2026-10-07T15:21:23+00:00"
+          "id": "G0aJU3BLbWw",
+          "title": "Finding Our Way: Inside the Galileo Project (ESA documentary)",
+          "published": "2026-10-15T16:30:08+00:00"
         }
       ]
     },

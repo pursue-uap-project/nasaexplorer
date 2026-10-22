@@ -1,216 +1,13 @@
 {
-  "checkedAt": "2026-09-16T09:45:19.826Z",
+  "checkedAt": "2026-10-22T15:18:29.760Z",
   "source": "Launch Library 2 (thespacedevs.com)",
   "upcoming": [
     {
-      "id": "767f7827-53d8-4621-803b-f456a1e6b512",
-      "name": "Gravity-1 | SpaceSail Polar Group #16",
-      "slug": "gravity-1-spacesail-polar-group-16",
-      "net": "2026-09-15T22:00:00Z",
-      "windowStart": "2026-09-15T21:50:00Z",
-      "status": {
-        "id": 3,
-        "name": "Launch Successful",
-        "abbrev": "Success",
-        "description": "The launch vehicle successfully inserted its payload(s) into the target orbit(s)."
-      },
-      "provider": "Orienspace Technology",
-      "providerType": "Commercial",
-      "rocket": "Gravity-1",
-      "pad": "Yellow Sea (launch location 5)",
-      "location": "Haiyang Oriental Spaceport",
-      "country": "China",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/gravity-1_image_20240108105446.jpeg",
-      "imageCredit": null,
-      "mission": {
-        "name": "SpaceSail Polar Group #16",
-        "type": "Communications",
-        "description": "9 Low Earth Orbit communication satellites with Ku, Q and V band payloads for the G60 constellation operated by Shanghai Spacesail Technologies with funding backed by the Shanghai local government.\r\n\r\nInitial constellation will consist of 1296 satellites by 2027 with long term plans to expand it to 12000 satellites.",
-        "orbit": "Polar Orbit"
-      },
-      "webcastLive": false,
-      "videos": []
-    },
-    {
-      "id": "d793ba47-faf5-4bab-a386-39a9ccc49c90",
-      "name": "Soyuz 2.1b | Progress MS-35 (96P)",
-      "slug": "soyuz-21b-progress-ms-35-96p",
-      "net": "2026-09-16T13:33:53Z",
-      "windowStart": "2026-09-16T13:33:53Z",
-      "status": {
-        "id": 1,
-        "name": "Go for Launch",
-        "abbrev": "Go",
-        "description": "Current T-0 confirmed by official or reliable sources."
-      },
-      "provider": "Russian Federal Space Agency (ROSCOSMOS)",
-      "providerType": "Government",
-      "rocket": "Soyuz 2.1b",
-      "pad": "31/6",
-      "location": "Baikonur Cosmodrome, Republic of Kazakhstan",
-      "country": "Kazakhstan",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/soyuz_2.1b_image_20230802085331.jpg",
-      "imageCredit": "Roscosmos",
-      "mission": {
-        "name": "Progress MS-35 (96P)",
-        "type": "Resupply",
-        "description": "Progress resupply mission to the International Space Station.",
-        "orbit": "Low Earth Orbit"
-      },
-      "webcastLive": false,
-      "videos": []
-    },
-    {
-      "id": "898f7df0-b6ce-4a5c-80b4-67e81842124e",
-      "name": "Long March 12 | Unknown Payload",
-      "slug": "long-march-12-unknown-payload",
-      "net": "2026-09-17T00:30:00Z",
-      "windowStart": "2026-09-17T00:25:00Z",
-      "status": {
-        "id": 1,
-        "name": "Go for Launch",
-        "abbrev": "Go",
-        "description": "Current T-0 confirmed by official or reliable sources."
-      },
-      "provider": "China Aerospace Science and Technology Corporation",
-      "providerType": "Government",
-      "rocket": "Long March 12",
-      "pad": "Commercial LC-2",
-      "location": "Wenchang Space Launch Site, People's Republic of China",
-      "country": "China",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/cz-12_on_its_la_image_20241128132937.jpg",
-      "imageCredit": "Unknown",
-      "mission": {
-        "name": "Unknown Payload",
-        "type": "Unknown",
-        "description": "Details TBD.",
-        "orbit": "Unknown"
-      },
-      "webcastLive": false,
-      "videos": []
-    },
-    {
-      "id": "17c71937-dd80-406f-bb47-0c9ee9a24276",
-      "name": "Falcon 9 Block 5 | USSF-259",
-      "slug": "falcon-9-block-5-ussf-259",
-      "net": "2026-09-17T01:00:00Z",
-      "windowStart": "2026-09-17T01:00:00Z",
-      "status": {
-        "id": 1,
-        "name": "Go for Launch",
-        "abbrev": "Go",
-        "description": "Current T-0 confirmed by official or reliable sources."
-      },
-      "provider": "SpaceX",
-      "providerType": "Commercial",
-      "rocket": "Falcon 9 Block 5",
-      "pad": "Space Launch Complex 4E",
-      "location": "Vandenberg SFB, CA, USA",
-      "country": "United States of America",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/falcon_9_liftof_image_20260816171423.jpg",
-      "imageCredit": "SpaceX",
-      "mission": {
-        "name": "USSF-259",
-        "type": "Government/Top Secret",
-        "description": "USSF-259 is a classified mission for the United States Space Force. It is possibly a batch of classified LEO satellites based on SpaceX’s Starshield satellite bus, based on locations of ascent rocket stage drop zones being fits with previous SDA Transport Layer launches.",
-        "orbit": "Polar Orbit"
-      },
-      "webcastLive": false,
-      "videos": []
-    },
-    {
-      "id": "71aa4d56-0ce9-4c7d-a808-cc22f2ac5a84",
-      "name": "Kuaizhou 11 | Unknown Payload",
-      "slug": "kuaizhou-11-unknown-payload",
-      "net": "2026-09-17T02:35:00Z",
-      "windowStart": "2026-09-17T02:31:00Z",
-      "status": {
-        "id": 1,
-        "name": "Go for Launch",
-        "abbrev": "Go",
-        "description": "Current T-0 confirmed by official or reliable sources."
-      },
-      "provider": "ExPace",
-      "providerType": "Commercial",
-      "rocket": "Kuaizhou 11",
-      "pad": "Launch Area 95A",
-      "location": "Jiuquan Satellite Launch Center, People's Republic of China",
-      "country": "China",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/kuaizhou_11_lif_image_20240520155835.jpg",
-      "imageCredit": "中国航天科工",
-      "mission": {
-        "name": "Unknown Payload",
-        "type": "Unknown",
-        "description": "Details TBD.",
-        "orbit": "Unknown"
-      },
-      "webcastLive": false,
-      "videos": []
-    },
-    {
-      "id": "f4c720ce-0cfd-43e6-b8dd-00273073bc01",
-      "name": "Electron | Owl By The Dozen (StriX Launch 12)",
-      "slug": "electron-owl-by-the-dozen-strix-launch-12",
-      "net": "2026-09-19T03:15:00Z",
-      "windowStart": "2026-09-19T03:15:00Z",
-      "status": {
-        "id": 1,
-        "name": "Go for Launch",
-        "abbrev": "Go",
-        "description": "Current T-0 confirmed by official or reliable sources."
-      },
-      "provider": "Rocket Lab",
-      "providerType": "Commercial",
-      "rocket": "Electron",
-      "pad": "Unknown Pad",
-      "location": "Rocket Lab Launch Complex 1, Mahia Peninsula, New Zealand",
-      "country": "New Zealand",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/electron_image_20190705175640.jpeg",
-      "imageCredit": null,
-      "mission": {
-        "name": "Owl By The Dozen (StriX Launch 12)",
-        "type": "Earth Science",
-        "description": "Synthetic aperture radar satellite for Japanese Earth imaging company Synspective.",
-        "orbit": "Low Earth Orbit"
-      },
-      "webcastLive": false,
-      "videos": []
-    },
-    {
-      "id": "a527b585-f01f-4ecc-9230-711dcef72ef1",
-      "name": "Long March 2D | Unknown Payload",
-      "slug": "long-march-2d-unknown-payload",
-      "net": "2026-09-19T10:50:00Z",
-      "windowStart": "2026-09-19T10:43:00Z",
-      "status": {
-        "id": 1,
-        "name": "Go for Launch",
-        "abbrev": "Go",
-        "description": "Current T-0 confirmed by official or reliable sources."
-      },
-      "provider": "China Aerospace Science and Technology Corporation",
-      "providerType": "Government",
-      "rocket": "Long March 2D",
-      "pad": "Launch Complex 9",
-      "location": "Taiyuan Satellite Launch Center, People's Republic of China",
-      "country": "China",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/long2520march25202d_image_20190222031211.jpeg",
-      "imageCredit": null,
-      "mission": {
-        "name": "Unknown Payload",
-        "type": "Unknown",
-        "description": "Details TBD.",
-        "orbit": "Unknown"
-      },
-      "webcastLive": false,
-      "videos": []
-    },
-    {
-      "id": "d1471f9d-e9d0-4146-8e97-90863e48bfc8",
-      "name": "Falcon 9 Block 5 | Starlink Group 15-27",
-      "slug": "falcon-9-block-5-starlink-group-15-27",
-      "net": "2026-09-20T01:47:00Z",
-      "windowStart": "2026-09-20T01:47:00Z",
+      "id": "f6af629d-39b5-4f86-bc0c-f8776444a858",
+      "name": "Falcon 9 Block 5 | Starlink Group 15-15",
+      "slug": "falcon-9-block-5-starlink-group-15-15",
+      "net": "2026-10-22T22:51:18Z",
+      "windowStart": "2026-10-22T21:45:00Z",
       "status": {
         "id": 1,
         "name": "Go for Launch",
@@ -226,7 +23,7 @@
       "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/falcon2520925_image_20221009234147.png",
       "imageCredit": "SpaceX",
       "mission": {
-        "name": "Starlink Group 15-27",
+        "name": "Starlink Group 15-15",
         "type": "Communications",
         "description": "A batch of 27 satellites for the Starlink mega-constellation - SpaceX's project for space-based Internet communication system.",
         "orbit": "Low Earth Orbit"
@@ -235,25 +32,54 @@
       "videos": []
     },
     {
-      "id": "5af31461-bce5-4cfb-a0ee-b527cf285d90",
-      "name": "Kinetica 1 | Unknown Payload",
-      "slug": "kinetica-1-unknown-payload",
-      "net": "2026-09-20T04:00:00Z",
-      "windowStart": "2026-09-20T03:54:00Z",
+      "id": "7766f3bb-674c-4c71-b986-963bd633fcfe",
+      "name": "Electron | We're Not Hawking Around (3x HawkEye 360)",
+      "slug": "electron-were-not-hawking-around-3x-hawkeye-360",
+      "net": "2026-10-23T07:00:00Z",
+      "windowStart": "2026-10-23T07:00:00Z",
+      "status": {
+        "id": 8,
+        "name": "To Be Confirmed",
+        "abbrev": "TBC",
+        "description": "Awaiting official confirmation - current date is known with some certainty."
+      },
+      "provider": "Rocket Lab",
+      "providerType": "Commercial",
+      "rocket": "Electron",
+      "pad": "Rocket Lab Launch Complex 1A",
+      "location": "Rocket Lab Launch Complex 1, Mahia Peninsula, New Zealand",
+      "country": "New Zealand",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/electron_image_20190705175640.jpeg",
+      "imageCredit": null,
+      "mission": {
+        "name": "We're Not Hawking Around (3x HawkEye 360)",
+        "type": "Earth Science",
+        "description": "HawkEye 360 is a a space-based civil global intelligence satellite network using radio frequency (RF) technology to help monitor transportation across air, land and sea and assist with emergencies, and to provide civil SIGINT (Signal Intelligence) mission.\r\n\r\nThe constellation of small satellites (named Hawk ) will collect information on specific radio signals worldwide to provide high-precision radio frequency mapping and analytics from Low Earth orbit (LEO).",
+        "orbit": "Sun-Synchronous Orbit"
+      },
+      "webcastLive": false,
+      "videos": []
+    },
+    {
+      "id": "9648124f-8568-46d2-86d7-4b4d6f12187f",
+      "name": "Long March 6A | Unknown Payload",
+      "slug": "long-march-6a-unknown-payload",
+      "net": "2026-10-23T10:15:00Z",
+      "windowStart": "2026-10-23T10:07:00Z",
       "status": {
         "id": 1,
         "name": "Go for Launch",
         "abbrev": "Go",
         "description": "Current T-0 confirmed by official or reliable sources."
       },
-      "provider": "CAS Space",
-      "providerType": "Commercial",
-      "rocket": "Kinetica 1",
-      "pad": "Launch Area 130",
-      "location": "Jiuquan Satellite Launch Center, People's Republic of China",
+      "provider": "China Aerospace Science and Technology Corporation",
+      "providerType": "Government",
+      "rocket": "Long March 6A",
+      "pad": "Launch Complex 9A",
+      "location": "Taiyuan Satellite Launch Center, People's Republic of China",
       "country": "China",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/zhongke-1a_image_20220912002218.png",
-      "imageCredit": null,
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/long_march_6a__image_20251209050223.jpeg",
+      "imageCredit": "CCTV",
       "mission": {
         "name": "Unknown Payload",
         "type": "Unknown",
@@ -264,11 +90,69 @@
       "videos": []
     },
     {
-      "id": "7d1afb26-6f9c-429b-9ccf-29012fd1e519",
-      "name": "Starship | Flight 14",
-      "slug": "starship-flight-14",
-      "net": "2026-09-22T12:15:00Z",
-      "windowStart": "2026-09-22T12:15:00Z",
+      "id": "3621085f-deae-4f89-bd54-c0f96ee44421",
+      "name": "Long March 4B | Unknown Payload",
+      "slug": "long-march-4b-unknown-payload",
+      "net": "2026-10-23T19:25:00Z",
+      "windowStart": "2026-10-23T19:17:00Z",
+      "status": {
+        "id": 1,
+        "name": "Go for Launch",
+        "abbrev": "Go",
+        "description": "Current T-0 confirmed by official or reliable sources."
+      },
+      "provider": "China Aerospace Science and Technology Corporation",
+      "providerType": "Government",
+      "rocket": "Long March 4B",
+      "pad": "Launch Area 94 (SLS-2 / 603)",
+      "location": "Jiuquan Satellite Launch Center, People's Republic of China",
+      "country": "China",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/long_march_4b_l_image_20251209044050.jpeg",
+      "imageCredit": "CASC",
+      "mission": {
+        "name": "Unknown Payload",
+        "type": "Unknown",
+        "description": "Details TBD.",
+        "orbit": "Unknown"
+      },
+      "webcastLive": false,
+      "videos": []
+    },
+    {
+      "id": "6b95bcc8-1f88-4539-84fe-f63630138766",
+      "name": "Long March 8A | Unknown Payload",
+      "slug": "long-march-8a-unknown-payload",
+      "net": "2026-10-25T01:50:00Z",
+      "windowStart": "2026-10-25T01:42:00Z",
+      "status": {
+        "id": 1,
+        "name": "Go for Launch",
+        "abbrev": "Go",
+        "description": "Current T-0 confirmed by official or reliable sources."
+      },
+      "provider": "China Aerospace Science and Technology Corporation",
+      "providerType": "Government",
+      "rocket": "Long March 8A",
+      "pad": "Commercial LC-1",
+      "location": "Wenchang Space Launch Site, People's Republic of China",
+      "country": "China",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/cz-8a_launch_2_image_20251206093107.jpeg",
+      "imageCredit": "CASC",
+      "mission": {
+        "name": "Unknown Payload",
+        "type": "Unknown",
+        "description": "Details TBD.",
+        "orbit": "Unknown"
+      },
+      "webcastLive": false,
+      "videos": []
+    },
+    {
+      "id": "e2886a96-5ce9-4f45-872f-4e25a00be837",
+      "name": "Falcon 9 Block 5 | Starlink Group 15-16",
+      "slug": "falcon-9-block-5-starlink-group-15-16",
+      "net": "2026-10-26T05:00:00Z",
+      "windowStart": "2026-10-26T05:00:00Z",
       "status": {
         "id": 1,
         "name": "Go for Launch",
@@ -277,32 +161,61 @@
       },
       "provider": "SpaceX",
       "providerType": "Commercial",
-      "rocket": "Starship V3",
-      "pad": "Orbital Launch Pad 2",
-      "location": "SpaceX Starbase, TX, USA",
+      "rocket": "Falcon 9 Block 5",
+      "pad": "Space Launch Complex 4E",
+      "location": "Vandenberg SFB, CA, USA",
       "country": "United States of America",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/starship_on_the_image_20260724044615.jpg",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/falcon2520925_image_20221009234147.png",
       "imageCredit": "SpaceX",
       "mission": {
-        "name": "Flight 14",
+        "name": "Starlink Group 15-16",
         "type": "Communications",
-        "description": "14th test flight of the two-stage Starship launch vehicle. 3rd flight of Starship V3 and the first Starship flight to deploy satellites (a group of Starlink satellites) into stable Low Earth Orbit.\r\n\r\nThe ship is expected to fly at an altitude approximately 275 km above Earth and complete approximately 6 orbits around the planet for nearly 10 hours, with splashdown targeted in the Pacific Ocean west of Chile.\r\n\r\nThe booster’s primary test objective on Flight 14 will be executing a successful launch, ascent, stage separation, boostback burn, and landing burn at an offshore landing point in the Gulf.\r\n\r\nStarship will deliver 26 Starlink V3 satellites to orbit for the first time, which aim to greatly expand the network's capacity and user speeds. Each Starlink V3 satellite will add 1 Tbps of capacity to the constellation.",
+        "description": "A batch of 27 satellites for the Starlink mega-constellation - SpaceX's project for space-based Internet communication system.",
         "orbit": "Low Earth Orbit"
       },
       "webcastLive": false,
       "videos": []
     },
     {
-      "id": "7330d83b-c478-426c-8859-f9e3a335876d",
-      "name": "Falcon 9 Block 5 | USSF-xxx (\"R-3\")",
-      "slug": "falcon-9-block-5-ussf-xxx-r-3",
-      "net": "2026-09-27T11:42:00Z",
-      "windowStart": "2026-09-27T11:42:00Z",
+      "id": "ef9850ad-1096-425b-9d27-f7bbd186e61a",
+      "name": "Vulcan VC6L | Amazon Leo (LV-01)",
+      "slug": "vulcan-vc6l-amazon-leo-lv-01",
+      "net": "2026-10-29T00:00:00Z",
+      "windowStart": "2026-10-29T00:00:00Z",
       "status": {
-        "id": 8,
-        "name": "To Be Confirmed",
-        "abbrev": "TBC",
-        "description": "Awaiting official confirmation - current date is known with some certainty."
+        "id": 2,
+        "name": "To Be Determined",
+        "abbrev": "TBD",
+        "description": "Current date is a placeholder or rough estimation based on unreliable or interpreted sources."
+      },
+      "provider": "United Launch Alliance",
+      "providerType": "Commercial",
+      "rocket": "Vulcan VC6L",
+      "pad": "Space Launch Complex 41",
+      "location": "Cape Canaveral SFS, FL, USA",
+      "country": "United States of America",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/vulcan_vc6l_image_20220406123130.jpg",
+      "imageCredit": "United Launch Alliance",
+      "mission": {
+        "name": "Amazon Leo (LV-01)",
+        "type": "Communications",
+        "description": "Amazon Leo, formerly known as Project Kuiper, is a mega constellation of satellites in Low Earth Orbit that will offer broadband internet access, this constellation will be managed by Kuiper Systems LLC, a subsidiary of Amazon. This constellation is planned to be composed of 3,276 satellites. The satellites are projected to be placed in 98 orbital planes in three orbital layers, one at 590 km, 610 km and 630 km altitude.\r\n\r\n45 satellites will be carried on each Vulcan launch.",
+        "orbit": "Low Earth Orbit"
+      },
+      "webcastLive": false,
+      "videos": []
+    },
+    {
+      "id": "57ce0a39-d035-4f16-a418-bd6108f78199",
+      "name": "Falcon 9 Block 5 | Starlink Group 15-18",
+      "slug": "falcon-9-block-5-starlink-group-15-18",
+      "net": "2026-10-29T04:17:00Z",
+      "windowStart": "2026-10-29T04:17:00Z",
+      "status": {
+        "id": 1,
+        "name": "Go for Launch",
+        "abbrev": "Go",
+        "description": "Current T-0 confirmed by official or reliable sources."
       },
       "provider": "SpaceX",
       "providerType": "Commercial",
@@ -310,23 +223,110 @@
       "pad": "Space Launch Complex 4E",
       "location": "Vandenberg SFB, CA, USA",
       "country": "United States of America",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/falcon_9_liftof_image_20260816171423.jpg",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/falcon2520925_image_20221009234147.png",
       "imageCredit": "SpaceX",
       "mission": {
-        "name": "USSF-xxx (\"R-3\")",
-        "type": "Government/Top Secret",
-        "description": "Note: Official USSF designation to be confirmed.\r\n\r\nA classified mission for the United States Space Force. It is possibly a batch of classified LEO satellites based on SpaceX’s Starshield satellite bus, based on locations of rocket stage drop zones being exact fits with previous Starlink Group 15 launches.",
+        "name": "Starlink Group 15-18",
+        "type": "Communications",
+        "description": "A batch of 27 satellites for the Starlink mega-constellation - SpaceX's project for space-based Internet communication system.",
         "orbit": "Low Earth Orbit"
       },
       "webcastLive": false,
       "videos": []
     },
     {
-      "id": "599ba2df-7483-4b2f-a083-2b5ddc06e069",
-      "name": "Electron | LOXSAT 1",
-      "slug": "electron-loxsat-1",
-      "net": "2026-09-30T00:00:00Z",
-      "windowStart": "2026-09-30T00:00:00Z",
+      "id": "20d5676e-111b-40e3-8923-b218c3665ca2",
+      "name": "GSLV Mk II | IRNSS-1L (NVS-03)",
+      "slug": "gslv-mk-ii-irnss-1l-nvs-03",
+      "net": "2026-10-31T00:00:00Z",
+      "windowStart": "2026-10-31T00:00:00Z",
+      "status": {
+        "id": 2,
+        "name": "To Be Determined",
+        "abbrev": "TBD",
+        "description": "Current date is a placeholder or rough estimation based on unreliable or interpreted sources."
+      },
+      "provider": "Indian Space Research Organization",
+      "providerType": "Government",
+      "rocket": "GSLV Mk. II",
+      "pad": "Satish Dhawan Space Centre Second Launch Pad",
+      "location": "Satish Dhawan Space Centre, India",
+      "country": "India",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/gslv2520mk252_image_20240101090337.jpg",
+      "imageCredit": null,
+      "mission": {
+        "name": "IRNSS-1L (NVS-03)",
+        "type": "Navigation",
+        "description": "This is a replacement satellite for the Indian Regional Navigation Satellite System. The constellation will provide India with an alternative to GPS and will be used for military and civilian use. Located at a geosynchronous orbit, the system will be operated by the Indian government.",
+        "orbit": "Geostationary Transfer Orbit"
+      },
+      "webcastLive": false,
+      "videos": []
+    },
+    {
+      "id": "dc570565-4dcf-4ab9-8174-bf88efef477f",
+      "name": "Long March 12A | Flight 2",
+      "slug": "long-march-12a-flight-2",
+      "net": "2026-10-31T00:00:00Z",
+      "windowStart": "2026-10-31T00:00:00Z",
+      "status": {
+        "id": 2,
+        "name": "To Be Determined",
+        "abbrev": "TBD",
+        "description": "Current date is a placeholder or rough estimation based on unreliable or interpreted sources."
+      },
+      "provider": "China Aerospace Science and Technology Corporation",
+      "providerType": "Government",
+      "rocket": "Long March 12A",
+      "pad": "Long March 12 series Pad",
+      "location": "Jiuquan Satellite Launch Center, People's Republic of China",
+      "country": "China",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/long_march_12a__image_20251224005749.jpg",
+      "imageCredit": "CASC",
+      "mission": {
+        "name": "Flight 2",
+        "type": "Test Flight",
+        "description": "Second test launch of CASC/SAST’s Long March 12A rocket. Payload identities are TBD.",
+        "orbit": "Low Earth Orbit"
+      },
+      "webcastLive": false,
+      "videos": []
+    },
+    {
+      "id": "e59ff9a4-f72f-4841-8546-3c94346ecdba",
+      "name": "SSLV | AayulSAT-1A & others",
+      "slug": "sslv-aayulsat-1a-others",
+      "net": "2026-10-31T00:00:00Z",
+      "windowStart": "2026-10-31T00:00:00Z",
+      "status": {
+        "id": 2,
+        "name": "To Be Determined",
+        "abbrev": "TBD",
+        "description": "Current date is a placeholder or rough estimation based on unreliable or interpreted sources."
+      },
+      "provider": "Indian Space Research Organization",
+      "providerType": "Government",
+      "rocket": "SSLV",
+      "pad": "Satish Dhawan Space Centre First Launch Pad",
+      "location": "Satish Dhawan Space Centre, India",
+      "country": "India",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/sslv_image_20220912001724.jpeg",
+      "imageCredit": null,
+      "mission": {
+        "name": "AayulSAT-1A & others",
+        "type": "Technology",
+        "description": "Ride-share launch of multiple satellites, including the in-orbit refueling demonstration satellite AayulSAT-1A from OrbitAID Aerospace. Other payload's identities TBD.",
+        "orbit": "Low Earth Orbit"
+      },
+      "webcastLive": false,
+      "videos": []
+    },
+    {
+      "id": "426bd2a5-02dd-4fbd-9f4d-2b8439c3a1ff",
+      "name": "Electron | The Sea God Surveys (iQPS Launch 9)",
+      "slug": "electron-the-sea-god-surveys-iqps-launch-9",
+      "net": "2026-11-04T00:00:00Z",
+      "windowStart": "2026-11-04T00:00:00Z",
       "status": {
         "id": 2,
         "name": "To Be Determined",
@@ -342,9 +342,9 @@
       "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/electron_image_20190705175640.jpeg",
       "imageCredit": null,
       "mission": {
-        "name": "LOXSAT 1",
-        "type": "Technology",
-        "description": "LOXSAT 1 is a demonstration satellite of a complete cryogenic oxygen fluid management system in orbit, developed by Eta Space and sponsored by NASA's Tipping Point program.\r\n\r\nThe system will be integrated on a Rocket Lab Photon-LEO satellite bus and collect critical cryogenic fluid management data in orbit for 9 months, demonstrating capabilities of in-space cryogenic storage and transferal. Eta Space plans to use technology developed for this mission to develop a truly commercial depot intended to serve multiple customers in the future.",
+        "name": "The Sea God Surveys (iQPS Launch 9)",
+        "type": "Earth Science",
+        "description": "Synthetic aperture radar Earth observation satellite for Japanese Earth imaging company iQPS.",
         "orbit": "Low Earth Orbit"
       },
       "webcastLive": false,
@@ -353,98 +353,40 @@
   ],
   "previous": [
     {
-      "id": "767f7827-53d8-4621-803b-f456a1e6b512",
-      "name": "Gravity-1 | SpaceSail Polar Group #16",
-      "slug": "gravity-1-spacesail-polar-group-16",
-      "net": "2026-09-15T22:00:00Z",
-      "windowStart": "2026-09-15T21:50:00Z",
+      "id": "c6f8b6b0-6bae-460a-99bb-c12a3d29effd",
+      "name": "Ceres-1S | Xiguang-4 01",
+      "slug": "ceres-1s-xiguang-4-01",
+      "net": "2026-10-21T03:39:00Z",
+      "windowStart": "2026-10-21T03:29:00Z",
       "status": {
         "id": 3,
         "name": "Launch Successful",
         "abbrev": "Success",
         "description": "The launch vehicle successfully inserted its payload(s) into the target orbit(s)."
       },
-      "provider": "Orienspace Technology",
+      "provider": "Galactic Energy",
       "providerType": "Commercial",
-      "rocket": "Gravity-1",
-      "pad": "Yellow Sea (launch location 5)",
+      "rocket": "Ceres-1S",
+      "pad": "Rizhao offshore launch location",
       "location": "Haiyang Oriental Spaceport",
       "country": "China",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/gravity-1_image_20240108105446.jpeg",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/ceres-1s_image_20230905114324.jpeg",
       "imageCredit": null,
       "mission": {
-        "name": "SpaceSail Polar Group #16",
-        "type": "Communications",
-        "description": "9 Low Earth Orbit communication satellites with Ku, Q and V band payloads for the G60 constellation operated by Shanghai Spacesail Technologies with funding backed by the Shanghai local government.\r\n\r\nInitial constellation will consist of 1296 satellites by 2027 with long term plans to expand it to 12000 satellites.",
-        "orbit": "Polar Orbit"
-      },
-      "webcastLive": false,
-      "videos": []
-    },
-    {
-      "id": "de446468-057f-4c9d-a6a1-af99c93b541e",
-      "name": "Zhuque-2E Block 2 | SpaceSail Polar Group #15",
-      "slug": "zhuque-2e-block-2-spacesail-polar-group-15",
-      "net": "2026-09-15T06:26:00Z",
-      "windowStart": "2026-09-15T06:18:00Z",
-      "status": {
-        "id": 3,
-        "name": "Launch Successful",
-        "abbrev": "Success",
-        "description": "The launch vehicle successfully inserted its payload(s) into the target orbit(s)."
-      },
-      "provider": "LandSpace",
-      "providerType": "Commercial",
-      "rocket": "Zhuque-2E Block 2",
-      "pad": "Launch Area 96A",
-      "location": "Jiuquan Satellite Launch Center, People's Republic of China",
-      "country": "China",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/zhuque-2e_y6_la_image_20260609122825.jpeg",
-      "imageCredit": "LandSpace",
-      "mission": {
-        "name": "SpaceSail Polar Group #15",
-        "type": "Communications",
-        "description": "10 Low Earth Orbit communication satellites with Ku, Q and V band payloads for the G60 constellation operated by Shanghai Spacesail Technologies with funding backed by the Shanghai local government.\r\n\r\nInitial constellation will consist of 1296 satellites by 2027 with long term plans to expand it to 12000 satellites.",
-        "orbit": "Polar Orbit"
-      },
-      "webcastLive": false,
-      "videos": []
-    },
-    {
-      "id": "8effc13a-c658-4d2e-9f15-8dba4d7fe2dd",
-      "name": "Vega-C | Sentinel-3C & FLEX",
-      "slug": "vega-c-sentinel-3c-flex",
-      "net": "2026-09-15T01:21:07Z",
-      "windowStart": "2026-09-15T01:21:07Z",
-      "status": {
-        "id": 3,
-        "name": "Launch Successful",
-        "abbrev": "Success",
-        "description": "The launch vehicle successfully inserted its payload(s) into the target orbit(s)."
-      },
-      "provider": "Avio S.p.A",
-      "providerType": "Commercial",
-      "rocket": "Vega-C",
-      "pad": "Ariane Launch Area 1 (ELV)",
-      "location": "Guiana Space Centre, French Guiana",
-      "country": "French Guiana",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/vega-c_image_20220713154437.jpg",
-      "imageCredit": "ESA/CNES/Arianespace/Optique vidéo du CSG–S. Martin",
-      "mission": {
-        "name": "Sentinel-3C & FLEX",
+        "name": "Xiguang-4 01",
         "type": "Earth Science",
-        "description": "Sentinel-3C is the third satellite in the Sentinel-3 constellation, which provides high-accuracy optical, radar and altimetry data for marine and land services.\r\n\r\nThe Fluorescence Explorer (FLEX) satellite is a part of ESA's Earth Explorer program. The satellite will map vegetation fluorescence to quantify photosynthetic activity.",
-        "orbit": "Sun-Synchronous Orbit"
+        "description": "0.5 meter resolution Earth observation satellite for the city of Guangzhou government and Guangzhou University with multi-spectral imaging capability. Prototype of a proposed 25 satellites constellation.",
+        "orbit": "Low Earth Orbit"
       },
       "webcastLive": false,
       "videos": []
     },
     {
-      "id": "ad358a4d-c541-409b-9366-9c2f2da4aeb9",
-      "name": "Falcon 9 Block 5 | O3b mPower 11-13",
-      "slug": "falcon-9-block-5-o3b-mpower-11-13",
-      "net": "2026-09-13T18:49:00Z",
-      "windowStart": "2026-09-13T18:49:00Z",
+      "id": "3b430f81-0ff1-4d85-8a1a-cef0de326198",
+      "name": "Falcon 9 Block 5 | Bandwagon 5 (Dedicated Mid-Inclination Rideshare)",
+      "slug": "falcon-9-block-5-bandwagon-5-dedicated-mid-inclina",
+      "net": "2026-10-20T11:04:00Z",
+      "windowStart": "2026-10-20T10:30:00Z",
       "status": {
         "id": 3,
         "name": "Launch Successful",
@@ -457,52 +399,52 @@
       "pad": "Space Launch Complex 40",
       "location": "Cape Canaveral SFS, FL, USA",
       "country": "United States of America",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/falcon_9_image_20230807133459.jpeg",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/falcon_9_liftof_image_20251102082912.jpg",
       "imageCredit": "SpaceX",
       "mission": {
-        "name": "O3b mPower 11-13",
-        "type": "Communications",
-        "description": "3 high-throughput communications satellites in Medium Earth Orbit (MEO) built by Boeing and operated by SES.",
-        "orbit": "Medium Earth Orbit"
-      },
-      "webcastLive": false,
-      "videos": []
-    },
-    {
-      "id": "b81156da-c0b8-46c8-aebd-8af8d2be83cd",
-      "name": "Electron | Happily Ever Faster (BlackSky Gen-3 5)",
-      "slug": "electron-happily-ever-faster-blacksky-gen-3-5",
-      "net": "2026-09-11T03:28:00Z",
-      "windowStart": "2026-09-11T01:00:00Z",
-      "status": {
-        "id": 3,
-        "name": "Launch Successful",
-        "abbrev": "Success",
-        "description": "The launch vehicle successfully inserted its payload(s) into the target orbit(s)."
-      },
-      "provider": "Rocket Lab",
-      "providerType": "Commercial",
-      "rocket": "Electron",
-      "pad": "Rocket Lab Launch Complex 1A",
-      "location": "Rocket Lab Launch Complex 1, Mahia Peninsula, New Zealand",
-      "country": "New Zealand",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/electron_image_20190705175640.jpeg",
-      "imageCredit": null,
-      "mission": {
-        "name": "Happily Ever Faster (BlackSky Gen-3 5)",
-        "type": "Earth Science",
-        "description": "Note: Payload and customer identities were not publicly announced.\r\n\r\n5th of the BlackSky Gen-3 high resolution Earth-imaging satellites.",
+        "name": "Bandwagon 5 (Dedicated Mid-Inclination Rideshare)",
+        "type": "Dedicated Rideshare",
+        "description": "Dedicated rideshare flight to a mid-inclination orbit with dozens of small microsatellites and nanosatellites for commercial and government customers.\r\n\r\nThis launch also carries the second demonstration mission for SpaceX’s Project Starfall, which aims to mass-produce reentry capsules designed to autonomously transport valuable customer experiments and other payloads safely back from space to Earth, including for in-orbit manufacturing. \r\n\r\nStarfall is a cylindrical shaped capsule approximately 0.75 meters tall with a diameter of 3.1 meters, weighing approximately 2100 kilograms, and capable of carrying 1000 kilograms of payload. It is designed to be carried on Starship flights.",
         "orbit": "Low Earth Orbit"
       },
       "webcastLive": false,
       "videos": []
     },
     {
-      "id": "3e0456da-14b1-4ac3-b59e-35fefb1d1530",
-      "name": "Falcon 9 Block 5 | USSF-153",
-      "slug": "falcon-9-block-5-ussf-153",
-      "net": "2026-09-10T15:42:30Z",
-      "windowStart": "2026-09-10T15:37:00Z",
+      "id": "69ebbcd2-b257-4070-9ef9-21e7d1f8a883",
+      "name": "H3-24 | Martian Moons eXploration (MMX)",
+      "slug": "h3-24-martian-moons-exploration-mmx",
+      "net": "2026-10-19T19:41:03Z",
+      "windowStart": "2026-10-19T19:41:03Z",
+      "status": {
+        "id": 3,
+        "name": "Launch Successful",
+        "abbrev": "Success",
+        "description": "The launch vehicle successfully inserted its payload(s) into the target orbit(s)."
+      },
+      "provider": "Mitsubishi Heavy Industries",
+      "providerType": "Commercial",
+      "rocket": "H3-24",
+      "pad": "Yoshinobu Launch Complex LP-2",
+      "location": "Tanegashima Space Center, Japan",
+      "country": "Japan",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/h3-24_liftoff__image_20251028184029.jpeg",
+      "imageCredit": "Mitsubishi Heavy Industries",
+      "mission": {
+        "name": "Martian Moons eXploration (MMX)",
+        "type": "Planetary Science",
+        "description": "MMX is a Japanese scientific mission to land on Phobos, one of the two moons of Mars, to collect samples before bringing them back to Earth.\r\n\r\nThe mission includes a small French/German rover to explore the surface of Phobos.",
+        "orbit": "Mars Orbit"
+      },
+      "webcastLive": false,
+      "videos": []
+    },
+    {
+      "id": "df88cfbf-f504-4e11-8370-e33dd6280b5b",
+      "name": "Falcon 9 Block 5 | USSF-481",
+      "slug": "falcon-9-block-5-ussf-481",
+      "net": "2026-10-16T00:01:05Z",
+      "windowStart": "2026-10-15T23:44:00Z",
       "status": {
         "id": 3,
         "name": "Launch Successful",
@@ -518,49 +460,78 @@
       "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/falcon_9_liftof_image_20260816171423.jpg",
       "imageCredit": "SpaceX",
       "mission": {
-        "name": "USSF-153",
+        "name": "USSF-481",
         "type": "Government/Top Secret",
-        "description": "USSF-153 is a classified mission for the United States Space Force. It is possibly a batch of classified LEO satellites based on SpaceX’s Starshield satellite bus, based on locations of rocket stage drop zones being exact fits with previous Starlink Group 15 launches.",
-        "orbit": "Low Earth Orbit"
+        "description": "A classified mission for the United States Space Force. It is possibly a batch of classified LEO satellites based on SpaceX’s Starshield satellite bus, based on locations of ascent rocket stage drop zones being fits with previous SDA Transport Layer launches.",
+        "orbit": "Polar Orbit"
       },
       "webcastLive": false,
       "videos": []
     },
     {
-      "id": "95eb9265-bdbe-43ad-b08c-6be7eb4e58f4",
-      "name": "Long March 4B | Yaogan 53-01 to 03/56-01 to 03",
-      "slug": "long-march-4b-yaogan-53-01-to-0356-01-to-03",
-      "net": "2026-09-10T09:00:00Z",
-      "windowStart": "2026-09-10T08:52:00Z",
+      "id": "dfcabb3c-078b-4f5b-a47c-0161f248cee9",
+      "name": "Zhuque-2E Block 2 | 10 satellites",
+      "slug": "zhuque-2e-block-2-10-satellites",
+      "net": "2026-10-14T11:40:00Z",
+      "windowStart": "2026-10-14T11:33:00Z",
       "status": {
         "id": 3,
         "name": "Launch Successful",
         "abbrev": "Success",
         "description": "The launch vehicle successfully inserted its payload(s) into the target orbit(s)."
       },
-      "provider": "China Aerospace Science and Technology Corporation",
-      "providerType": "Government",
-      "rocket": "Long March 4B",
-      "pad": "Launch Area 94 (SLS-2 / 603)",
+      "provider": "LandSpace",
+      "providerType": "Commercial",
+      "rocket": "Zhuque-2E Block 2",
+      "pad": "Launch Area 96A",
       "location": "Jiuquan Satellite Launch Center, People's Republic of China",
       "country": "China",
-      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/long_march_4b_l_image_20251209044050.jpeg",
-      "imageCredit": "CASC",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/zhuque-2e_y6_la_image_20260609122825.jpeg",
+      "imageCredit": "LandSpace",
       "mission": {
-        "name": "Yaogan 53-01 to 03/56-01 to 03",
-        "type": "Government/Top Secret",
-        "description": "6 Chinese military “remote sensing” satellite of unknown purposes.",
+        "name": "10 satellites",
+        "type": "Technology",
+        "description": "Ride-share of 10 satellites to sun-synchronous orbit, including:\r\n\r\n* Guangchuan-03 & 04 (LT-03/04) from LandSpace's subsidiary LandTower for testing and demonstrating LEO communication satellite constellation technologies, including high-speed laser communication nodes/terminals and new-type solar array power systems.\r\n\r\n* 8 satellites (XSD-39 and XSD-44 through XSD-50) for ADA Space for technology verification of high-performance on-board computing modules, inter-satellite/satellite-to-ground laser communication, and testing of large radiator wings.",
+        "orbit": "Sun-Synchronous Orbit"
+      },
+      "webcastLive": false,
+      "videos": []
+    },
+    {
+      "id": "bf2c3027-a314-403e-a416-2bfd5d165ad1",
+      "name": "Falcon 9 Block 5 | Dragon CRS-2 SpX-35",
+      "slug": "falcon-9-block-5-dragon-crs-2-spx-35",
+      "net": "2026-10-13T10:33:44Z",
+      "windowStart": "2026-10-13T10:33:44Z",
+      "status": {
+        "id": 3,
+        "name": "Launch Successful",
+        "abbrev": "Success",
+        "description": "The launch vehicle successfully inserted its payload(s) into the target orbit(s)."
+      },
+      "provider": "SpaceX",
+      "providerType": "Commercial",
+      "rocket": "Falcon 9 Block 5",
+      "pad": "Space Launch Complex 40",
+      "location": "Cape Canaveral SFS, FL, USA",
+      "country": "United States of America",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/falcon2520925_image_20210520085648.jpeg",
+      "imageCredit": "SpaceX",
+      "mission": {
+        "name": "Dragon CRS-2 SpX-35",
+        "type": "Resupply",
+        "description": "35th commercial resupply services mission to the International Space Station operated by SpaceX. The flight will be conducted under the second Commercial Resupply Services contract with NASA.\r\n\r\nCargo Dragon 2 brings supplies and payloads, including critical materials to directly support science and research investigations that occur onboard the orbiting laboratory.",
         "orbit": "Low Earth Orbit"
       },
       "webcastLive": false,
       "videos": []
     },
     {
-      "id": "153ef8ef-b12b-43f4-a4bf-05b225c0cd37",
-      "name": "Falcon 9 Block 5 | Starlink Group 15-24",
-      "slug": "falcon-9-block-5-starlink-group-15-24",
-      "net": "2026-09-06T14:26:54Z",
-      "windowStart": "2026-09-06T10:59:00Z",
+      "id": "97c6f5e1-299e-4652-b72d-9618ac047076",
+      "name": "Falcon 9 Block 5 | Starlink Group 15-25",
+      "slug": "falcon-9-block-5-starlink-group-15-25",
+      "net": "2026-10-13T00:28:11Z",
+      "windowStart": "2026-10-12T23:00:00Z",
       "status": {
         "id": 3,
         "name": "Launch Successful",
@@ -576,10 +547,39 @@
       "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/falcon2520925_image_20221009234147.png",
       "imageCredit": "SpaceX",
       "mission": {
-        "name": "Starlink Group 15-24",
+        "name": "Starlink Group 15-25",
         "type": "Communications",
         "description": "A batch of 27 satellites for the Starlink mega-constellation - SpaceX's project for space-based Internet communication system.",
         "orbit": "Low Earth Orbit"
+      },
+      "webcastLive": false,
+      "videos": []
+    },
+    {
+      "id": "da43dc2c-00af-4cc1-8ef1-90a60b2eb9e5",
+      "name": "Falcon 9 Block 5 | SDA Tranche 1 Transport Layer A",
+      "slug": "falcon-9-block-5-sda-tranche-1-transport-layer-a",
+      "net": "2026-10-10T07:39:44Z",
+      "windowStart": "2026-10-10T07:39:44Z",
+      "status": {
+        "id": 3,
+        "name": "Launch Successful",
+        "abbrev": "Success",
+        "description": "The launch vehicle successfully inserted its payload(s) into the target orbit(s)."
+      },
+      "provider": "SpaceX",
+      "providerType": "Commercial",
+      "rocket": "Falcon 9 Block 5",
+      "pad": "Space Launch Complex 4E",
+      "location": "Vandenberg SFB, CA, USA",
+      "country": "United States of America",
+      "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/falcon_9_image_20230807133459.jpeg",
+      "imageCredit": "SpaceX",
+      "mission": {
+        "name": "SDA Tranche 1 Transport Layer A",
+        "type": "Government/Top Secret",
+        "description": "Tranche 1 Transport Layer A is one of six missions by the United States Space Force Space Development Agency (SDA) for the Proliferated Warfighter Space Architecture (PWSA) Tranche 1 Transport Layer constellation, which will provide assured, resilient, low-latency military data and connectivity worldwide to the full range of warfighter platforms from Low Earth Orbit satellites.\r\n\r\nThe constellation will be interconnected with Optical Inter-Satellite Links (OISLs) which have significantly increased performance over existing radio frequency crosslinks. It is expected to operate over Ka band, have stereo coverage and be dynamically networked for simpler hand-offs, greater bandwidth and fault tolerance.\r\n\r\nThis launch carries 21 satellites manufactured by Northrop Grumman.",
+        "orbit": "Polar Orbit"
       },
       "webcastLive": false,
       "videos": []
