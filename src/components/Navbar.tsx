@@ -89,7 +89,7 @@ export default function Navbar() {
               key={l}
               onClick={() => router.replace(pathname, { locale: l })}
               aria-current={locale === l ? "true" : undefined}
-              className={`rounded px-2.5 py-1 font-mono text-xs uppercase tracking-widest transition ${
+              className={`relative rounded px-2.5 py-1 font-mono text-xs uppercase tracking-widest transition after:absolute after:-inset-y-[9px] after:inset-x-0 ${
                 locale === l
                   ? "bg-white/15 text-white ring-1 ring-inset ring-white/20"
                   : "text-white/35 hover:bg-white/[0.07] hover:text-white"
@@ -101,14 +101,15 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Móvil: todo plano en una fila que se arrastra. */}
+      {/* Móvil: todo plano en una fila que se arrastra. Las píldoras miden 30 px
+          y un ::after invisible lleva la zona táctil a 44 sin engordar la fila. */}
       <div className="border-t border-white/6 md:hidden">
         <ul className="scrollbar-none flex gap-1 overflow-x-auto px-4 py-2">
           {todos.map(({ href, label, icon }) => (
             <li key={href} className="shrink-0">
               <Link
                 href={href}
-                className={`block whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium tracking-[0.03em] transition ${
+                className={`relative block whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium tracking-[0.03em] transition after:absolute after:-inset-y-[7px] after:inset-x-0 ${
                   isActive(href)
                     ? "bg-white/12 text-white ring-1 ring-inset ring-white/15"
                     : "text-white/45 hover:bg-white/[0.07] hover:text-white"

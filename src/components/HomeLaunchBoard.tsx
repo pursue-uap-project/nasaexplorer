@@ -70,7 +70,7 @@ export default function HomeLaunchBoard() {
         </div>
         <Link
           href="/launches"
-          className="text-sm font-semibold text-on-dark-muted underline decoration-white/25 underline-offset-4 transition hover:text-on-dark hover:decoration-white"
+          className="relative text-sm font-semibold text-on-dark-muted after:absolute after:-inset-y-[11px] after:inset-x-0 underline decoration-white/25 underline-offset-4 transition hover:text-on-dark hover:decoration-white"
         >
           {t("board_all")}
         </Link>
